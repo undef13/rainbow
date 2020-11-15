@@ -1,0 +1,357 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Authentication</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div>
+      <h3>Registration</h3>
+      <form id="registration-form">
+        <input id="email" type="text" name="email" />
+        <input id="password" type="password" name="password" />
+        <input
+          type="button"
+          value="Signup"
+          onclick="onClickRegisterHandler()"
+        />
+      </form>
+    </div>
+    <div>
+      <h3>Login</h3>
+      <form action="/auth/login" method="post">
+        <input type="text" name="email" />
+        <input type="password" name="password" />
+        <input type="submit" />
+      </form>
+    </div> -->
+    <!-- Button trigger modal -->
+    <!-- <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#forgotPasswordModal"
+    >
+      Forgot password? 
+    </button> -->
+
+    <!-- Modal -->
+    <!-- <div
+      class="modal fade"
+      id="forgotPasswordModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="forgotPasswordModalTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="forgotPasswordTitle">Forgot Password? | Rainbow</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="forgotPasswordEmail" class="col-form-label">Email:</label>
+                <input type="email" class="form-control" id="forgotPasswordEmail" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" onclick="onClickForgotPasswordHandler()">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <a href="/auth/google">Google</a>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="./javascript/ajax.js"></script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up or Log In | Rainbow</title>
+    <link rel="stylesheet" href="./css/indexStyles.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <!-- Content -->
+    <div class="container h-100">
+      <div id="containerRow" class="row align-items-center h-100">
+        <div class="col-lg-7">
+          <div class="textContainer">
+            <h1>Rainbow</h1>
+            <p>Connect with friends and the world around you on Rainbow.</p>
+          </div>
+        </div>
+        <div class="col-lg-5 text-center align-self-center">
+          <div class="loginFormWrapper">
+            <div>
+              <form id="loginForm" action="/auth/login" method="post">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="email"
+                    id="loginEmailInput"
+                    placeholder="Email"
+                    autocomplete="off"
+                  />
+                  <i class="fas fa-check-circle"></i>
+                  <i class="fas fa-exclamation-circle"></i>
+                  <small></small>
+                </div>
+                <div class="form-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    id="loginPasswordInput"
+                    placeholder="Password"
+                  />
+                  <i class="fas fa-check-circle"></i>
+                  <i class="fas fa-exclamation-circle"></i>
+                  <small></small>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Log In" />
+              </form>
+            </div>
+
+            <div>
+              <div class="linkContainer">
+                <a
+                  id="forgotPasswordLink"
+                  data-toggle="modal"
+                  data-target="#forgotPasswordModal"
+                  >Forgot password?</a
+                >
+              </div>
+
+              <hr />
+
+              <input
+                id="createAccountButton"
+                class="btn btn-success"
+                type="button"
+                value="Create New Account"
+                data-toggle="modal"
+                data-target="#createNewAccountModal"
+              />
+              <div class="text-divider">OR</div>
+              <a id="googleLink" href="">Sign in with Google</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Content -->
+
+    <!-- Create new account modal window -->
+    <div
+      class="modal fade"
+      id="createNewAccountModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="createNewAccountModalTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="forgotPasswordTitle">
+              Create New Account | Rainbow
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="registerForm">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="registerGivenNameInput"
+                  name="givenName"
+                  placeholder="First Name"
+                />
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small></small>
+              </div>
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="registerFamilyNameInput"
+                  name="familyName"
+                  placeholder="Last Name"
+                />
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small></small>
+              </div>
+              <div class="form-group">
+                <input
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  placeholder="Email"
+                  id="registerEmailInput"
+                />
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small></small>
+              </div>
+              <div class="form-group">
+                <input
+                  type="password"
+                  class="form-control"
+                  name="password"
+                  placeholder="Password"
+                  id="registerPasswordInput"
+                />
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small></small>
+              </div>
+              <div class="form-group">
+                <input
+                  type="password"
+                  class="form-control"
+                  name="passwordRepeat"
+                  placeholder="Repeat Password"
+                  id="registerPasswordRepeatInput"
+                />
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small></small>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              onclick="onClickSignUpHandler()"
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Create new account modal window -->
+
+    <!-- -------------- Forgot Password Modal window -------------- -->
+    <div
+      class="modal fade"
+      id="forgotPasswordModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="forgotPasswordModalTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="forgotPasswordTitle">
+              Forgot Password? | Rainbow
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="forgotPasswordEmailInput"
+                  placeholder="Enter your email address"
+                />
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small></small>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" onclick="onClickForgotPasswordHandler()" class="btn btn-primary">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- -------------- End of Forgot Password Modal window -------------- -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/e307e9c374.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./javascript/indexJs.js"></script>
+  </body>
+</html>

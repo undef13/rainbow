@@ -1,0 +1,151 @@
+/* Main setup */
+body,
+html {
+  height: 100%;
+  font-size: 20px;
+}
+/* End of main setup */
+
+/* Form container Setup */
+.loginFormWrapper {
+  border: 1px solid #c9c9c9;
+  padding: 0 10px 10px 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 7px;
+}
+
+.loginFormWrapper form input {
+  margin-top: 15px;
+  width: 100%;
+}
+/* End of Form container Setup */
+
+/* Forgot Password Link */
+a {
+  color: #1877f2 !important;
+  transition: 0.5s;
+  text-decoration: none !important;
+}
+
+a:hover {
+  cursor: pointer;
+  color: #1825c7 !important;
+}
+
+.linkContainer {
+  margin: 12px 0;
+}
+/* End of Forgot Password Link */
+
+/* Divider */
+.text-divider {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  --text-divider-gap: 1rem;
+}
+.text-divider::before {
+  content: "";
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+  flex-grow: 1;
+  margin-right: var(--text-divider-gap);
+}
+.text-divider::after {
+  content: "";
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+  flex-grow: 1;
+  margin-left: var(--text-divider-gap);
+}
+/* End of divider */
+
+/* Setup for small screens */
+@media only screen and (max-width: 768px) {
+  body,
+  html {
+    font-size: 15px !important;
+  }
+
+  .loginFormWrapper {
+    box-shadow: none !important;
+  }
+
+  .textContainer h1 {
+    margin: 0 !important;
+  }
+
+  .textContainer p {
+    margin-bottom: 25px !important;
+  }
+  .form-group i {
+    top: 11px !important;
+  }
+  .form-group small{
+    top: 40px !important;
+  }
+}
+/* End of Setup for small screens */
+
+/* Data validation */
+.form-group {
+  margin-bottom: 30px !important;
+  position: relative !important;
+}
+
+.form-group input:focus {
+  outline: 0;
+  border-color: #007bff;
+  box-shadow: none;
+}
+
+.form-group.success input {
+  border-color: #2ecc71;
+}
+
+.form-group.error input {
+  border-color: #e74c3c;
+}
+
+.form-group i {
+  visibility: hidden;
+  position: absolute;
+  top: 14px;
+  right: 13px;
+}
+
+.form-group.success i.fa-check-circle {
+  color: #2ecc71;
+  visibility: visible;
+}
+
+.form-group.error i.fa-exclamation-circle {
+  color: #e74c3c;
+  visibility: visible;
+}
+
+.form-group small {
+  position: absolute;
+  top: 47px;
+  left: 0;
+  visibility: hidden;
+}
+
+.form-group.error small {
+  color: #e74c3c;
+}
+
+.form-group.success small {
+  color: #2ecc71;
+}
+
+.form-group.success small {
+  visibility: visible;
+}
+
+.form-group.error small {
+  visibility: visible;
+}
