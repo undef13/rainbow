@@ -40,7 +40,7 @@ router.post("/login", (req, res, next) => {
 });
 
 router.post(`/register`, async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, givenName, familyName } = req.body;
   try {
     const user = await User.findOne({ email });
     if (user) {
@@ -56,6 +56,9 @@ router.post(`/register`, async (req, res, next) => {
         const user = new User({
           email,
           password: hashedPassword,
+          givenName,
+          familyName,
+          displayName: `${givenName} ${familyName}`,
           accountActivationToken: token,
           accountActivationExpires: Date.now() + 3600000,
         });

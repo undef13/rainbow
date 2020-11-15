@@ -1,36 +1,3 @@
-// const onClickRegisterHandler = () => {
-//   let email = document.forms["registration-form"].elements["email"].value;
-//   let password = document.forms["registration-form"].elements["password"].value;
-//   let user = { email, password };
-
-//   const cb = (data) => {
-//     if (typeof data === "string") {
-//       data = JSON.parse(data);
-//     }
-
-//     if (data.isSuccessful) {
-//       console.log(data.message);
-//     } else {
-//       console.log(data.message);
-//     }
-//   };
-
-//   $.post("http://localhost:3000/auth/register", user, cb);
-// };
-
-// const onClickForgotPasswordHandler = () => {
-//   const email = document.getElementById("forgotPasswordEmail").value;
-//   const cb = (data) => {
-//     if (data.isSuccessful) {
-//       console.log(data.message);
-//     } else {
-//       console.log(data.message);
-//     }
-//   }
-
-//   $.post("http://localhost:3000/auth/forgot", {email: email}, cb);
-// };
-
 /* Prevent Default Link Behaviour */
 document
   .getElementById("forgotPasswordLink")
@@ -78,10 +45,26 @@ const registerPasswordRepeatInput = document.getElementById(
 
 // --- MAIND HANDLER ----
 const onClickSignUpHandler = () => {
-  if (!registerValidityCheck()) {
-    console.log(`Failure`);
-  } else {
-    console.log(`Success`);
+  const givenName = registerGivenNameInput.value.trim();
+  const familyName = registerFamilyNameInput.value.trim();
+  const email = registerEmailInput.value.trim();
+  const password = registerPasswordInput.value.trim();
+  if (registerValidityCheck()) {
+    let user = { givenName, familyName, email, password };
+
+    const cb = (data) => {
+      if (typeof data === "string") {
+        data = JSON.parse(data);
+      }
+
+      if (data.isSuccessful) {
+        console.log(data.message);
+      } else {
+        console.log(data.message);
+      }
+    };
+
+    $.post("http://localhost:3000/auth/register", user, cb);
   }
 };
 
@@ -172,7 +155,7 @@ const loginPasswordInput = document.getElementById(`loginPasswordInput`);
 
 // --- MAIND HANDLER ----
 loginForm.addEventListener("submit", (e) => {
-  if(!loginValidityCheck()) {
+  if (!loginValidityCheck()) {
     e.preventDefault();
   }
 });
@@ -211,10 +194,16 @@ const forgotPasswordEmailInput = document.getElementById(
 
 // --- MAIND HANDLER ----
 const onClickForgotPasswordHandler = () => {
-  if(!forgotPasswordValidityCheck()) {
-    console.log(`Failure`);
-  } else {
-    console.log(`Success`);
+  if (forgotPasswordValidityCheck()) {
+    const email = forgotPasswordEmailInput.value.trim();
+    const cb = (data) => {
+      if (data.isSuccessful) {
+        console.log(data.message);
+      } else {
+        console.log(data.message);
+      }
+    };
+    $.post("http://localhost:3000/auth/forgot", { email: email }, cb);
   }
 };
 
