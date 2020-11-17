@@ -7,14 +7,14 @@ html {
 /* End of main setup */
 
 /* Form container Setup */
-.loginFormWrapper {
+.formWrapper {
   border: 1px solid #c9c9c9;
   padding: 0 10px 10px 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 7px;
 }
 
-.loginFormWrapper form input {
+.formWrapper form input {
   margin-top: 15px;
   width: 100%;
 }
@@ -70,7 +70,7 @@ a:hover {
     font-size: 15px !important;
   }
 
-  .loginFormWrapper {
+  .formWrapper {
     box-shadow: none !important;
   }
 
@@ -148,4 +148,10 @@ a:hover {
 
 .form-group.error small {
   visibility: visible;
+}
+/* End of Data validation */
+
+/* Reset password */
+.d-flex .formWrapper {
+  width: 400px;
 }

@@ -35,7 +35,7 @@ router.get(
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", {
     successRedirect: "/success",
-    failureRedirect: "/failure",
+    failureRedirect: "/",
   })(req, res, next);
 });
 
@@ -151,7 +151,7 @@ router.get(`/forgot/:token`, async (req, res) => {
     console.log(`Reset token has expired or it is invalid.`);
     res.redirect(`/`);
   } else {
-    res.render("reset", {
+    res.render("passwordReset", {
       user: user,
     });
   }

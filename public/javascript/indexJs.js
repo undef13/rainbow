@@ -43,7 +43,6 @@ const registerPasswordRepeatInput = document.getElementById(
   `registerPasswordRepeatInput`
 );
 
-// --- MAIND HANDLER ----
 const onClickSignUpHandler = () => {
   const givenName = registerGivenNameInput.value.trim();
   const familyName = registerFamilyNameInput.value.trim();
@@ -153,7 +152,6 @@ const loginForm = document.getElementById(`loginForm`);
 const loginEmailInput = document.getElementById(`loginEmailInput`);
 const loginPasswordInput = document.getElementById(`loginPasswordInput`);
 
-// --- MAIND HANDLER ----
 loginForm.addEventListener("submit", (e) => {
   if (!loginValidityCheck()) {
     e.preventDefault();
@@ -192,7 +190,6 @@ const forgotPasswordEmailInput = document.getElementById(
   "forgotPasswordEmailInput"
 );
 
-// --- MAIND HANDLER ----
 const onClickForgotPasswordHandler = () => {
   if (forgotPasswordValidityCheck()) {
     const email = forgotPasswordEmailInput.value.trim();

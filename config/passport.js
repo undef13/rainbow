@@ -45,6 +45,7 @@ module.exports = (passport) => {
           givenName: profile.name.givenName,
           familyName: profile.name.familyName,
           displayName: profile.displayName,
+          isActive: true
         };
 
         let user = await User.findOne({ email: profile.emails[0].value });

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up or Log In | Rainbow</title>
-    <link rel="stylesheet" href="./css/indexStyles.css" />
+    <link rel="stylesheet" href="/css/indexStyles.css" />
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -20,8 +20,8 @@
             <p>Connect with friends and the world around you on Rainbow.</p>
           </div>
         </div>
-        <div class="col-lg-5 text-center align-self-center">
-          <div class="loginFormWrapper">
+        <div class="col-lg-5 text-center">
+          <div class="formWrapper">
             <div>
               <form id="loginForm" action="/auth/login" method="post">
                 <div class="form-group">
@@ -74,7 +74,7 @@
                 data-target="#createNewAccountModal"
               />
               <div class="text-divider">OR</div>
-              <a id="googleLink" href="">Sign in with Google</a>
+              <a id="googleLink" href="/auth/google">Sign in with Google</a>
             </div>
           </div>
         </div>
@@ -238,7 +238,13 @@
             >
               Close
             </button>
-            <button type="button" onclick="onClickForgotPasswordHandler()" class="btn btn-primary">Send</button>
+            <button
+              type="button"
+              onclick="onClickForgotPasswordHandler()"
+              class="btn btn-primary"
+            >
+              Send
+            </button>
           </div>
         </div>
       </div>
