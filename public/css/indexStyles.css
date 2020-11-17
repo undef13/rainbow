@@ -168,9 +168,9 @@ a:hover {
 }
 /* End of Reset Password */
 
-#forgotPasswordStatusText.success {
+.success {
   color: #2ecc71;
 }
-#forgotPasswordStatusText.error {
+.error {
   color: #e74c3c;
 }

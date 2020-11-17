@@ -193,7 +193,7 @@ router.post(`/forgot/:token`, (req, res, next) => {
           from: "yTo4ka13@gmail.com",
           to: user.email,
           subject: "Password reset | Rainbow",
-          text: `Your pass was succesfullt changed.`,
+          text: `Your pass was succesfully changed.`,
         };
 
         transporter.sendMail(mailOptions, function (error, info) {

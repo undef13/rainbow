@@ -44,10 +44,10 @@ const registerPasswordRepeatInput = document.getElementById(
   `registerPasswordRepeatInput`
 );
 
-// registerForm.addEventListener('submit', e => {
-//   e.preventDefault();
-//   onClickSignUpHandler();
-// })
+registerForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  console.log(`hello`);
+});
 
 const onClickSignUpHandler = () => {
   const givenName = registerGivenNameInput.value.trim();
@@ -55,20 +55,33 @@ const onClickSignUpHandler = () => {
   const email = registerEmailInput.value.trim();
   const password = registerPasswordInput.value.trim();
   if (registerValidityCheck()) {
-    let user = { givenName, familyName, email, password };
 
-    const cb = (data) => {
-      if (typeof data === "string") {
-        data = JSON.parse(data);
-      }
 
-      if (data.isSuccessful) {
-        console.log(data.message);
-      } else {
-        console.log(data.message);
-      }
-    };
-    $.post("http://localhost:3000/auth/register", user, cb);
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:3000/auth/register",
+      data: { givenName, familyName, email, password },
+      beforeSend: () => {
+        $("#registerGivenNameInput, #registerFamilyNameInput, #registerEmailInput, #registerPasswordInput, #registerPasswordRepeatInput, button").prop("disabled", true);
+      },
+      success: (data) => {
+        if (typeof data === "string") {
+          data = JSON.parse(data);
+        }
+        console.log(data);
+        if (data.isSuccessful) {
+          $("#registerStatusText").addClass("success");
+          $("#registerStatusText").removeClass("error");
+        } else {
+          $("#registerStatusText").addClass("error");
+          $("#registerStatusText").removeClass("success");
+        }
+        $("#registerStatusText").text(data.message);  
+      },
+      complete: () => {
+        $("#registerGivenNameInput, #registerFamilyNameInput, #registerEmailInput, #registerPasswordInput, #registerPasswordRepeatInput, button").prop("disabled", false);
+      },
+    });
   }
 };
 
@@ -215,8 +228,10 @@ const onClickForgotPasswordHandler = () => {
       success: (data) => {
         if (data.isSuccessful) {
           $("#forgotPasswordStatusText").addClass("success");
+          $("#forgotPasswordStatusText").removeClass("error");
         } else {
           $("#forgotPasswordStatusText").addClass("error");
+          $("#forgotPasswordStatusText").removeClass("success");
         }
         $("#forgotPasswordStatusText").text(data.message);
       },

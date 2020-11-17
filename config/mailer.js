@@ -27,7 +27,7 @@ const mailer = (user, done) => {
     } else {
       mailResult = JSON.stringify({
         isSuccessful: true,
-        message: `Confirmation link was send to this email address: ${user.email}`,
+        message: `Confirmation link was send`,
       });
       done(mailResult);
     }
