@@ -31,6 +31,7 @@ $(document).ready(() => {
 /* -------------- DATA VALIDATION -------------- */
 
 // -------------- Register Form Validation --------------
+const registerForm = document.getElementById("registerForm");
 const registerGivenNameInput = document.getElementById(
   `registerGivenNameInput`
 );
@@ -42,6 +43,11 @@ const registerPasswordInput = document.getElementById(`registerPasswordInput`);
 const registerPasswordRepeatInput = document.getElementById(
   `registerPasswordRepeatInput`
 );
+
+// registerForm.addEventListener('submit', e => {
+//   e.preventDefault();
+//   onClickSignUpHandler();
+// })
 
 const onClickSignUpHandler = () => {
   const givenName = registerGivenNameInput.value.trim();
@@ -62,7 +68,6 @@ const onClickSignUpHandler = () => {
         console.log(data.message);
       }
     };
-
     $.post("http://localhost:3000/auth/register", user, cb);
   }
 };
@@ -186,21 +191,39 @@ const loginValidityCheck = () => {
 // -------------- End of Login Form validation --------------
 
 // -------------- Forgot Password Form validation --------------
+const forgotPasswordForm = document.getElementById("forgotPasswordForm");
 const forgotPasswordEmailInput = document.getElementById(
   "forgotPasswordEmailInput"
 );
 
+forgotPasswordForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  onClickForgotPasswordHandler();
+});
+
 const onClickForgotPasswordHandler = () => {
   if (forgotPasswordValidityCheck()) {
     const email = forgotPasswordEmailInput.value.trim();
-    const cb = (data) => {
-      if (data.isSuccessful) {
-        console.log(data.message);
-      } else {
-        console.log(data.message);
-      }
-    };
-    $.post("http://localhost:3000/auth/forgot", { email: email }, cb);
+
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:3000/auth/forgot",
+      data: { email: email },
+      beforeSend: () => {
+        $("#forgotPasswordEmailInput, button").prop("disabled", true);
+      },
+      success: (data) => {
+        if (data.isSuccessful) {
+          $("#forgotPasswordStatusText").addClass("success");
+        } else {
+          $("#forgotPasswordStatusText").addClass("error");
+        }
+        $("#forgotPasswordStatusText").text(data.message);
+      },
+      complete: () => {
+        $("#forgotPasswordEmailInput, button").prop("disabled", false);
+      },
+    });
   }
 };
 

@@ -90,6 +90,8 @@
       role="dialog"
       aria-labelledby="createNewAccountModalTitle"
       aria-hidden="true"
+      data-backdrop="static"
+      data-keyboard="false"
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -199,6 +201,8 @@
       role="dialog"
       aria-labelledby="forgotPasswordModalTitle"
       aria-hidden="true"
+      data-backdrop="static"
+      data-keyboard="false"
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -216,7 +220,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form>
+            <form id="forgotPasswordForm">
               <div class="form-group">
                 <input
                   type="email"
@@ -231,6 +235,7 @@
             </form>
           </div>
           <div class="modal-footer">
+            <p id="forgotPasswordStatusText" class="mr-auto"></p>
             <button
               type="button"
               class="btn btn-secondary"
