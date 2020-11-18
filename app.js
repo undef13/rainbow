@@ -4,6 +4,7 @@ const session = require(`express-session`);
 const MongoConnect = require(`connect-mongo`)(session);
 const passport = require(`passport`);
 const colors = require(`colors`);
+const flash = require(`connect-flash`);
 
 // Passport Config
 require(`./config/passport`)(passport);
@@ -11,7 +12,7 @@ require(`./config/passport`)(passport);
 const app = express();
 
 // View Engine
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
 
 // Body Parser
 app.use(express.urlencoded({ extended: false }));
@@ -34,6 +35,9 @@ app.use(
 // Passport Initialize
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Express flashes
+app.use(flash())
 
 // Routes
 app.use(`/`, require(`./routes/main`));

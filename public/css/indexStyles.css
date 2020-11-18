@@ -81,6 +81,10 @@ a:hover {
     font-size: 15px !important;
   }
 
+  .textContainer {
+    margin-top: 50px;
+  }
+
   .formWrapper {
     box-shadow: none !important;
   }
@@ -173,4 +177,8 @@ a:hover {
 }
 .error {
   color: #e74c3c;
+}
+.notification {
+  position: absolute !important;
+  width: 100%;
 }

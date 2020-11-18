@@ -8,13 +8,13 @@ const router = express.Router();
 const p = path.join(__dirname, "../views");
 
 router.get(`/`, (req, res) => {
-  console.log(req.isAuthenticated());
-  res.sendFile(p + "/index.html");
+  res.render("index", {
+    errors: req.flash("error")
+  });
 });
 
 router.get(`/success`, isLoggedIn, (req, res, next) => {
-  console.log(req.isAuthenticated());
-  res.sendFile(p + "/success.html");
+  res.render("success");
 });
 
 module.exports = router;

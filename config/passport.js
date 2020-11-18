@@ -15,7 +15,7 @@ module.exports = (passport) => {
       async (email, password, done) => {
         const user = await User.findOne({ email });
         if (!user) {
-          done(null, false, { message: "User not found" });
+          return done(null, false, { message: "User not found" });
         }
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (!isValidPassword) {
