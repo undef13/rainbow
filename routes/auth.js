@@ -86,7 +86,6 @@ router.get("/logout", (req, res) => {
 // ---------------------- FORGOT PASSWORD ----------------------
 
 router.post(`/forgot`, (req, res, next) => {
-  console.log(req.body);
   async.waterfall(
     [
       (done) => {
@@ -101,6 +100,11 @@ router.post(`/forgot`, (req, res, next) => {
             res.json({
               isSuccessful: false,
               message: "Email was not found.",
+            });
+          } else if (user && !user.isActive) {
+            res.json({
+              isSuccessful: false,
+              message: "Account is not activated.",
             });
           } else {
             user.resetPasswordToken = token;
@@ -124,11 +128,24 @@ router.post(`/forgot`, (req, res, next) => {
           from: "yTo4ka13@gmail.com",
           to: user.email,
           subject: "Password reset | Rainbow",
-          text: `${`http://${req.headers.host}/auth/forgot/${token}`}`,
+          text: `${``}`,
+          html: `
+          <div>
+          <h1>Rainbow</h1>
+          <p>Hello, ${user.givenName}! 
+            A request to change your password was made.
+            Process this link http://${req.headers.host}/auth/forgot/${token} and follow further instructions.
+          </p>
+          <p>
+            If you did not make this request - just ignore this message.
+          </p>
+          <p>
+            With respect, Rainbow development team.
+          </p>
+          </div>`
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
-          console.log(`email was send`);
           done(error, "done");
         });
       },
@@ -194,11 +211,19 @@ router.post(`/forgot/:token`, (req, res, next) => {
           from: "yTo4ka13@gmail.com",
           to: user.email,
           subject: "Password reset | Rainbow",
-          text: `Your pass was succesfully changed.`,
+          html: `
+          <div>
+          <h1>Rainbow</h1>
+          <p>Hello, ${user.givenName}! 
+            Your password was succesfully changed! 
+          </p>
+          <p>
+            With respect, Rainbow development team.
+          </p>
+          </div>`
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
-          console.log(`email was send`);
           done(error, "done");
         });
       },

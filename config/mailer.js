@@ -13,8 +13,21 @@ const mailer = (user, done) => {
   const mailOptions = {
     from: "yTo4ka13@gmail.com",
     to: user.email,
-    subject: "Email confirmation",
-    text: `${`http://localhost:3000/auth/confirm/${user.accountActivationToken}`}`,
+    subject: "Email confirmation | Rainbow",
+    html: `
+    <div>
+      <h1>Rainbow</h1>
+      <p>Welcome, ${user.givenName}! 
+        You have to confirm your email. To do that, process to this link:
+        http://localhost:3000/auth/confirm/${user.accountActivationToken}.
+      </p>
+      <p>
+        If you did not register account - just ignore this message.
+      </p>
+      <p>
+        With respect, Rainbow development team.
+      </p>
+    </div>`,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
