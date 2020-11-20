@@ -43,10 +43,10 @@ const resetPasswordValidityCheck = () => {
       true,
       "Enter your password and then repeat it here"
     );
-  } else if (
-    resetPasswordNewPasswordRepeatValue !== resetPasswordNewPasswordValue
-  ) {
+  } else if (resetPasswordNewPasswordRepeatValue !== resetPasswordNewPasswordValue) {
     setStatus(resetPasswordNewPasswordRepeat, true, "Passwords do not match");
+  } else if (resetPasswordNewPasswordRepeatValue.length < 6) {
+    setStatus(resetPasswordNewPasswordRepeat, true, "Password can not be less then 6 symbols");
   } else {
     setStatus(resetPasswordNewPasswordRepeat, false);
     return true;

@@ -8,6 +8,7 @@ const router = express.Router();
 const p = path.join(__dirname, "../views");
 
 router.get(`/`, (req, res) => {
+  // console.log(req.flash());
   res.render("index", {
     errors: req.flash("error")
   });
