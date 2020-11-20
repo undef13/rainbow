@@ -34,7 +34,7 @@ router.get(
 
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", {
-    successRedirect: "/success",
+    successRedirect: `/${req.user ? req.user._id : ""}`,
     failureRedirect: "/",
     failureFlash: "Invalid username or password.",
   })(req, res, next);
@@ -66,7 +66,7 @@ router.post(`/register`, async (req, res, next) => {
 
         await user.save();
 
-        mailer(user, (operationResult) => {
+        mailer(user, "CONFIRMATION", (operationResult) => {
           res.json(operationResult);
         });
       });
@@ -110,52 +110,19 @@ router.post(`/forgot`, (req, res, next) => {
             user.resetPasswordToken = token;
             user.resetPasswordExpires = Date.now() + 3600000;
             return user.save((error) => {
-              done(error, token, user);
+              done(error, user);
             });
           }
         });
       },
-      (token, user, done) => {
-        const transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: "yTo4ka13@gmail.com",
-            pass: "100500qwE",
-          },
-        });
-
-        const mailOptions = {
-          from: "yTo4ka13@gmail.com",
-          to: user.email,
-          subject: "Password reset | Rainbow",
-          text: `${``}`,
-          html: `
-          <div>
-          <h1>Rainbow</h1>
-          <p>Hello, ${user.givenName}! 
-            A request to change your password was made.
-            Process this link http://${req.headers.host}/auth/forgot/${token} and follow further instructions.
-          </p>
-          <p>
-            If you did not make this request - just ignore this message.
-          </p>
-          <p>
-            With respect, Rainbow development team.
-          </p>
-          </div>`
-        };
-
-        transporter.sendMail(mailOptions, function (error, info) {
-          done(error, "done");
+      (user, done) => {
+        mailer(user, "PASSWORD_RESET", (operationResult) => {
+          res.json(operationResult);
         });
       },
     ],
     (error) => {
       if (error) return next(error);
-      res.json({
-        isSuccessful: true,
-        message: "Email was successfully send.",
-      });
     }
   );
 });
@@ -199,33 +166,9 @@ router.post(`/forgot/:token`, (req, res, next) => {
         });
       },
       (user, done) => {
-        const transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: "yTo4ka13@gmail.com",
-            pass: "100500qwE",
-          },
-        });
-
-        const mailOptions = {
-          from: "yTo4ka13@gmail.com",
-          to: user.email,
-          subject: "Password reset | Rainbow",
-          html: `
-          <div>
-          <h1>Rainbow</h1>
-          <p>Hello, ${user.givenName}! 
-            Your password was succesfully changed! 
-          </p>
-          <p>
-            With respect, Rainbow development team.
-          </p>
-          </div>`
-        };
-
-        transporter.sendMail(mailOptions, function (error, info) {
-          done(error, "done");
-        });
+        mailer(user, "PASSWORD_RESET_SUCCESSFUL", (operationResult) => {
+          res.json(operationResult);
+        })
       },
     ],
     (error) => {

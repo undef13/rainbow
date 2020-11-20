@@ -1,7 +1,62 @@
 const nodemailer = require(`nodemailer`);
 
-const mailer = (user, done) => {
-  let mailResult;
+const mailer = (user, contentType, done) => {
+  
+  let mailResult, mailContent, mailSubject, responseMessage;
+
+  switch (contentType) {
+    case "CONFIRMATION":
+      mailContent = `
+      <div>
+        <h1>Rainbow</h1>
+        <p>Welcome, ${user.givenName}! 
+          You have to confirm your email. To do that, process to this link:
+          http://localhost:3000/auth/confirm/${user.accountActivationToken}.
+        </p>
+        <p>
+          If you did not register account - just ignore this message.
+        </p>
+        <p>
+          With respect, Rainbow development team.
+        </p>
+      </div>`;
+      mailSubject = `Email confirmation | Rainbow`;
+      responseMessage = `Confirmation email was send.`;
+      break;
+    case "PASSWORD_RESET":
+      mailContent = `
+      <div>
+        <h1>Rainbow</h1>
+        <p>Hello, ${user.givenName}! 
+          A request to change your password was made.
+          Process this link http://localhost:3000/auth/forgot/${user.resetPasswordToken} and follow further instructions.
+        </p>
+        <p>
+          If you did not make this request - just ignore this message.
+        </p>
+        <p>
+          With respect, Rainbow development team.
+        </p>
+      </div>`;
+      mailSubject = `Password reset | Rainbow`;
+      responseMessage = `Instruction was send to you.`
+      break;
+    case "PASSWORD_RESET_SUCCESSFUL":
+      mailContent = `
+      <div>
+        <h1>Rainbow</h1>
+        <p>Hello, ${user.givenName}! 
+          Your password was succesfully changed! 
+        </p>
+        <p>
+          With respect, Rainbow development team.
+        </p>
+      </div>`;
+      mailSubject = `Password reset | Rainbow`;
+      responseMessage = ``;
+      break;
+  }
+
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -11,23 +66,10 @@ const mailer = (user, done) => {
   });
 
   const mailOptions = {
-    from: "yTo4ka13@gmail.com",
+    from: "Rainbow",
     to: user.email,
-    subject: "Email confirmation | Rainbow",
-    html: `
-    <div>
-      <h1>Rainbow</h1>
-      <p>Welcome, ${user.givenName}! 
-        You have to confirm your email. To do that, process to this link:
-        http://localhost:3000/auth/confirm/${user.accountActivationToken}.
-      </p>
-      <p>
-        If you did not register account - just ignore this message.
-      </p>
-      <p>
-        With respect, Rainbow development team.
-      </p>
-    </div>`,
+    subject: mailSubject,
+    html: mailContent,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
@@ -40,7 +82,7 @@ const mailer = (user, done) => {
     } else {
       mailResult = JSON.stringify({
         isSuccessful: true,
-        message: `Confirmation link was send`,
+        message: responseMessage,
       });
       done(mailResult);
     }

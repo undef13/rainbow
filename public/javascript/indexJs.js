@@ -55,14 +55,14 @@ const onClickSignUpHandler = () => {
   const email = registerEmailInput.value.trim();
   const password = registerPasswordInput.value.trim();
   if (registerValidityCheck()) {
-
-
     $.ajax({
       type: "POST",
       url: "http://localhost:3000/auth/register",
       data: { givenName, familyName, email, password },
       beforeSend: () => {
-        $("#registerGivenNameInput, #registerFamilyNameInput, #registerEmailInput, #registerPasswordInput, #registerPasswordRepeatInput, button").prop("disabled", true);
+        $(
+          "#registerGivenNameInput, #registerFamilyNameInput, #registerEmailInput, #registerPasswordInput, #registerPasswordRepeatInput, button"
+        ).prop("disabled", true);
       },
       success: (data) => {
         if (typeof data === "string") {
@@ -76,10 +76,12 @@ const onClickSignUpHandler = () => {
           $("#registerStatusText").addClass("error");
           $("#registerStatusText").removeClass("success");
         }
-        $("#registerStatusText").text(data.message);  
+        $("#registerStatusText").text(data.message);
       },
       complete: () => {
-        $("#registerGivenNameInput, #registerFamilyNameInput, #registerEmailInput, #registerPasswordInput, #registerPasswordRepeatInput, button").prop("disabled", false);
+        $(
+          "#registerGivenNameInput, #registerFamilyNameInput, #registerEmailInput, #registerPasswordInput, #registerPasswordRepeatInput, button"
+        ).prop("disabled", false);
       },
     });
   }
@@ -226,6 +228,9 @@ const onClickForgotPasswordHandler = () => {
         $("#forgotPasswordEmailInput, button").prop("disabled", true);
       },
       success: (data) => {
+        if (typeof data === "string") {
+          data = JSON.parse(data);
+        }
         if (data.isSuccessful) {
           $("#forgotPasswordStatusText").addClass("success");
           $("#forgotPasswordStatusText").removeClass("error");
