@@ -1,11 +1,5 @@
 const express = require(`express`);
-const passport = require(`passport`); // ?
-const bcrypt = require(`bcrypt`); // ?
-const async = require(`async`); // ?
-const crypto = require(`crypto`); // ?
-const mailer = require(`../config/mailer`); // ?
-
-const User = require(`../models/User`); // ?
+const passport = require(`passport`);
 
 const router = express.Router();
 
