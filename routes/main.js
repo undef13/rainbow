@@ -1,21 +1,17 @@
+// Dependencies
 const express = require(`express`);
-const path = require(`path`);
-
-const isLoggedIn = require(`../config/auth`).isLoggedIn;
-
 const router = express.Router();
 
-const p = path.join(__dirname, "../views");
+// Login checker
+const isLoggedIn = require(`../config/auth`).isLoggedIn;
 
-router.get(`/`, (req, res) => {
-  // console.log(req.flash());
-  res.render("index", {
-    errors: req.flash("error")
-  });
-});
+// Controller
+const mainController = require(`../controllers/main`);
 
-router.get(`/success`, isLoggedIn, (req, res, next) => {
-  res.render("success");
-});
+// GET => /
+router.get(`/`, mainController.getIndex);
+
+// GET => /success
+router.get(`/success`, isLoggedIn, mainController.getSuccess);
 
 module.exports = router;
