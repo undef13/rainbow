@@ -3,7 +3,6 @@ const mongoose = require(`mongoose`);
 const session = require(`express-session`);
 const MongoConnect = require(`connect-mongo`)(session);
 const passport = require(`passport`);
-const colors = require(`colors`);
 const flash = require(`connect-flash`);
 
 // Passport Config
@@ -52,11 +51,11 @@ mongoose.connect(
     useUnifiedTopology: true,
   },
   () => {
-    console.log(`MongoDB is connected.`.cyan);
+    console.log(`MongoDB is connected.`);
   }
 );
 
 // Server Startup
 app.listen(PORT, () => {
-  console.log(`Server is up and running on the port ${PORT}.`.cyan);
+  console.log(`Server is up and running on the port ${PORT}.`);
 });
