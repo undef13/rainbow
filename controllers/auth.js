@@ -119,7 +119,7 @@ exports.getForgotToken = async (req, res) => {
     console.log(`Reset token has expired or it is invalid.`);
     res.redirect(`/`);
   } else {
-    res.render("passwordReset", {
+    res.render("password-reset", {
       user: user,
     });
   }
