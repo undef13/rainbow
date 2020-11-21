@@ -8,7 +8,7 @@
     "dev": "nodemon app"
   },
   "keywords": [],
-  "author": "",
+  "author": "Maksym Babii",
   "license": "ISC",
   "dependencies": {
     "async": "^3.2.0",
@@ -23,10 +23,10 @@
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
-    "pug": "^3.0.0"
+    "pug": "^3.0.0",
+    "colors": "^1.4.0"
   },
   "devDependencies": {
-    "colors": "^1.4.0",
     "nodemon": "^2.0.6"
   }
 }
