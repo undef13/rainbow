@@ -10,6 +10,7 @@ const flash = require(`connect-flash`);
 require(`./config/passport`)(passport);
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 // View Engine
 app.set('view engine', 'ejs');
@@ -45,7 +46,7 @@ app.use(`/auth`, require(`./routes/auth`));
 
 // MongoDB
 mongoose.connect(
-  "mongodb://127.0.0.1:27017/auth",
+  "mongodb+srv://root:root@cluster.dhkmq.mongodb.net/rainbow?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -56,6 +57,6 @@ mongoose.connect(
 );
 
 // Server Startup
-app.listen(3000, () => {
-  console.log(`Server is up and running.`.cyan);
+app.listen(PORT, () => {
+  console.log(`Server is up and running on the port ${PORT}.`.cyan);
 });
