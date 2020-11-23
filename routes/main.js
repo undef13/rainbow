@@ -10,6 +10,8 @@ const mainController = require(`../controllers/main`);
 
 router.get(`/`, mainController.getIndex);
 
-router.get(`/success`, isLoggedIn, mainController.getSuccess);
+router.get(`/settings`, isLoggedIn, mainController.getSettings);
+
+router.get(`/:profileId`, isLoggedIn, mainController.getProfileId);
 
 module.exports = router;

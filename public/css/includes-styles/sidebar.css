@@ -1,0 +1,31 @@
+.sidebar {
+  padding: 0 20px 0 0;
+}
+
+.sidebar-items {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.sidebar-item {
+    padding: 3px 0px;
+    transition: .3s;
+}
+
+.sidebar-item:hover {
+    background: #eeeeee;
+}
+
+.sidebar-item a {
+    display: block;
+    height: 100%;
+
+    text-decoration: none;
+    color: #212529;
+}
+
+.sidebar-item span {
+    margin: 0 3px;
+}
+

@@ -9,6 +9,11 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+  profileId: {
+    type: String,
+    unique: true,
+    required: true
+  },
   givenName: {
     type: String,
     default: "",
@@ -18,6 +23,10 @@ const UserSchema = new mongoose.Schema({
     default: "",
   },
   displayName: {
+    type: String,
+    default: "",
+  },
+  imageUrl: {
     type: String,
     default: "",
   },

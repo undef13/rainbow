@@ -1,0 +1,45 @@
+<nav class="navbar navbar-light navbar-expand navigation sticky-top mb-3">
+  <div class="container">
+    <span class="navbar-brand h1 mb-0">Rainbow</span>
+
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <div class="dropdown">
+          <a
+            class="btn dropdown-toggle"
+            href="#"
+            role="button"
+            id="dropdownMenuLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <img
+              src="<%= user.imageUrl %>"
+              alt=""
+              class="small-image"
+              id="navigation-image"
+            />
+          </a>
+
+          <div
+            class="dropdown-menu dropdown-menu-right"
+            aria-labelledby="dropdownMenuLink"
+          >
+            <a class="dropdown-item" href="/<%= user.profileId %> ">
+              <img class="small-image" src="<%= user.imageUrl %>" alt="" />
+              <%= user.displayName %>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/settings"
+              >Settings</a
+            >
+            <a class="dropdown-item" href="/about">About</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/auth/logout">Logout</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

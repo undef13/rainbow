@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="images/favicon.png" type="image/png" />
+    <title>Settings | Rainbow</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+
+    <link rel="stylesheet" href="/css/settings.css" />
+    <link rel="stylesheet" href="/css/includes-styles/top-nav.css" />
+    <link rel="stylesheet" href="/css/includes-styles/sidebar.css" />
+  </head>
+  <body>
+    <%- include('../includes/top-nav', {user: user}); %>
+
+    <div class="container">
+      <div class="row">
+        <%- include('../includes/sidebar', {user: user}); %>
+        <div class="col-md-10 column">
+          <div class="text-center">
+            <h3>Personal Info</h3>
+            <p>
+              Basic info, like your name and photo, that you use on Google
+              services
+            </p>
+          </div>
+
+          <div class="wrapper">
+            <div class="content-header-container">
+              <div>
+                <h4>Profile</h4>
+              </div>
+              <div>
+                Some info may be visible to other people.
+              </div>
+            </div>
+            <hr />
+            <div class="row content-wrapper">
+              <div class="col">
+                <div>Photo</div>
+              </div>
+              <div class="col">
+                <div>A photo helps personalize your account</div>
+              </div>
+            </div>
+            <hr class="content-divider" />
+
+            <!-- Display Name Field -->
+            <div
+              class="row content-wrapper"
+              data-toggle="modal"
+              data-target="#displayNameForm"
+              onclick="check('displayNameForm')"
+            >
+              <div class="col">
+                <div>Name</div>
+              </div>
+              <div class="col">
+                <div><%= user.displayName %></div>
+              </div>
+            </div>
+            <!-- End of Display Name Field -->
+
+            <hr class="content-divider" />
+            <div class="row content-wrapper">
+              <div class="col">
+                <div>Bio</div>
+              </div>
+              <div class="col">
+                <div>....</div>
+              </div>
+            </div>
+            <hr class="content-divider" />
+            <div class="row content-wrapper">
+              <div class="col">
+                <div>Birthday</div>
+              </div>
+              <div class="col">
+                <div>November 1, 2002</div>
+              </div>
+            </div>
+            <hr class="content-divider" />
+            <div class="row content-wrapper">
+              <div class="col">
+                <div>Gender</div>
+              </div>
+              <div class="col">
+                <div>Female</div>
+              </div>
+            </div>
+            <hr class="content-divider" />
+            <div class="row content-wrapper">
+              <div class="col">
+                <div>Password</div>
+              </div>
+              <div class="col">
+                <div>********</div>
+                <div>Last changed Apr 15, 2019</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wrapper">
+            <div class="content-header-container">
+              <div>
+                <h4>Contact info</h4>
+              </div>
+            </div>
+            <hr />
+            <div class="row content-wrapper">
+              <div class="col">
+                <div>Email</div>
+              </div>
+              <div class="col">
+                <div><%= user.email %></div>
+              </div>
+            </div>
+            <hr class="content-divider" />
+            <div class="row content-wrapper">
+              <div class="col">
+                <div>Phone</div>
+              </div>
+              <div class="col">
+                <div>0667709787</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modals -->
+    <div
+      class="modal fade"
+      id="displayNameForm"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="displayNameFormTitle"
+      aria-hidden="true"
+      data-backdrop="static"
+      data-keyboard="false"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="displayNameTitle">Name</h5>
+          </div>
+          <div class="modal-body">
+            <form id="displayNameForm">
+              <div class="form-group">
+                <label for="givenNameInput" class="col-form-label">Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="givenNameInput"
+                  value="<%= user.givenName %>"
+                />
+              </div>
+              <div class="form-group">
+                <label for="familyNameInput" class="col-form-label"
+                  >Last name:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="familyNameInput"
+                  value="<%= user.familyName %>"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" onclick="" class="btn btn-primary">
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/e307e9c374.js" crossorigin="anonymous"></script>
+    <script src="./javascript/settings/settings.js"></script>
+    <script src="./javascript/appearance/styles.js"></script>
+  </body>
+</html>

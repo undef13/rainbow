@@ -1,5 +1,6 @@
 // Dependencies
 const bcrypt = require(`bcrypt`);
+const customAlphabet = require(`nanoid`).customAlphabet;
 
 // User model
 const User = require(`../models/User`);
@@ -23,6 +24,8 @@ module.exports = (passport) => {
 
           if (!user) {
             return done(null, false, { message: "User not found." });
+          } else if (!user.password) {
+            return done(null, false, { message: "Account was register with Google Sign in." });
           }
 
           const isValidPassword = await bcrypt.compare(password, user.password);
@@ -52,11 +55,14 @@ module.exports = (passport) => {
         callbackURL: "http://localhost:3000/auth/google/callback",
       },
       async (accessToken, refreshToken, profile, done) => {
+        const nanoid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 10);
         const newUser = {
           email: profile.emails[0].value,
+          profileId: nanoid(),
           givenName: profile.name.givenName,
           familyName: profile.name.familyName,
           displayName: profile.displayName,
+          imageUrl: profile.photos[0].value,
           isActive: true,
         };
         try {

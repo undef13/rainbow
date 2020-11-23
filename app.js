@@ -14,6 +14,9 @@ const PORT = process.env.PORT || 3000;
 // View Engine
 app.set('view engine', 'ejs');
 
+// Express Static
+app.use(express.static('public'));
+
 // Body Parser
 app.use(express.urlencoded({ extended: false }));
 

@@ -3,6 +3,7 @@ const bcrypt = require(`bcrypt`);
 const crypto = require(`crypto`);
 const async = require(`async`);
 const passport = require(`passport`);
+const customAlphabet  = require(`nanoid`).customAlphabet;
 
 // Mailer function
 const mailer = require(`../config/mailer`);
@@ -14,7 +15,7 @@ const User = require(`../models/User`);
 // POST => /login
 exports.postLogin = (req, res, next) => {
   passport.authenticate("local", {
-    successRedirect: `/success`, //${req.user ? req.user._id : ""}
+    successRedirect: `/${req.user ? req.user.profileId : ""}`,
     failureRedirect: "/",
     failureFlash: "Invalid username or password.",
   })(req, res, next);
@@ -23,6 +24,7 @@ exports.postLogin = (req, res, next) => {
 // POST => /register
 exports.postRegister = async (req, res) => {
   const { email, password, givenName, familyName } = req.body;
+  const nanoid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 10);
   try {
     const user = await User.findOne({ email });
     if (user) {
@@ -38,6 +40,7 @@ exports.postRegister = async (req, res) => {
         const user = new User({
           email,
           password: hashedPassword,
+          profileId: nanoid(),
           givenName,
           familyName,
           displayName: `${givenName} ${familyName}`,
@@ -119,7 +122,7 @@ exports.getForgotToken = async (req, res) => {
     console.log(`Reset token has expired or it is invalid.`);
     res.redirect(`/`);
   } else {
-    res.render("password-reset", {
+    res.render("start-page/password-reset", {
       user: user,
     });
   }
@@ -179,7 +182,7 @@ exports.getConfirmToken = async (req, res) => {
       if (e) {
         return console.log(e);
       }
-      res.redirect(`/success`);
+      res.redirect(`/${req.user ? req.user._id : ""}`);
     });
   }
 };

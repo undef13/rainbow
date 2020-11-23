@@ -1,0 +1,17 @@
+.navigation {
+    background: #FFFFFF;
+    transition: .3s;
+}
+
+.small-image {
+    border-radius: 50%;
+    width: 30px;
+}
+
+.btn:focus {
+    box-shadow: none;
+}
+
+.dropdown-toggle::after {
+    display:none;
+}
