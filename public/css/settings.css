@@ -9,11 +9,76 @@
     scrollbar-width: none; /* Firefox */
   }
 
-/*asd */
+.alert-container {
+    margin: 0;
+    /* width: 100%; */
+}
 
 .column {
     padding: 0;
 }
+
+
+/* Data validation */
+.form-group {
+    margin-bottom: 30px !important;
+    position: relative !important;
+  }
+  
+  .form-group input:focus {
+    outline: 0;
+    border-color: #007bff;
+    box-shadow: none;
+  }
+  
+  .form-group.success input {
+    border-color: #2ecc71;
+  }
+  
+  .form-group.error input {
+    border-color: #e74c3c;
+  }
+  
+  .form-group i {
+    visibility: hidden;
+    position: absolute;
+    top: 49px;
+    right: 13px;
+  }
+  
+  .form-group.success i.fa-check-circle {
+    color: #2ecc71;
+    visibility: visible;
+  }
+  
+  .form-group.error i.fa-exclamation-circle {
+    color: #e74c3c;
+    visibility: visible;
+  }
+  
+  .form-group small {
+    position: absolute;
+    top: 77px;
+    left: 0;
+    visibility: hidden;
+  }
+  
+  .form-group.error small {
+    color: #e74c3c;
+  }
+  
+  .form-group.success small {
+    color: #2ecc71;
+  }
+  
+  .form-group.success small {
+    visibility: visible;
+  }
+  
+  .form-group.error small {
+    visibility: visible;
+  }
+  /* End of Data validation */
 
 .wrapper {
     padding: 15px;
@@ -26,10 +91,6 @@
     padding: 15px;
 }
 
-.content-wrapper:hover {
-    background-color: #e1dfdf;
-}
-
 .content-divider {
     margin: 8px 0;
 }
@@ -37,4 +98,9 @@
 .content-wrapper {
     cursor: pointer;
     padding: 10px;
+    transition: .3s;
+}
+
+.content-wrapper:hover {
+  background-color: #eeeded;
 }

@@ -34,9 +34,7 @@
               <div>
                 <h4>Profile</h4>
               </div>
-              <div>
-                Some info may be visible to other people.
-              </div>
+              <div>Some info may be visible to other people.</div>
             </div>
             <hr />
             <div class="row content-wrapper">
@@ -51,16 +49,16 @@
 
             <!-- Display Name Field -->
             <div
+              id="name-wrapper"
               class="row content-wrapper"
               data-toggle="modal"
               data-target="#displayNameForm"
-              onclick="check('displayNameForm')"
             >
               <div class="col">
                 <div>Name</div>
               </div>
               <div class="col">
-                <div><%= user.displayName %></div>
+                <div id="displayNameContainer"><%= user.displayName %></div>
               </div>
             </div>
             <!-- End of Display Name Field -->
@@ -159,6 +157,9 @@
                   id="givenNameInput"
                   value="<%= user.givenName %>"
                 />
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small></small>
               </div>
               <div class="form-group">
                 <label for="familyNameInput" class="col-form-label"
@@ -170,19 +171,29 @@
                   id="familyNameInput"
                   value="<%= user.familyName %>"
                 />
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small></small>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button
               type="button"
+              id="closeFormName"
               class="btn btn-secondary"
               data-dismiss="modal"
             >
               Close
             </button>
-            <button type="button" onclick="" class="btn btn-primary">
-              Save
+            <button type="button" id="formNameButton" class="btn btn-primary">
+              <span
+                class="spinner spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+                hidden
+              ></span>
+              <span class="status-text">Save</span>
             </button>
           </div>
         </div>
@@ -191,8 +202,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://kit.fontawesome.com/e307e9c374.js" crossorigin="anonymous"></script>
-    <script src="./javascript/settings/settings.js"></script>
+    <script
+      src="https://kit.fontawesome.com/e307e9c374.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="./javascript/settings/settings.js"></script>
     <script src="./javascript/appearance/styles.js"></script>
   </body>
 </html>

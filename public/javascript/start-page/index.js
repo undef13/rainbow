@@ -1,17 +1,39 @@
+import {
+  setStatus,
+  isValidEmail,
+  isValidName,
+  isValidPassword,
+} from "../common/helper-functions.js";
+import {
+  checkGivenName,
+  checkFamilyName,
+  checkEmail,
+  checkPassword,
+  checkPasswordRepeat,
+} from "../common/validity-check-functions.js";
+
 /* ---------- GETTING DATA ---------- */
 const registerForm = document.getElementById("registerForm");
-const registerGivenNameInput = document.getElementById(`registerGivenNameInput`);
-const registerFamilyNameInput = document.getElementById(`registerFamilyNameInput`);
+const registerGivenNameInput = document.getElementById(
+  `registerGivenNameInput`
+);
+const registerFamilyNameInput = document.getElementById(
+  `registerFamilyNameInput`
+);
 const registerEmailInput = document.getElementById(`registerEmailInput`);
 const registerPasswordInput = document.getElementById(`registerPasswordInput`);
-const registerPasswordRepeatInput = document.getElementById(`registerPasswordRepeatInput`);
+const registerPasswordRepeatInput = document.getElementById(
+  `registerPasswordRepeatInput`
+);
 
 const loginForm = document.getElementById(`loginForm`);
 const loginEmailInput = document.getElementById(`loginEmailInput`);
 const loginPasswordInput = document.getElementById(`loginPasswordInput`);
 
 const forgotPasswordForm = document.getElementById("forgotPasswordForm");
-const forgotPasswordEmailInput = document.getElementById("forgotPasswordEmailInput");
+const forgotPasswordEmailInput = document.getElementById(
+  "forgotPasswordEmailInput"
+);
 /* ---------- END OF GETTING DATA ---------- */
 
 /* ---------- DATA VALIDATION ---------- */
@@ -23,53 +45,16 @@ const registerValidityCheck = () => {
   const registerPasswordInputValue = registerPasswordInput.value.trim();
   const registerPasswordRepeatInputValue = registerPasswordRepeatInput.value.trim();
 
-  // First Name validation
-  if (registerGivenNameInputValue === "") {
-    setStatus(registerGivenNameInput, true, "First name can not be blank.");
-  } else if (!isValidName(registerGivenNameInputValue)) {
-    setStatus(registerGivenNameInput, true, "First name should contain only letters.");
-  } else {
-    setStatus(registerGivenNameInput, false);
-  }
-
-  // Last Name validation
-  if (registerFamilyNameInputValue === "") {
-    setStatus(registerFamilyNameInput, true, "Last name can not be blank.");
-  } else if (!isValidName(registerFamilyNameInputValue)) {
-    setStatus(registerFamilyNameInput, true, "Last name should contain only letters.");
-  } else {
-    setStatus(registerFamilyNameInput, false);
-  }
-
-  // Email validation
-  if (registerEmailInputValue === "") {
-    setStatus(registerEmailInput, true, "Email can not be blank.");
-  } else if (!isValidEmail(registerEmailInputValue)) {
-    setStatus(registerEmailInput, true, "Not a valid email.");
-  } else {
-    setStatus(registerEmailInput, false);
-  }
-
-  // Password validation
-  if (registerPasswordInputValue === "") {
-    setStatus(registerPasswordInput, true, "Password can not be blank.");
-  } else if (registerPasswordInputValue.length < 6) {
-    setStatus(registerPasswordInput, true, "Password cannot be less than 6 characters.");
-  } else if (!isValidPassword(registerPasswordInputValue)) {
-    setStatus(registerPasswordInput, true, "Password should not contain special symbols.");
-  } else {
-    setStatus(registerPasswordInput, false);
-  }
-
-  // Repeat password validation
   if (
-    registerPasswordInputValue === "" && registerPasswordRepeatInputValue === "") {
-    setStatus(registerPasswordRepeatInput, true, "Enter your password and then repeat it here.");
-  } else if (registerPasswordRepeatInputValue !== registerPasswordInputValue) {
-    setStatus(registerPasswordRepeatInput, true, "Passwords do not match.");
-  } else {
-    setStatus(registerPasswordRepeatInput, false);
+    checkGivenName(registerGivenNameInputValue, registerGivenNameInput) &
+    checkFamilyName(registerFamilyNameInputValue, registerFamilyNameInput) &
+    checkEmail(registerEmailInputValue, registerEmailInput) &
+    checkPassword(registerPasswordInputValue, registerPasswordInput) &
+    checkPasswordRepeat(registerPasswordInputValue, registerPasswordRepeatInputValue, registerPasswordRepeatInput)
+  ) {
     return true;
+  } else {
+    return false;
   }
 };
 
@@ -89,7 +74,11 @@ const loginValidityCheck = () => {
   if (loginPasswordInputValue === "") {
     setStatus(loginPasswordInput, true, "Password can not be blank.");
   } else if (loginPasswordInputValue.length < 6) {
-    setStatus(loginPasswordInput, true, "Password cannot be less than 6 characters.");
+    setStatus(
+      loginPasswordInput,
+      true,
+      "Password cannot be less than 6 characters."
+    );
   } else {
     setStatus(loginPasswordInput, false);
     return true;
@@ -110,33 +99,12 @@ const forgotPasswordValidityCheck = () => {
 };
 /* ---------- END OF DATA VALIDATION ---------- */
 
-/* -------------- HELPER FUNCTIONS -------------- */
-const setStatus = (input, error, message = "Looks good.") => {
-  const formGroup = input.parentElement;
-  const small = formGroup.querySelector("small");
-  error
-    ? (formGroup.className = "form-group error")
-    : (formGroup.className = "form-group success");
-  small.innerText = message;
-};
-
-isValidEmail = (email) => {
-  return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-    email
-  );
-};
-
-isValidName = (name) => {
-  return /^[a-zA-Zа-яёА-ЯЁ]+$/.test(name);
-};
-
-isValidPassword = (password) => {
-  return /^[a-zA-Z0-9]+$/.test(password);
-};
-/* -------------- END OF HELPER FUNCTIONS -------------- */
-
 /* ---------- ACTION HANDLERS ---------- */
 // SIGN UP HANDLER
+$("#signUpButton").on("click", () => {
+  onClickSignUpHandler();
+});
+
 const onClickSignUpHandler = () => {
   const givenName = registerGivenNameInput.value.trim();
   const familyName = registerFamilyNameInput.value.trim();
@@ -176,6 +144,10 @@ const onClickSignUpHandler = () => {
 };
 
 // FORGOT PASSWORD HANDLER
+$("#forgotPasswordButton").on("click", () => {
+  onClickForgotPasswordHandler();
+});
+
 const onClickForgotPasswordHandler = () => {
   if (forgotPasswordValidityCheck()) {
     const email = forgotPasswordEmailInput.value.trim();
@@ -207,9 +179,9 @@ const onClickForgotPasswordHandler = () => {
 };
 
 loginForm.addEventListener("submit", (e) => {
-    if (!loginValidityCheck()) {
-      e.preventDefault();
-    }
+  if (!loginValidityCheck()) {
+    e.preventDefault();
+  }
 });
 
 registerForm.addEventListener("submit", (e) => {

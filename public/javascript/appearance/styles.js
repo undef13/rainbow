@@ -1,4 +1,4 @@
 // Scroll Shadow
 $(window).scroll(function () {
-  $(".navigation").toggleClass("shadow", $(this).scrollTop() > 5);
+  $(".navigation").toggleClass("shadow", $(this).scrollTop() > 1);
 });
