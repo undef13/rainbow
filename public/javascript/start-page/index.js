@@ -1,42 +1,22 @@
-import {
-  setStatus,
-  isValidEmail,
-  isValidName,
-  isValidPassword,
-} from "../common/helper-functions.js";
-import {
-  checkGivenName,
-  checkFamilyName,
-  checkEmail,
-  checkPassword,
-  checkPasswordRepeat,
-} from "../common/validity-check-functions.js";
+import { checkGivenName, checkFamilyName, checkEmail, checkPassword, checkPasswordRepeat } from "../common/validity-check-functions.js";
 
 /* ---------- GETTING DATA ---------- */
 const registerForm = document.getElementById("registerForm");
-const registerGivenNameInput = document.getElementById(
-  `registerGivenNameInput`
-);
-const registerFamilyNameInput = document.getElementById(
-  `registerFamilyNameInput`
-);
-const registerEmailInput = document.getElementById(`registerEmailInput`);
-const registerPasswordInput = document.getElementById(`registerPasswordInput`);
-const registerPasswordRepeatInput = document.getElementById(
-  `registerPasswordRepeatInput`
-);
+const registerGivenNameInput = document.getElementById("registerGivenNameInput");
+const registerFamilyNameInput = document.getElementById("registerFamilyNameInput");
+const registerEmailInput = document.getElementById("registerEmailInput");
+const registerPasswordInput = document.getElementById("registerPasswordInput");
+const registerPasswordRepeatInput = document.getElementById("registerPasswordRepeatInput");
 
-const loginForm = document.getElementById(`loginForm`);
-const loginEmailInput = document.getElementById(`loginEmailInput`);
-const loginPasswordInput = document.getElementById(`loginPasswordInput`);
+const loginForm = document.getElementById("loginForm");
+const loginEmailInput = document.getElementById("loginEmailInput");
+const loginPasswordInput = document.getElementById("loginPasswordInput");
 
 const forgotPasswordForm = document.getElementById("forgotPasswordForm");
-const forgotPasswordEmailInput = document.getElementById(
-  "forgotPasswordEmailInput"
-);
+const forgotPasswordEmailInput = document.getElementById("forgotPasswordEmailInput");
 /* ---------- END OF GETTING DATA ---------- */
 
-/* ---------- DATA VALIDATION ---------- */
+/* ---------- DATA VALIDATION FUNCTIONS ---------- */
 // Register Form Validation
 const registerValidityCheck = () => {
   const registerGivenNameInputValue = registerGivenNameInput.value.trim();
@@ -63,48 +43,65 @@ const loginValidityCheck = () => {
   let loginEmailInputValue = loginEmailInput.value.trim();
   let loginPasswordInputValue = loginPasswordInput.value.trim();
 
-  if (loginEmailInputValue === "") {
-    setStatus(loginEmailInput, true, "Email can not be blank.");
-  } else if (!isValidEmail(loginEmailInputValue)) {
-    setStatus(loginEmailInput, true, "Not a valid email.");
-  } else {
-    setStatus(loginEmailInput, false);
-  }
-
-  if (loginPasswordInputValue === "") {
-    setStatus(loginPasswordInput, true, "Password can not be blank.");
-  } else if (loginPasswordInputValue.length < 6) {
-    setStatus(
-      loginPasswordInput,
-      true,
-      "Password cannot be less than 6 characters."
-    );
-  } else {
-    setStatus(loginPasswordInput, false);
+  if (
+    checkEmail(loginEmailInputValue, loginEmailInput) & 
+    checkPassword(loginPasswordInputValue, loginPasswordInput)
+  ) {
     return true;
+  } else {
+    return false;
   }
 };
 
 // Forgot Password Validation
 const forgotPasswordValidityCheck = () => {
   const forgotPasswordEmailInputValue = forgotPasswordEmailInput.value.trim();
-  if (forgotPasswordEmailInputValue === "") {
-    setStatus(forgotPasswordEmailInput, true, "Email can not be blank.");
-  } else if (!isValidEmail(forgotPasswordEmailInputValue)) {
-    setStatus(forgotPasswordEmailInput, true, "Not a valid email.");
-  } else {
-    setStatus(forgotPasswordEmailInput, false);
+
+  if(checkEmail(forgotPasswordEmailInputValue, forgotPasswordEmailInput)) {
     return true;
+  } else {
+    return false;
   }
+  
 };
-/* ---------- END OF DATA VALIDATION ---------- */
+/* ---------- END OF DATA VALIDATION FUNCTIONS ---------- */
 
 /* ---------- ACTION HANDLERS ---------- */
-// SIGN UP HANDLER
+// Sign up handler
 $("#signUpButton").on("click", () => {
   onClickSignUpHandler();
 });
 
+// Forgot password handler
+$("#forgotPasswordButton").on("click", () => {
+  onClickForgotPasswordHandler();
+});
+
+// Preventing default behavior "Forgot password" link
+$("#forgotPasswordLink").on("click", () => {
+  preventDefault();
+})
+/* ---------- END OF ACTION HANDLERS ---------- */
+
+/* ---------- EVENT LISTENERS ---------- */
+registerForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+});
+
+loginForm.addEventListener("submit", (e) => {
+  if (!loginValidityCheck()) {
+    e.preventDefault();
+  }
+});
+
+forgotPasswordForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  onClickForgotPasswordHandler();
+});
+/* ---------- END OF EVENT LISTENERS ---------- */
+
+/* ---------- ACTION HANDLERS FUNCTIONS ---------- */
+// Sign up handler function
 const onClickSignUpHandler = () => {
   const givenName = registerGivenNameInput.value.trim();
   const familyName = registerFamilyNameInput.value.trim();
@@ -143,11 +140,7 @@ const onClickSignUpHandler = () => {
   }
 };
 
-// FORGOT PASSWORD HANDLER
-$("#forgotPasswordButton").on("click", () => {
-  onClickForgotPasswordHandler();
-});
-
+// Forgot password handler function
 const onClickForgotPasswordHandler = () => {
   if (forgotPasswordValidityCheck()) {
     const email = forgotPasswordEmailInput.value.trim();
@@ -177,25 +170,4 @@ const onClickForgotPasswordHandler = () => {
     });
   }
 };
-
-loginForm.addEventListener("submit", (e) => {
-  if (!loginValidityCheck()) {
-    e.preventDefault();
-  }
-});
-
-registerForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-});
-
-forgotPasswordForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  onClickForgotPasswordHandler();
-});
-
-document
-  .getElementById("forgotPasswordLink")
-  .addEventListener("click", function (event) {
-    event.preventDefault();
-  });
-/* ---------- END OF ACTION HANDLERS ---------- */
+/* ---------- END OF ACTION HANDLERS FUNCTIONS ---------- */
