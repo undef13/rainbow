@@ -1,5 +1,6 @@
-import { setStatus, isValidName } from "./helper-functions.js";
+import { setStatus, isValidName, isValidEmail, isValidPassword } from "./helper-functions.js";
 
+// Given Name Validation
 export const checkGivenName = (givenName, givenNameInput) => {
   if (givenName === "") {
     setStatus(givenNameInput, true, "First name can not be blank.");
@@ -13,6 +14,7 @@ export const checkGivenName = (givenName, givenNameInput) => {
   }
 };
 
+// Family Name Validation
 export const checkFamilyName = (familyName, familyNameInput) => {
   if (familyName === "") {
     setStatus(familyNameInput, true, "Last name can not be blank.");
@@ -26,6 +28,7 @@ export const checkFamilyName = (familyName, familyNameInput) => {
   }
 };
 
+// Email Validation
 export const checkEmail = (email, emailInput) => {
   if (email === "") {
     setStatus(emailInput, true, "Email can not be blank.");
@@ -39,23 +42,16 @@ export const checkEmail = (email, emailInput) => {
   }
 };
 
+// Password Validation
 export const checkPassword = (password, passwordInput) => {
   if (password === "") {
     setStatus(passwordInput, true, "Password can not be blank.");
     return false;
   } else if (password.length < 6) {
-    setStatus(
-      passwordInput,
-      true,
-      "Password cannot be less than 6 characters."
-    );
+    setStatus(passwordInput, true, "Password cannot be less than 6 characters.");
     return false;
   } else if (!isValidPassword(password)) {
-    setStatus(
-      passwordInput,
-      true,
-      "Password should not contain special symbols."
-    );
+    setStatus(passwordInput, true, "Password should not contain special symbols.");
     return false;
   } else {
     setStatus(passwordInput, false);
@@ -63,6 +59,7 @@ export const checkPassword = (password, passwordInput) => {
   }
 };
 
+// Password Repeat Validation
 export const checkPasswordRepeat = (password, passwordRepeat, passwordRepeatInput) => {
   if (password === "" && passwordRepeat === "") {
     setStatus(passwordRepeatInput, true, "Enter your password and then repeat it here.");

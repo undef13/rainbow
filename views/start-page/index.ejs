@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Welcome! | Rainbow</title>
+    <link rel="icon" href="images/favicon.png" type="image/png" />
     <link rel="stylesheet" href="/css/indexStyles.css" />
     <link
       rel="stylesheet"
@@ -12,7 +13,7 @@
   </head>
   <body>
     <% if (errors.length > 0) { %>
-    <div class="alert alert-danger notification">
+    <div class="alert alert-danger notification fixed-bottom text-center">
       <%= errors[0] %>
       <button
         type="button"
@@ -196,12 +197,14 @@
             >
               Close
             </button>
-            <button
-              type="button"
-              class="btn btn-success"
-              id="signUpButton"
-            >
-              Sign Up
+            <button type="button" class="btn btn-success" id="signUpButton">
+              <span
+                class="spinner spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+                hidden
+              ></span>
+              <span class="status-text">Sign Up</span>
             </button>
           </div>
         </div>
@@ -264,7 +267,13 @@
               id="forgotPasswordButton"
               class="btn btn-primary"
             >
-              Send
+              <span
+                class="spinner spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+                hidden
+              ></span>
+              <span class="status-text">Recover!</span>
             </button>
           </div>
         </div>
@@ -275,7 +284,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://kit.fontawesome.com/e307e9c374.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/e307e9c374.js"
+      crossorigin="anonymous"
+    ></script>
     <script type="module" src="./javascript/start-page/index.js"></script>
     <script src="./javascript/start-page/styles.js"></script>
   </body>

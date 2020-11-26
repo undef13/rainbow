@@ -179,6 +179,5 @@ a:hover {
   color: #e74c3c;
 }
 .notification {
-  position: absolute !important;
-  width: 100%;
+  margin: 0 !important;
 }

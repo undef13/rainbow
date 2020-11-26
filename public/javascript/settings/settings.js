@@ -56,7 +56,6 @@ $("#formNameButton").on("click", () => {
         $(".status-text").prop("hidden", true);
       },
       success: (data) => {
-        console.log(data);
         $("#displayNameContainer").text(data.data.displayName);
         $("#displayNameSpan").text(data.data.displayName);
 

@@ -1,5 +1,5 @@
 import { checkGivenName, checkFamilyName, checkEmail, checkPassword, checkPasswordRepeat } from "../common/validity-check-functions.js";
-
+import { alert } from "../common/helper-functions.js";
 /* ---------- GETTING DATA ---------- */
 const registerForm = document.getElementById("registerForm");
 const registerGivenNameInput = document.getElementById("registerGivenNameInput");
@@ -62,7 +62,7 @@ const forgotPasswordValidityCheck = () => {
   } else {
     return false;
   }
-  
+
 };
 /* ---------- END OF DATA VALIDATION FUNCTIONS ---------- */
 
@@ -78,8 +78,8 @@ $("#forgotPasswordButton").on("click", () => {
 });
 
 // Preventing default behavior "Forgot password" link
-$("#forgotPasswordLink").on("click", () => {
-  preventDefault();
+$("#forgotPasswordLink").on("click", (e) => {
+  e.preventDefault();
 })
 /* ---------- END OF ACTION HANDLERS ---------- */
 
@@ -116,12 +116,13 @@ const onClickSignUpHandler = () => {
         $(
           "#registerGivenNameInput, #registerFamilyNameInput, #registerEmailInput, #registerPasswordInput, #registerPasswordRepeatInput, button"
         ).prop("disabled", true);
+        $(".spinner").prop("hidden", false);
+        $(".status-text").prop("hidden", true);
       },
       success: (data) => {
         if (typeof data === "string") {
           data = JSON.parse(data);
         }
-        console.log(data);
         if (data.isSuccessful) {
           $("#registerStatusText").addClass("success");
           $("#registerStatusText").removeClass("error");
@@ -129,12 +130,15 @@ const onClickSignUpHandler = () => {
           $("#registerStatusText").addClass("error");
           $("#registerStatusText").removeClass("success");
         }
-        $("#registerStatusText").text(data.message);
+        alert(data.isSuccessful, data.message);
       },
       complete: () => {
         $(
           "#registerGivenNameInput, #registerFamilyNameInput, #registerEmailInput, #registerPasswordInput, #registerPasswordRepeatInput, button"
         ).prop("disabled", false);
+        $(".spinner").prop("hidden", true);
+        $(".status-text").prop("hidden", false);
+        $("#createNewAccountModal").modal("hide");
       },
     });
   }
@@ -150,6 +154,8 @@ const onClickForgotPasswordHandler = () => {
       data: { email: email },
       beforeSend: () => {
         $("#forgotPasswordEmailInput, button").prop("disabled", true);
+        $(".spinner").prop("hidden", false);
+        $(".status-text").prop("hidden", true);
       },
       success: (data) => {
         if (typeof data === "string") {
@@ -162,10 +168,13 @@ const onClickForgotPasswordHandler = () => {
           $("#forgotPasswordStatusText").addClass("error");
           $("#forgotPasswordStatusText").removeClass("success");
         }
-        $("#forgotPasswordStatusText").text(data.message);
+        alert(data.isSuccessful, data.message);
       },
       complete: () => {
         $("#forgotPasswordEmailInput, button").prop("disabled", false);
+        $(".spinner").prop("hidden", true);
+        $(".status-text").prop("hidden", false);
+        $("#forgotPasswordModal").modal("hide");
       },
     });
   }

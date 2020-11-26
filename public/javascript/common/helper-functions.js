@@ -28,7 +28,7 @@ export const isValidPassword = (password) => {
 /* Alert function */
 export const alert = (isSuccessful, message) => {
   $("body").append(
-    `<div class='alert alert-${
+    `<div style="margin:0;" class='alert alert-${
       isSuccessful ? "success" : "danger"
     } fixed-bottom alert-container text-center' role='alert'><span>${message}</span></div>`
   );

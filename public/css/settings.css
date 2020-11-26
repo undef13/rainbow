@@ -9,11 +9,6 @@
     scrollbar-width: none; /* Firefox */
   }
 
-.alert-container {
-    margin: 0;
-    /* width: 100%; */
-}
-
 .column {
     padding: 0;
 }
