@@ -1,35 +1,11 @@
+/* ------- START PAGE ------- */
 /* Main setup */
-body,
-html {
+body, html {
   height: 100%;
   font-size: 20px;
 }
-
-::-webkit-scrollbar {
-  /* chrome based */
-  width: 0px; /* ширина scrollbar'a */
-  background: transparent; /* опционально */
-}
-
-html {
-  -ms-overflow-style: none; /* IE 10+ */
-  scrollbar-width: none; /* Firefox */
-}
 /* End of main setup */
 
-/* Form container Setup */
-.formWrapper {
-  border: 1px solid #c9c9c9;
-  padding: 0 10px 10px 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  border-radius: 7px;
-}
-
-.formWrapper form input {
-  margin-top: 15px;
-  width: 100%;
-}
-/* End of Form container Setup */
 
 /* Forgot Password Link */
 a {
@@ -106,78 +82,40 @@ a:hover {
 /* End of Setup for small screens */
 
 /* Data validation */
-.form-group {
-  margin-bottom: 30px !important;
-  position: relative !important;
-}
-
-.form-group input:focus {
-  outline: 0;
-  border-color: #007bff;
-  box-shadow: none;
-}
-
-.form-group.success input {
-  border-color: #2ecc71;
-}
-
-.form-group.error input {
-  border-color: #e74c3c;
-}
-
 .form-group i {
-  visibility: hidden;
-  position: absolute;
   top: 14px;
   right: 13px;
 }
 
-.form-group.success i.fa-check-circle {
-  color: #2ecc71;
-  visibility: visible;
-}
-
-.form-group.error i.fa-exclamation-circle {
-  color: #e74c3c;
-  visibility: visible;
-}
-
 .form-group small {
-  position: absolute;
   top: 47px;
   left: 0;
-  visibility: hidden;
-}
-
-.form-group.error small {
-  color: #e74c3c;
-}
-
-.form-group.success small {
-  color: #2ecc71;
-}
-
-.form-group.success small {
-  visibility: visible;
-}
-
-.form-group.error small {
-  visibility: visible;
 }
 /* End of Data validation */
 
-/* Reset password */
-.d-flex .formWrapper {
-  width: 400px;
-}
-/* End of Reset Password */
 
-.success {
-  color: #2ecc71;
-}
-.error {
-  color: #e74c3c;
-}
+/* Notification */
 .notification {
   margin: 0 !important;
 }
+/* End of notification
+
+/* ------- END OF START PAGE ------- */
+
+/* ------- PASSWORD RESET ------- */
+.formWrapper {
+  border: 1px solid #c9c9c9;
+  padding: 0 10px 10px 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 7px;
+}
+
+.formWrapper form input {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.d-flex .formWrapper {
+  width: 400px;
+}
+/* ------- END OF PASSWORD RESET ------- */

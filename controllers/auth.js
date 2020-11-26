@@ -182,7 +182,7 @@ exports.getConfirmToken = async (req, res) => {
       if (e) {
         return console.log(e);
       }
-      res.redirect(`/${req.user ? req.user._id : ""}`);
+      res.redirect(`/${req.user ? req.user.profileId : ""}`);
     });
   }
 };

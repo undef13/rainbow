@@ -1,0 +1,43 @@
+/* Data validation */
+.form-group i {
+  top: 49px;
+  right: 13px;
+}
+
+.form-group small {
+  top: 77px;
+  left: 0;
+}
+/* End of Data validation */
+
+
+/* ---------- PAGE CONTENT STYLES ---------- */
+.col-md-10 {
+  padding: 0;
+}
+
+.wrapper {
+  padding: 15px;
+  border: 1px solid #e1dfdf;
+  border-radius: 7px;
+  margin: 20px 0;
+}
+
+.content-header-container {
+  padding: 15px;
+}
+
+.content-divider {
+  margin: 8px 0;
+}
+
+.content-wrapper {
+  cursor: pointer;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+.content-wrapper:hover {
+  background-color: #eeeded;
+}
+/* ---------- END OF PAGE CONTENT STYLES ---------- */
