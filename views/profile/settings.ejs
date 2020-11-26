@@ -11,8 +11,8 @@
     />
 
     <link rel="stylesheet" href="/css/settings/settings.css" />
-    <link rel="stylesheet" href="/css/common/index.css">
-    <link rel="stylesheet" href="/css/common/data-validation.css">
+    <link rel="stylesheet" href="/css/common/index.css" />
+    <link rel="stylesheet" href="/css/common/data-validation.css" />
     <link rel="stylesheet" href="/css/includes-styles/top-nav.css" />
     <link rel="stylesheet" href="/css/includes-styles/sidebar.css" />
   </head>
@@ -66,24 +66,40 @@
             <!-- End of Display Name Field -->
 
             <hr class="content-divider" />
-            <div class="row content-wrapper">
+
+            <!-- Bio Field -->
+            <div id="bio-wrapper" class="row content-wrapper" data-toggle="modal" data-target="#bioForm">
               <div class="col">
                 <div>Bio</div>
               </div>
               <div class="col">
-                <div>....</div>
+                <div id="bioContainer">
+                  <%= user.bio ? 
+                        user.bio.length > 35 ? 
+                          user.bio.slice(0, 35) + "..." 
+                          : user.bio 
+                        : "None"
+                  %>
+                </div>
               </div>
             </div>
+            <!-- End of Bio Field -->
+
             <hr class="content-divider" />
+
+            <!-- Birthday Field -->
             <div class="row content-wrapper">
               <div class="col">
                 <div>Birthday</div>
               </div>
               <div class="col">
-                <div>November 1, 2002</div>
+                <div><%= user.birthday === null ? "None" : user.birthday %> </div>
               </div>
             </div>
+            <!-- End of Birthday Field -->
+
             <hr class="content-divider" />
+
             <div class="row content-wrapper">
               <div class="col">
                 <div>Gender</div>
@@ -133,7 +149,9 @@
       </div>
     </div>
 
-    <!-- Modals -->
+    <!-- -------- Modals -------- -->
+
+    <!-- Change "Display name" modal -->
     <div
       class="modal fade"
       id="displayNameForm"
@@ -201,6 +219,60 @@
         </div>
       </div>
     </div>
+    <!-- End of "Change display name" modal -->
+
+    <!-- Change "Change bio" modal -->
+    <div
+      class="modal fade"
+      id="bioForm"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="bioFormTitle"
+      aria-hidden="true"
+      data-backdrop="static"
+      data-keyboard="false"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="bioTitle">Bio</h5>
+          </div>
+          <div class="modal-body">
+            <form id="bioForm">
+              <div class="form-group">
+                <p class="font-weight-light">
+                  Any details such as occupation or city. <br />
+                  Example: designer from San Francisco
+                </p>
+                <textarea maxlength="100" rows="3" class="form-control" id="bioTextArea"><%= user.bio %></textarea>
+                <p class="characters-left-container">Characters left: <span class="characters-left">100</span></p>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="closeFormBio"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" id="formBioButton" class="btn btn-primary">
+              <span
+                class="spinner spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+                hidden
+              ></span>
+              <span class="status-text">Save</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Change "Change bio" modal -->
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -208,7 +280,8 @@
       src="https://kit.fontawesome.com/e307e9c374.js"
       crossorigin="anonymous"
     ></script>
-    <script type="module" src="./javascript/settings/settings.js"></script>
+    <script type="module" src="./javascript/settings/changeName.js"></script>
+    <script type="module" src="./javascript/settings/changeBio.js"></script>
     <script src="./javascript/appearance/styles.js"></script>
   </body>
 </html>

@@ -41,3 +41,12 @@
   background-color: #eeeded;
 }
 /* ---------- END OF PAGE CONTENT STYLES ---------- */
+
+textarea {
+  resize: none;
+}
+
+.characters-left-container {
+  position: absolute;
+  margin: 5px 0;
+}

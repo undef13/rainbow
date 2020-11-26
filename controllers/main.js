@@ -32,6 +32,7 @@ exports.getSettings = (req, res) => {
     user: req.user,
   });
 };
+
 // POST => /settings/display-name
 exports.postSettingsDisplayName = async (req, res) => {
   const { givenName, familyName } = req.body;
@@ -44,13 +45,38 @@ exports.postSettingsDisplayName = async (req, res) => {
     res.json({
       isSuccessful: true,
       message: "Your name was successfully updated.",
-      data: { givenName: user.givenName, familyName: user.familyName, displayName: user.displayName },
+      data: {
+        givenName: user.givenName,
+        familyName: user.familyName,
+        displayName: user.displayName,
+      },
     });
   } catch (error) {
-    console.error(error)
     res.json({
       isSuccessful: false,
-      message: "Something went wrong..."
-    })
+      message: "Something went wrong...",
+    });
+  }
+};
+
+exports.postSettingsBio = async (req, res) => {
+  const { bio } = req.body;
+  try {
+    const user = await User.findOneAndUpdate(
+      { profileId: req.user.profileId },
+      { bio, birthday: new Date("2001-04-10") },
+      { new: true }
+    );
+    res.json({
+      isSuccessful: true,
+      message: "Your bio was successfully updated.",
+      data: { bio: user.bio },
+    });
+  } catch (error) {
+    console.error(error);
+    res.json({
+      isSuccessful: false,
+      message: "Something went wrong...",
+    });
   }
 };

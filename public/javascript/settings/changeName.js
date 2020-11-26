@@ -1,4 +1,7 @@
-import { checkGivenName, checkFamilyName } from "../common/validity-check-functions.js";
+import {
+  checkGivenName,
+  checkFamilyName,
+} from "../common/validity-check-functions.js";
 import { alert } from "../common/helper-functions.js";
 
 /* ----------- GETTING DATA ----------- */
@@ -13,28 +16,22 @@ let initialFamilyName = familyNameInput.value.trim();
 /* ----------- END OF SETTING INITIAL VALUES ----------- */
 
 /* ----------- CHECK INPUTS FOR CHANGES ----------- */
-const checkInputsForChanges = (action) => {
-  switch (action) {
-    case "formName": {
-      if (
-        givenNameInput.value.trim() == initialGivenName &&
-        familyNameInput.value.trim() == initialFamilyName
-      ) {
-        formNameButton.disabled = true;
-        console.log(initialGivenName, initialFamilyName);
-      } else {
-        formNameButton.disabled = false;
-      }
-      break;
-    }
+const checkInputsForChanges = () => {
+  if (
+    givenNameInput.value.trim() == initialGivenName &&
+    familyNameInput.value.trim() == initialFamilyName
+  ) {
+    formNameButton.disabled = true;
+  } else {
+    formNameButton.disabled = false;
   }
 };
 /* ----------- END OF CHECK INPUTS FOR CHANGES ----------- */
 
 /* ----------- ACTION HANDLERS ----------- */
 // Click on div to block button
-$('#name-wrapper').on('click', () => {
-    checkInputsForChanges("formName");
+$("#name-wrapper").on("click", () => {
+  checkInputsForChanges();
 });
 
 // Click on "Save" button in the name form
@@ -61,7 +58,7 @@ $("#formNameButton").on("click", () => {
 
         initialGivenName = data.data.givenName;
         initialFamilyName = data.data.familyName;
-        checkInputsForChanges("formName");
+        checkInputsForChanges();
         alert(data.isSuccessful, data.message);
       },
       complete: () => {
@@ -77,7 +74,6 @@ $("#formNameButton").on("click", () => {
   }
 });
 
-
 /* ----------- END OF ACTION HANDLERS ----------- */
 
 /* ----------- FUNCTIONS FOR VALIDATION FORMS ----------- */
@@ -85,7 +81,10 @@ $("#formNameButton").on("click", () => {
 const formNameValidation = () => {
   const givenName = givenNameInput.value.trim();
   const familyName = familyNameInput.value.trim();
-  if(checkGivenName(givenName, givenNameInput) & checkFamilyName(familyName, familyNameInput)) {
+  if (
+    checkGivenName(givenName, givenNameInput) &
+    checkFamilyName(familyName, familyNameInput)
+  ) {
     return true;
   } else {
     return false;
@@ -93,12 +92,11 @@ const formNameValidation = () => {
 };
 /* ----------- END OF FUNCTIONS FOR VALIDATION FORMS ----------- */
 
-
 /* ----------- ADDING EVENT LISTENERS ----------- */
 givenNameInput.addEventListener("input", () =>
-  checkInputsForChanges("formName")
+  checkInputsForChanges()
 );
 familyNameInput.addEventListener("input", () =>
-  checkInputsForChanges("formName")
+  checkInputsForChanges()
 );
 /* ----------- END OF ADDING EVENT LISTENERS ----------- */

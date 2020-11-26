@@ -16,4 +16,6 @@ router.get(`/:profileId`, isLoggedIn, mainController.getProfileId);
 
 router.post(`/settings/display-name`, isLoggedIn, mainController.postSettingsDisplayName);
 
+router.post(`/settings/bio`, isLoggedIn, mainController.postSettingsBio);
+
 module.exports = router;
