@@ -18,4 +18,6 @@ router.post(`/settings/display-name`, isLoggedIn, mainController.postSettingsDis
 
 router.post(`/settings/bio`, isLoggedIn, mainController.postSettingsBio);
 
+router.post(`/settings/birthday`, isLoggedIn, mainController.postSettingsBirthday);
+
 module.exports = router;

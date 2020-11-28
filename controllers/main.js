@@ -64,13 +64,39 @@ exports.postSettingsBio = async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       { profileId: req.user.profileId },
-      { bio, birthday: new Date("2001-04-10") },
+      { bio },
       { new: true }
     );
     res.json({
       isSuccessful: true,
       message: "Your bio was successfully updated.",
       data: { bio: user.bio },
+    });
+  } catch (error) {
+    console.error(error);
+    res.json({
+      isSuccessful: false,
+      message: "Something went wrong...",
+    });
+  }
+};
+
+exports.postSettingsBirthday = async (req, res) => {
+  const { month, year, day } = req.body;
+  try {
+    const user = await User.findOneAndUpdate(
+      { profileId: req.user.profileId },
+      { birthday: new Date(`${month}, ${day}, ${year}`) },
+      { new: true }
+    );
+    res.json({
+      isSuccessful: true,
+      message: "Your birthday was successfully updated.",
+      data: {
+        month: user.birthday.getMonth(),
+        year: user.birthday.getFullYear(),
+        day: user.birthday.getDate(),
+      },
     });
   } catch (error) {
     console.error(error);

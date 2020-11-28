@@ -68,18 +68,19 @@
             <hr class="content-divider" />
 
             <!-- Bio Field -->
-            <div id="bio-wrapper" class="row content-wrapper" data-toggle="modal" data-target="#bioForm">
+            <div
+              id="bio-wrapper"
+              class="row content-wrapper"
+              data-toggle="modal"
+              data-target="#bioForm"
+            >
               <div class="col">
                 <div>Bio</div>
               </div>
               <div class="col">
                 <div id="bioContainer">
-                  <%= user.bio ? 
-                        user.bio.length > 35 ? 
-                          user.bio.slice(0, 35) + "..." 
-                          : user.bio 
-                        : "None"
-                  %>
+                  <%= user.bio ? user.bio.length > 35 ? user.bio.slice(0, 35) +
+                  "..." : user.bio : "None" %>
                 </div>
               </div>
             </div>
@@ -88,12 +89,22 @@
             <hr class="content-divider" />
 
             <!-- Birthday Field -->
-            <div class="row content-wrapper">
+            <div
+              class="row content-wrapper"
+              id="birthday-wrapper"
+              class="row content-wrapper"
+              data-toggle="modal"
+              data-target="#birthdayForm"
+            >
               <div class="col">
                 <div>Birthday</div>
               </div>
               <div class="col">
-                <div><%= user.birthday === null ? "None" : user.birthday %> </div>
+                <div id="birthdayContainer">
+                  <%= user.birthday === null ? "None" :
+                  user.birthday.toLocaleDateString("en-US", { year: 'numeric',
+                  month: 'long', day: 'numeric' }) %>
+                </div>
               </div>
             </div>
             <!-- End of Birthday Field -->
@@ -221,7 +232,7 @@
     </div>
     <!-- End of "Change display name" modal -->
 
-    <!-- Change "Change bio" modal -->
+    <!-- "Change bio" modal -->
     <div
       class="modal fade"
       id="bioForm"
@@ -244,8 +255,17 @@
                   Any details such as occupation or city. <br />
                   Example: designer from San Francisco
                 </p>
-                <textarea maxlength="100" rows="3" class="form-control" id="bioTextArea"><%= user.bio %></textarea>
-                <p class="characters-left-container">Characters left: <span class="characters-left">100</span></p>
+                <textarea
+                  maxlength="100"
+                  rows="3"
+                  class="form-control"
+                  id="bioTextArea"
+                >
+<%= user.bio %></textarea
+                >
+                <p class="characters-left-container">
+                  Characters left: <span class="characters-left">100</span>
+                </p>
               </div>
             </form>
           </div>
@@ -271,8 +291,85 @@
         </div>
       </div>
     </div>
-    <!-- End of Change "Change bio" modal -->
+    <!-- End of "Change bio" modal -->
 
+    <!-- "Change birthday" modal -->
+    <div
+      class="modal fade"
+      id="birthdayForm"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="birthdayTitle"
+      aria-hidden="true"
+      data-backdrop="static"
+      data-keyboard="false"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="birthdayTitle">Birthday</h5>
+          </div>
+          <div class="modal-body">
+            <form id="birthdayForm">
+              <div class="form-row">
+                <div class="form-group col-md-5">
+                  <label for="inputMonth">Month</label>
+                  <select id="inputMonth" class="form-control">
+                    <option <%= user.birthday ? "" : "selected" %> >Choose...</option>
+                    <option <%= user.birthday ? user.birthday.getMonth() == 0 ? "selected" : "" : "" %> >January</option>
+                    <option <%= user.birthday ? user.birthday.getMonth() == 1 ? "selected" : "" : "" %> >February</option>
+                    <option <%= user.birthday ? user.birthday.getMonth() == 2 ? "selected" : "" : "" %> >March</option>
+                    <option <%= user.birthday ? user.birthday.getMonth() == 3 ? "selected" : "" : "" %> >April</option>
+                    <option <%= user.birthday ? user.birthday.getMonth() == 4 ? "selected" : "" : "" %> >May</option>
+                    <option <%= user.birthday ? user.birthday.getMonth() == 5 ? "selected" : "" : "" %> >June</option>
+                    <option <%= user.birthday ? user.birthday.getMonth() == 6 ? "selected" : "" : "" %> >July</option>
+                    <option <%= user.birthday ? user.birthday.getMonth() == 7 ? "selected" : "" : "" %> >August</option>
+                    <option <%= user.birthday ? user.birthday.getMonth() == 8 ? "selected" : "" : "" %> >September</option>
+                    <option <%= user.birthday ? user.birthday.getMonth() == 9 ? "selected" : "" : "" %> >October</option>
+                    <option <%= user.birthday ? user.birthday.getMonth() == 10 ? "selected" : "" : "" %> >November</option>
+                    <option <%= user.birthday ? user.birthday.getMonth() == 11 ? "selected" : "" : "" %> >December</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputYear">Year</label>
+                  <input type="text" class="form-control" id="inputYear" value="<%= user.birthday ? user.birthday.getFullYear() : "" %>" />
+                </div>
+
+                <div class="form-group col-md-3">
+                  <label for="inputDay">Day</label>
+                  <input type="text" class="form-control" id="inputDay" value="<%= user.birthday ? user.birthday.getDate() : "" %>" />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <p class="mr-auto" id="dateStatusText"></p>
+            <button
+              type="button"
+              id="closeFormBirthday"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              id="formBirthdayButton"
+              class="btn btn-primary"
+            >
+              <span
+                class="spinner spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+                hidden
+              ></span>
+              <span class="status-text">Save</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of "Change birthday" modal -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -282,6 +379,10 @@
     ></script>
     <script type="module" src="./javascript/settings/changeName.js"></script>
     <script type="module" src="./javascript/settings/changeBio.js"></script>
+    <script
+      type="module"
+      src="./javascript/settings/changeBirthday.js"
+    ></script>
     <script src="./javascript/appearance/styles.js"></script>
   </body>
 </html>
