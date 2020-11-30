@@ -21,4 +21,6 @@ router.post(`/settings/bio`, isLoggedIn, mainController.postSettingsBio);
 
 router.post(`/settings/birthday`, isLoggedIn, mainController.postSettingsBirthday);
 
+router.post(`/settings/gender`, isLoggedIn, mainController.postSettingsGender);
+
 module.exports = router;

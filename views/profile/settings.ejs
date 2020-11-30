@@ -104,7 +104,6 @@
             <div
               class="row content-wrapper"
               id="birthday-wrapper"
-              class="row content-wrapper"
               data-toggle="modal"
               data-target="#birthdayForm"
             >
@@ -124,12 +123,17 @@
             <hr class="content-divider" />
 
             <!-- Gender Field -->
-            <div class="row content-wrapper">
+            <div
+              class="row content-wrapper"
+              id="gender-wrapper"
+              data-toggle="modal"
+              data-target="#genderForm"
+            >
               <div class="col-md-4">
                 <div>Gender</div>
               </div>
               <div class="col-md-8">
-                <div>Female</div>
+                <div id="genderContainer"><%= user.gender %></div>
               </div>
             </div>
             <!-- End of Gender Field -->
@@ -389,6 +393,59 @@
       </div>
     </div>
     <!-- End of "Change birthday" modal -->
+
+    <!-- "Change gender" modal -->
+    <div
+      class="modal fade"
+      id="genderForm"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="genderFormTitle"
+      aria-hidden="true"
+      data-backdrop="static"
+      data-keyboard="false"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="genderTitle">Gender</h5>
+          </div>
+          <div class="modal-body">
+            <form id="genderForm">
+              <div class="form-group">
+                <select id="inputGender" class="form-control">
+                  <option <%= user.gender ? "" : "selected" %> >Choose...</option>
+                  <option <%= user.gender ? user.gender == "Female" ? "selected" : "" : "" %> >Female</option>
+                  <option <%= user.gender ? user.gender == "Male" ? "selected" : "" : "" %> >Male</option>
+                  <option <%= user.gender ? user.gender == "Other" ? "selected" : "" : "" %> >Other</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="closeFormGender"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" id="formGenderButton" class="btn btn-primary">
+              <span
+                class="spinner spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+                hidden
+              ></span>
+              <span class="status-text">Save</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of "Change gender" modal -->
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -402,6 +459,7 @@
       type="module"
       src="./javascript/settings/changeBirthday.js"
     ></script>
+    <script type="module" src="./javascript/settings/changeGender.js"></script>
     <script src="./javascript/appearance/styles.js"></script>
   </body>
 </html>

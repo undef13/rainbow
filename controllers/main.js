@@ -59,6 +59,7 @@ exports.postSettingsDisplayName = async (req, res) => {
   }
 };
 
+// POST => /settings/bio
 exports.postSettingsBio = async (req, res) => {
   const { bio } = req.body;
   try {
@@ -81,6 +82,7 @@ exports.postSettingsBio = async (req, res) => {
   }
 };
 
+// POST => /settings/birthday
 exports.postSettingsBirthday = async (req, res) => {
   const { month, year, day } = req.body;
   try {
@@ -106,3 +108,28 @@ exports.postSettingsBirthday = async (req, res) => {
     });
   }
 };
+
+// POST => /settings/gender
+exports.postSettingsGender = async (req, res) => {
+  const { gender } = req.body;
+  try {
+    const user = await User.findOneAndUpdate(
+      { profileId: req.user.profileId }, 
+      { gender },
+      { new: true }
+    );
+    res.json({
+      isSuccessful: true,
+      message: "Your gender was successfully updated.",
+      data: {
+        gender: user.gender
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.json({
+      isSuccessful: false,
+      message: "Something went wrong...",
+    });
+  }
+}

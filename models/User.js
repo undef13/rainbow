@@ -34,6 +34,10 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: ""
   },
+  gender: {
+    type: String,
+    default: "None"
+  },
   imageUrl: {
     type: String,
     default: "",
