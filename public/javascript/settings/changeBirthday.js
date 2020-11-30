@@ -1,15 +1,20 @@
-import { alert, setStatus } from "../common/helper-functions.js";
+import { alert } from "../common/helper-functions.js";
 
 const month = document.getElementById("inputMonth");
 const year = document.getElementById("inputYear");
 const day = document.getElementById("inputDay");
 const button = document.getElementById("formBirthdayButton");
 
+let initialMonth = month.selectedIndex;
+let initialYear = year.value;
+let initialDay = day.value;
+
 const currentYear = new Date().getFullYear();
 const minimalYear = currentYear - 100;
 
 $("#formBirthdayButton").on("click", (e) => {
   if (dataValidation()) {
+    $("#dateStatusText").text("");
     $.ajax({
       type: "POST",
       url: "http://localhost:3000/settings/birthday",
@@ -30,7 +35,9 @@ $("#formBirthdayButton").on("click", (e) => {
         $("#birthdayContainer").text(
           dateToText(data.data.month, data.data.year, data.data.day)
         );
-
+        initialYear = data.data.year;
+        initialDay = data.data.day;
+        initialMonth = data.data.month + 1;
         alert(data.isSuccessful, data.message);
       },
       complete: () => {
@@ -40,14 +47,29 @@ $("#formBirthdayButton").on("click", (e) => {
         );
         $(".spinner").prop("hidden", true);
         $(".status-text").prop("hidden", false);
-        //   checkTextAreaForChanges();
+        checkBirthdayForChanges();
         $("#birthdayForm").modal("hide");
       },
     });
   } else {
-      $("#dateStatusText").text(`Invalid date.`);
+    $("#dateStatusText").text("Invalid date");
   }
 });
+
+$("#birthday-wrapper").on("click", () => {
+  checkBirthdayForChanges();
+});
+
+const checkBirthdayForChanges = () => {
+  if(month.selectedIndex == 0) {
+    return button.disabled = true;
+  }
+  if(year.value == initialYear && day.value == initialDay && month.selectedIndex == initialMonth) {
+    button.disabled = true;
+  } else {
+    button.disabled = false;
+  }
+}
 
 const dateToText = (month, year, day) => {
   switch (month) {
@@ -84,7 +106,9 @@ const dataValidation = () => {
   let userDay = day.value;
 
   if (
-    checkYearValidity(userYear) & checkDayValidity(userDay, userMonth, userYear)
+    checkYearValidity(userYear) & 
+    checkDayValidity(userDay, userMonth, userYear) &
+    checkDateValidity(userYear, userMonth, userDay)
   ) {
     return true;
   } else {
@@ -92,20 +116,34 @@ const dataValidation = () => {
   }
 };
 
-const checkYearValidity = (userYear) => {
-  if (userYear == "") {
-    return false;
-  } else if (userYear > currentYear) {
-    return false;
-  } else if (userYear < minimalYear) {
+const checkDateValidity = (userYear, userMonth, userDay) => {
+  const userDate = new Date(`${userYear}, ${userMonth}, ${userDay}`);
+  if(userDate > new Date()) {
     return false;
   } else {
+    return true;
+  }
+}
+
+const checkYearValidity = (userYear) => {
+  if (userYear == "") {
+    setErrorStatus(true, year);
+    return false;
+  } else if (userYear > currentYear) {
+    setErrorStatus(true, year);
+    return false;
+  } else if (userYear < minimalYear) {
+    setErrorStatus(true, year);
+    return false;
+  } else {
+    setErrorStatus(false, year);
     return true;
   }
 };
 
 const checkDayValidity = (userDay, userMonth, userYear) => {
   if (userDay == "") {
+    setErrorStatus(true, day)
     return false;
   }
 
@@ -118,6 +156,7 @@ const checkDayValidity = (userDay, userMonth, userYear) => {
     case "October":
     case "December": {
       if (userDay < 1 || userDay > 31) {
+        setErrorStatus(true, day)
         return false;
       } else {
         return true;
@@ -128,8 +167,10 @@ const checkDayValidity = (userDay, userMonth, userYear) => {
     case "September":
     case "November": {
       if (userDay < 1 || userDay > 30) {
+        setErrorStatus(true, day)
         return false;
       } else {
+        setErrorStatus(false, day)
         return true;
       }
     }
@@ -138,15 +179,19 @@ const checkDayValidity = (userDay, userMonth, userYear) => {
       for (leapYear; leapYear <= userYear; leapYear += 4) {
         if (leapYear == userYear) {
           if (userDay < 1 || userDay > 29) {
+            setErrorStatus(true, day)
             return false;
           } else {
+            setErrorStatus(false, day)
             return true;
           }
         }
       }
       if (userDay < 1 || userDay > 28) {
+        setErrorStatus(true, day)
         return false;
       }
+      setErrorStatus(false, day)
       return true;
     }
     default: {
@@ -155,13 +200,26 @@ const checkDayValidity = (userDay, userMonth, userYear) => {
   }
 };
 
+const setErrorStatus = (error, input) => {
+  if (error) {
+    input.className = "form-control error";
+  } else {
+    input.className = "form-control success";
+  }
+}
+
+
 // Only numbers
-$("#inputYear, #inputDay").on("input", function () {
+$("#inputYear, #inputDay").on("input", function() {
   $(this).val(
     $(this)
       .val()
       .replace(/^0|[^\d]/g, "")
   );
+  checkBirthdayForChanges();
 });
 
+$("#inputMonth").on("change", () => {
+  checkBirthdayForChanges();
+});
 

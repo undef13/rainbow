@@ -38,15 +38,27 @@
               </div>
               <div>Some info may be visible to other people.</div>
             </div>
+
             <hr />
-            <div class="row content-wrapper">
-              <div class="col">
+
+            <!-- Display Photo Field -->
+            <div
+              class="row content-wrapper"
+              id="photo-wrapper"
+              data-toggle="modal"
+              data-target="#displayPhotoForm"
+            >
+              <div class="col-md-4">
                 <div>Photo</div>
               </div>
-              <div class="col">
-                <div>A photo helps personalize your account</div>
+              <div class="col-md-6">
+                <div>
+                  <span>A photo helps personalize your account</span>
+                </div>
               </div>
             </div>
+            <!-- End of Display Photo Field -->
+
             <hr class="content-divider" />
 
             <!-- Display Name Field -->
@@ -56,10 +68,10 @@
               data-toggle="modal"
               data-target="#displayNameForm"
             >
-              <div class="col">
+              <div class="col-md-4">
                 <div>Name</div>
               </div>
-              <div class="col">
+              <div class="col-md-8">
                 <div id="displayNameContainer"><%= user.displayName %></div>
               </div>
             </div>
@@ -74,10 +86,10 @@
               data-toggle="modal"
               data-target="#bioForm"
             >
-              <div class="col">
+              <div class="col-md-4">
                 <div>Bio</div>
               </div>
-              <div class="col">
+              <div class="col-md-8">
                 <div id="bioContainer">
                   <%= user.bio ? user.bio.length > 35 ? user.bio.slice(0, 35) +
                   "..." : user.bio : "None" %>
@@ -96,10 +108,10 @@
               data-toggle="modal"
               data-target="#birthdayForm"
             >
-              <div class="col">
+              <div class="col-md-4">
                 <div>Birthday</div>
               </div>
-              <div class="col">
+              <div class="col-md-8">
                 <div id="birthdayContainer">
                   <%= user.birthday === null ? "None" :
                   user.birthday.toLocaleDateString("en-US", { year: 'numeric',
@@ -111,20 +123,24 @@
 
             <hr class="content-divider" />
 
+            <!-- Gender Field -->
             <div class="row content-wrapper">
-              <div class="col">
+              <div class="col-md-4">
                 <div>Gender</div>
               </div>
-              <div class="col">
+              <div class="col-md-8">
                 <div>Female</div>
               </div>
             </div>
+            <!-- End of Gender Field -->
+
             <hr class="content-divider" />
+
             <div class="row content-wrapper">
-              <div class="col">
+              <div class="col-md-4">
                 <div>Password</div>
               </div>
-              <div class="col">
+              <div class="col-md-8">
                 <div>********</div>
                 <div>Last changed Apr 15, 2019</div>
               </div>
@@ -139,19 +155,19 @@
             </div>
             <hr />
             <div class="row content-wrapper">
-              <div class="col">
+              <div class="col-md-4">
                 <div>Email</div>
               </div>
-              <div class="col">
+              <div class="col-md-8">
                 <div><%= user.email %></div>
               </div>
             </div>
             <hr class="content-divider" />
             <div class="row content-wrapper">
-              <div class="col">
+              <div class="col-md-4">
                 <div>Phone</div>
               </div>
-              <div class="col">
+              <div class="col-md-8">
                 <div>0667709787</div>
               </div>
             </div>
@@ -332,12 +348,15 @@
                 </div>
                 <div class="form-group col-md-4">
                   <label for="inputYear">Year</label>
-                  <input type="text" class="form-control" id="inputYear" value="<%= user.birthday ? user.birthday.getFullYear() : "" %>" />
+                  <input type="text" class="form-control" id="inputYear"
+                  value="<%= user.birthday ? user.birthday.getFullYear() : ""
+                  %>" />
                 </div>
 
                 <div class="form-group col-md-3">
                   <label for="inputDay">Day</label>
-                  <input type="text" class="form-control" id="inputDay" value="<%= user.birthday ? user.birthday.getDate() : "" %>" />
+                  <input type="text" class="form-control" id="inputDay"
+                  value="<%= user.birthday ? user.birthday.getDate() : "" %>" />
                 </div>
               </div>
             </form>

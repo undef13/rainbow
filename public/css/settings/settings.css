@@ -8,6 +8,10 @@
   top: 77px;
   left: 0;
 }
+
+#dateStatusText {
+  color: #e74c3c;
+}
 /* End of Data validation */
 
 

@@ -55,7 +55,6 @@ $("#formBioButton").on("click", () => {
 /* ----------- EVENT LISTENERS ----------- */
 $("#bio-wrapper").on("click", () => {
   $(".characters-left").text(bioTextArea.maxLength - bioTextArea.value.length);
-  console.log(initialBioText);
   checkTextAreaForChanges();
 });
 

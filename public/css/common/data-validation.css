@@ -10,11 +10,11 @@
   box-shadow: none;
 }
 
-.form-group.success input {
+.form-group.success input, .success {
   border-color: #2ecc71;
 }
 
-.form-group.error input {
+.form-group.error input, .error {
   border-color: #e74c3c;
 }
 
@@ -38,11 +38,11 @@
   visibility: hidden;
 }
 
-.form-group.error small, .error {
+.form-group.error small {
   color: #e74c3c;
 }
 
-.form-group.success small, .success {
+.form-group.success small {
   color: #2ecc71;
 }
 
