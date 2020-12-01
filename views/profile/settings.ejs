@@ -2,27 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="images/favicon.png" type="image/png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/favicon.png" type="image/png">
     <title>Settings | Rainbow</title>
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
+    >
 
-    <link rel="stylesheet" href="/css/settings/settings.css" />
-    <link rel="stylesheet" href="/css/common/index.css" />
-    <link rel="stylesheet" href="/css/common/data-validation.css" />
-    <link rel="stylesheet" href="/css/includes-styles/top-nav.css" />
-    <link rel="stylesheet" href="/css/includes-styles/sidebar.css" />
+    <link rel="stylesheet" href="/css/settings/settings.css">
+    <link rel="stylesheet" href="/css/common/index.css">
+    <link rel="stylesheet" href="/css/common/data-validation.css">
+    <link rel="stylesheet" href="/css/includes-styles/top-nav.css">
+    <link rel="stylesheet" href="/css/includes-styles/sidebar.css">
+    <link rel="stylesheet" href="/css/includes-styles/horizontal-scroll-nav.css">
   </head>
   <body>
     <%- include('../includes/top-nav', {user: user}); %>
-
+    <%- include('../includes/horizontal-scroll-nav', {user: user}); %>
     <div class="container">
       <div class="row">
         <%- include('../includes/sidebar', {user: user}); %>
-        <div class="col-md-10">
+        <div class="col-lg-10">
           <div class="text-center">
             <h3>Personal Info</h3>
             <p>
