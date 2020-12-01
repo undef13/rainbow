@@ -1,3 +1,7 @@
+// Dependencies
+const bcrypt = require(`bcrypt`);
+
+// User Model
 const User = require(`../models/User`);
 
 // GET => /
@@ -125,6 +129,40 @@ exports.postSettingsGender = async (req, res) => {
         gender: user.gender
       },
     });
+  } catch (error) {
+    console.error(error);
+    res.json({
+      isSuccessful: false,
+      message: "Something went wrong...",
+    });
+  }
+}
+
+// POST => /settings/change-password
+exports.postSettingsChangePassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  try {
+    const user = await User.findOne({ profileId: req.user.profileId });
+    const isValidPassword = await bcrypt.compare(currentPassword, user.password);
+    if(isValidPassword) {
+      const newHashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = newHashedPassword;
+      user.lastChangePassword = new Date();
+      await user.save();
+      res.json({
+        isSuccessful: true,
+        message: "Your password was successfully changed.",
+        data: {
+          lastChangePassword: user.lastChangePassword.toLocaleDateString("en-US", { year: 'numeric',
+          month: 'long', day: 'numeric' })
+        },
+      });
+    } else {
+      res.json({
+        isSuccessful: false,
+        message: "Password is wrong.",
+      });
+    }
   } catch (error) {
     console.error(error);
     res.json({

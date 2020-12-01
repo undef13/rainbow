@@ -40,6 +40,7 @@ exports.postRegister = async (req, res) => {
         const user = new User({
           email,
           password: hashedPassword,
+          lastChangePassword: new Date(),
           profileId: nanoid(),
           givenName,
           familyName,

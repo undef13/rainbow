@@ -13,7 +13,7 @@ $("#formGenderButton").on("click", (e) => {
       gender: gender.value,
     },
     beforeSend: () => {
-      $("#inputGender, #formGenderButton").prop("disabled", true);
+      $("#inputGender, #formGenderButton, #closeFormGender").prop("disabled", true);
       $(".spinner").prop("hidden", false);
       $(".status-text").prop("hidden", true);
     },
@@ -23,7 +23,7 @@ $("#formGenderButton").on("click", (e) => {
       alert(data.isSuccessful, data.message);
     },
     complete: () => {
-      $("#inputGender, #formGenderButton").prop("disabled", false);
+      $("#inputGender, #formGenderButton, #closeFormGender").prop("disabled", false);
       $(".spinner").prop("hidden", true);
       $(".status-text").prop("hidden", false);
       checkGenderForChanges();

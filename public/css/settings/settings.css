@@ -46,6 +46,7 @@
 }
 /* ---------- END OF PAGE CONTENT STYLES ---------- */
 
+/* ---------- BIO FIELD ---------- */
 textarea {
   resize: none;
 }
@@ -54,3 +55,12 @@ textarea {
   position: absolute;
   margin: 5px 0;
 }
+/* ---------- END OF BIO FIELD ---------- */
+
+/* ---------- CHANGE PASSWORD FIELD ---------- */
+
+#changePasswordForm .form-group {
+  margin-bottom: 20px !important;
+}
+
+/* ---------- END OF CHANGE PASSWORD FIELD ---------- */

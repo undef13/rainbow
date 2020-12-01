@@ -140,15 +140,27 @@
 
             <hr class="content-divider" />
 
-            <div class="row content-wrapper">
+            <!-- Password Field -->
+            <div               
+              class="row content-wrapper"
+              id="change-password-wrapper"
+              data-toggle="modal"
+              data-target="<%= user.provider == "google" ? "" : "#changePasswordForm" %>"
+            >
               <div class="col-md-4">
                 <div>Password</div>
               </div>
               <div class="col-md-8">
-                <div>********</div>
-                <div>Last changed Apr 15, 2019</div>
+                <% if (user.provider == "google") { %>
+                  <div>Signed in with Google</div>
+                <% } else { %>
+                  <div class="d-none d-md-block">********</div>
+                  <div id="changePasswordContainer">Last changed <%= user.lastChangePassword.toLocaleDateString("en-US", { year: 'numeric',
+                    month: 'long', day: 'numeric' }) %></div>
+                <% } %>
               </div>
             </div>
+            <!-- End of Password Field -->
           </div>
 
           <div class="wrapper">
@@ -446,20 +458,99 @@
     </div>
     <!-- End of "Change gender" modal -->
 
+    <!-- "Change password" modal -->
+    <div
+      class="modal fade"
+      id="changePasswordForm"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="changePasswordFormTitle"
+      aria-hidden="true"
+      data-backdrop="static"
+      data-keyboard="false"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="changePasswordTitle">Change password</h5>
+          </div>
+          <div class="modal-body">
+            <form id="changePasswordForm">
+              <div class="form-group">
+                <label for="currentPasswordInput" class="col-form-label">Current password:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="currentPasswordInput"
+                  placeholder="Current password"
+                />
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small></small>
+              </div>
+              <div class="form-group">
+                <label for="newPasswordInput" class="col-form-label"
+                  >New password:</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="newPasswordInput"
+                  placeholder="New password"
+                />
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small></small>
+              </div>
+              <div class="form-group">
+                <label for="repeatNewPasswordInput" class="col-form-label"
+                  >Repeat new password:</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="repeatNewPasswordInput"
+                  placeholder="Repeat your new password"
+                />
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small></small>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="closeFormChangePassword"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" id="formChangePasswordButton" class="btn btn-primary">
+              <span
+                class="spinner spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+                hidden
+              ></span>
+              <span class="status-text">Save</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of "Change password" modal -->
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script
-      src="https://kit.fontawesome.com/e307e9c374.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/e307e9c374.js" crossorigin="anonymous"></script>
     <script type="module" src="./javascript/settings/changeName.js"></script>
     <script type="module" src="./javascript/settings/changeBio.js"></script>
-    <script
-      type="module"
-      src="./javascript/settings/changeBirthday.js"
-    ></script>
+    <script type="module" src="./javascript/settings/changeBirthday.js"></script>
     <script type="module" src="./javascript/settings/changeGender.js"></script>
+    <script type="module" src="./javascript/settings/changePassword.js"></script>
     <script src="./javascript/appearance/styles.js"></script>
   </body>
 </html>

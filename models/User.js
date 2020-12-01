@@ -9,6 +9,10 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+  lastChangePassword: {
+    type: Date,
+    default: null
+  },
   profileId: {
     type: String,
     unique: true,
@@ -32,7 +36,7 @@ const UserSchema = new mongoose.Schema({
   },
   birthday: {
     type: Date,
-    default: ""
+    default: null
   },
   gender: {
     type: String,
@@ -40,7 +44,7 @@ const UserSchema = new mongoose.Schema({
   },
   imageUrl: {
     type: String,
-    default: "",
+    default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
   },
   isActive: {
     type: Boolean,
@@ -50,6 +54,10 @@ const UserSchema = new mongoose.Schema({
   resetPasswordExpires: Date,
   accountActivationToken: String,
   accountActivationExpires: Date,
+  provider: {
+    type: String,
+    default: "local"
+  }
 });
 
 module.exports = User = mongoose.model("User", UserSchema);

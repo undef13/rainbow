@@ -24,7 +24,7 @@ $("#formBirthdayButton").on("click", (e) => {
         day: day.value.trim(),
       },
       beforeSend: () => {
-        $("#inputMonth, #inputYear, #inputDay, #formBirthdayButton").prop(
+        $("#inputMonth, #inputYear, #inputDay, #formBirthdayButton, #closeFormBirthday").prop(
           "disabled",
           true
         );
@@ -41,7 +41,7 @@ $("#formBirthdayButton").on("click", (e) => {
         alert(data.isSuccessful, data.message);
       },
       complete: () => {
-        $("#inputMonth, #inputYear, #inputDay, #formBirthdayButton").prop(
+        $("#inputMonth, #inputYear, #inputDay, #formBirthdayButton, #closeFormBirthday").prop(
           "disabled",
           false
         );

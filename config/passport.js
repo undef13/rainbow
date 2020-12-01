@@ -63,6 +63,7 @@ module.exports = (passport) => {
           familyName: profile.name.familyName,
           displayName: profile.displayName,
           imageUrl: profile.photos[0].value,
+          provider: profile.provider,
           isActive: true,
         };
         try {
