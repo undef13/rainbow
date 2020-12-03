@@ -9,28 +9,21 @@ const bioSaveButton = document.getElementById("formBioButton");
 let initialBioText = bioTextArea.value.trim();
 /* ----------- END OF GETTING DATA ----------- */
 
-/* ----------- CHECK TEXT AREA FOR CHANGES ----------- */
-const checkTextAreaForChanges = () => {
-  if (bioTextArea.value.trim() == initialBioText) {
-    bioSaveButton.disabled = true;
-  } else {
-    bioSaveButton.disabled = false;
-  }
-};
-/* ----------- END OF CHECK TEXT AREA FOR CHANGES ----------- */
-
+/* ----------- ACTION HANDLERS ----------- */
 $("#formBioButton").on("click", () => {
+  makeAjax();
+});
+/* ----------- END OF ACTION HANDLERS ----------- */
+
+/* ----------- ACTION HANDLERS FUNCTIONS ----------- */
+const makeAjax = () => {
   $.ajax({
     type: "POST",
     url: "/settings/bio",
     data: {
       bio: bioTextArea.value.trim(),
     },
-    beforeSend: () => {
-      $("#bioTextArea, #formBioButton, #closeFormBio").prop("disabled", true);
-      $(".spinner").prop("hidden", false);
-      $(".status-text").prop("hidden", true);
-    },
+    beforeSend: ajaxBeforeSend,
     success: (data) => {
       $("#bioContainer").text(
         data.data.bio !== ""
@@ -42,15 +35,32 @@ $("#formBioButton").on("click", () => {
       initialBioText = data.data.bio;
       alert(data.isSuccessful, data.message);
     },
-    complete: () => {
-      $("#bioTextArea, #formBioButton, #closeFormBio").prop("disabled", false);
-      $(".spinner").prop("hidden", true);
-      $(".status-text").prop("hidden", false);
-      checkTextAreaForChanges();
-      $("#bioForm").modal("hide");
-    },
+    complete: ajaxComplete,
   });
-});
+}
+
+const ajaxBeforeSend = () => {
+  $("#bioTextArea, #formBioButton, #closeFormBio").prop("disabled", true);
+  $(".spinner").prop("hidden", false);
+  $(".status-text").prop("hidden", true);
+}
+
+const ajaxComplete = () => {
+  $("#bioTextArea, #formBioButton, #closeFormBio").prop("disabled", false);
+  $(".spinner").prop("hidden", true);
+  $(".status-text").prop("hidden", false);
+  checkTextAreaForChanges();
+  $("#bioModal").modal("hide");
+}
+
+const checkTextAreaForChanges = () => {
+  if (bioTextArea.value.trim() == initialBioText) {
+    bioSaveButton.disabled = true;
+  } else {
+    bioSaveButton.disabled = false;
+  }
+};
+/* ----------- END OF ACTION HANDLERS FUNCTIONS ----------- */
 
 /* ----------- EVENT LISTENERS ----------- */
 $("#bio-wrapper").on("click", () => {

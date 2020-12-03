@@ -98,30 +98,37 @@ $(document).ready(function () {
       width: 400,
       height: 400,
     });
+    makeAjax(canvas);
+  };
 
+  const makeAjax = (canvas) => {
     $.ajax({
       url: "/settings/upload-photo",
       method: "POST",
       data: {
         imageEncoded: canvas.toDataURL(),
       },
-      beforeSend: () => {
-        $("#formPhotoButton, #closeFormPhoto").prop("disabled", true);
-        $(".spinner").prop("hidden", false);
-        $(".status-text").prop("hidden", true);
-      },
+      beforeSend: ajaxBeforeSend,
       success: (data) => {
         $("#navigation-image").attr("src", data.data.imageUrl);
         $("#dropdown-image").attr("src", data.data.imageUrl);
         alert(data.isSuccessful, data.message);
       },
-      complete: () => {
-        $("#formPhotoButton, #closeFormPhoto").prop("disabled", false);
-        $(".spinner").prop("hidden", true);
-        $(".status-text").prop("hidden", false);
-        onCloseModal();
-        $("#displayPhotoForm").modal("hide");
-      },
+      complete: ajaxComplete,
     });
-  };
+  }
+
+  const ajaxBeforeSend = () => {
+    $("#formPhotoButton, #closeFormPhoto").prop("disabled", true);
+    $(".spinner").prop("hidden", false);
+    $(".status-text").prop("hidden", true);
+  }
+
+  const ajaxComplete = () => {
+    $("#formPhotoButton, #closeFormPhoto").prop("disabled", false);
+    $(".spinner").prop("hidden", true);
+    $(".status-text").prop("hidden", false);
+    onCloseModal();
+    $("#displayPhotoForm").modal("hide");
+  }
 });

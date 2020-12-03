@@ -83,7 +83,7 @@
               id="name-wrapper"
               class="row content-wrapper"
               data-toggle="modal"
-              data-target="#displayNameForm"
+              data-target="#displayNameModal"
             >
               <div class="col-md-4">
                 <div>Name</div>
@@ -101,7 +101,7 @@
               id="bio-wrapper"
               class="row content-wrapper"
               data-toggle="modal"
-              data-target="#bioForm"
+              data-target="#bioModal"
             >
               <div class="col-md-4">
                 <div>Bio</div>
@@ -122,7 +122,7 @@
               class="row content-wrapper"
               id="birthday-wrapper"
               data-toggle="modal"
-              data-target="#birthdayForm"
+              data-target="#birthdayModal"
             >
               <div class="col-md-4">
                 <div>Birthday</div>
@@ -144,7 +144,7 @@
               class="row content-wrapper"
               id="gender-wrapper"
               data-toggle="modal"
-              data-target="#genderForm"
+              data-target="#genderModal"
             >
               <div class="col-md-4">
                 <div>Gender</div>
@@ -160,7 +160,7 @@
             <!-- Password Field -->
             <div class="row content-wrapper" id="change-password-wrapper"
             data-toggle="modal" data-target="<%= user.provider == "google" ? ""
-            : "#changePasswordForm" %>" >
+            : "#changePasswordModal" %>" >
             <div class="col-md-4">
               <div>Password</div>
             </div>
@@ -195,15 +195,6 @@
               <div><%= user.email %></div>
             </div>
           </div>
-          <hr class="content-divider" />
-          <div class="row content-wrapper">
-            <div class="col-md-4">
-              <div>Phone</div>
-            </div>
-            <div class="col-md-8">
-              <div>0667709787</div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -213,10 +204,10 @@
     <!-- Change "Display name" modal -->
     <div
       class="modal fade"
-      id="displayNameForm"
+      id="displayNameModal"
       tabindex="-1"
       role="dialog"
-      aria-labelledby="displayNameFormTitle"
+      aria-labelledby="displayNameModalTitle"
       aria-hidden="true"
       data-backdrop="static"
       data-keyboard="false"
@@ -283,10 +274,10 @@
     <!-- "Change bio" modal -->
     <div
       class="modal fade"
-      id="bioForm"
+      id="bioModal"
       tabindex="-1"
       role="dialog"
-      aria-labelledby="bioFormTitle"
+      aria-labelledby="bioModalTitle"
       aria-hidden="true"
       data-backdrop="static"
       data-keyboard="false"
@@ -344,10 +335,10 @@
     <!-- "Change birthday" modal -->
     <div
       class="modal fade"
-      id="birthdayForm"
+      id="birthdayModal"
       tabindex="-1"
       role="dialog"
-      aria-labelledby="birthdayTitle"
+      aria-labelledby="birthdayModalTitle"
       aria-hidden="true"
       data-backdrop="static"
       data-keyboard="false"
@@ -425,10 +416,10 @@
     <!-- "Change gender" modal -->
     <div
       class="modal fade"
-      id="genderForm"
+      id="genderModal"
       tabindex="-1"
       role="dialog"
-      aria-labelledby="genderFormTitle"
+      aria-labelledby="genderModalTitle"
       aria-hidden="true"
       data-backdrop="static"
       data-keyboard="false"
@@ -477,10 +468,10 @@
     <!-- "Change password" modal -->
     <div
       class="modal fade"
-      id="changePasswordForm"
+      id="changePasswordModal"
       tabindex="-1"
       role="dialog"
-      aria-labelledby="changePasswordFormTitle"
+      aria-labelledby="changePasswordModalTitle"
       aria-hidden="true"
       data-backdrop="static"
       data-keyboard="false"

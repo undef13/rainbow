@@ -1,64 +1,90 @@
 import { alert } from "../common/helper-functions.js";
 
+/* ----------- GETTING DATA ----------- */
 const month = document.getElementById("inputMonth");
 const year = document.getElementById("inputYear");
 const day = document.getElementById("inputDay");
 const button = document.getElementById("formBirthdayButton");
+/* ----------- END OF GETTING DATA ----------- */
 
+/* ----------- SETTING INITIAL VALUES ----------- */
 let initialMonth = month.selectedIndex;
 let initialYear = year.value;
 let initialDay = day.value;
+/* ----------- END OF SETTING INITIAL VALUES ----------- */
 
+/* ----------- CONSTANT VALUES ----------- */
 const currentYear = new Date().getFullYear();
 const minimalYear = currentYear - 100;
+/* ----------- END OF CONSTANT VALUES ----------- */
 
-$("#formBirthdayButton").on("click", (e) => {
-  if (dataValidation()) {
-    $("#dateStatusText").text("");
-    $.ajax({
-      type: "POST",
-      url: "/settings/birthday",
-      data: {
-        month: month.value,
-        year: year.value.trim(),
-        day: day.value.trim(),
-      },
-      beforeSend: () => {
-        $("#inputMonth, #inputYear, #inputDay, #formBirthdayButton, #closeFormBirthday").prop(
-          "disabled",
-          true
-        );
-        $(".spinner").prop("hidden", false);
-        $(".status-text").prop("hidden", true);
-      },
-      success: (data) => {
-        $("#birthdayContainer").text(
-          dateToText(data.data.month, data.data.year, data.data.day)
-        );
-        initialYear = data.data.year;
-        initialDay = data.data.day;
-        initialMonth = data.data.month + 1;
-        alert(data.isSuccessful, data.message);
-      },
-      complete: () => {
-        $("#inputMonth, #inputYear, #inputDay, #formBirthdayButton, #closeFormBirthday").prop(
-          "disabled",
-          false
-        );
-        $(".spinner").prop("hidden", true);
-        $(".status-text").prop("hidden", false);
-        checkBirthdayForChanges();
-        $("#birthdayForm").modal("hide");
-      },
-    });
-  } else {
-    $("#dateStatusText").text("Invalid date");
-  }
+/* ----------- ACTION HANDLERS ----------- */
+$("#formBirthdayButton").on("click", () => {
+  onSubmitButtonClick();
 });
 
 $("#birthday-wrapper").on("click", () => {
   checkBirthdayForChanges();
 });
+
+$("#inputMonth").on("change", () => {
+  checkBirthdayForChanges();
+});
+/* ----------- END OF ACTION HANDLERS ----------- */
+
+/* ----------- ACTION HANDLERS FUNCTIONS ----------- */
+const onSubmitButtonClick = () => {
+  if (dataValidation()) {
+    makeAjax();
+  } else {
+    $("#dateStatusText").text("Invalid date");
+  }
+}
+
+const makeAjax = () => {
+  $.ajax({
+    type: "POST",
+    url: "/settings/birthday",
+    data: {
+      month: month.value,
+      year: year.value.trim(),
+      day: day.value.trim(),
+    },
+    beforeSend: ajaxBeforeSend,
+    success: (data) => {
+      $("#birthdayContainer").text(
+        dateToText(data.data.month, data.data.year, data.data.day)
+      );
+      initialYear = data.data.year;
+      initialDay = data.data.day;
+      initialMonth = data.data.month + 1;
+      alert(data.isSuccessful, data.message);
+    },
+    complete: ajaxComplete,
+  });
+}
+
+const ajaxBeforeSend = () => {
+  $("#inputMonth, #inputYear, #inputDay, #formBirthdayButton, #closeFormBirthday").prop(
+    "disabled",
+    true
+  );
+  $(".spinner").prop("hidden", false);
+  $(".status-text").prop("hidden", true);
+}
+
+const ajaxComplete = () => {
+  $("#inputMonth, #inputYear, #inputDay, #formBirthdayButton, #closeFormBirthday").prop(
+    "disabled",
+    false
+  );
+  $(".spinner").prop("hidden", true);
+  $(".status-text").prop("hidden", false);
+  checkBirthdayForChanges();
+  $("#birthdayModal").modal("hide");
+  $("#dateStatusText").text("");
+  $("#birthdayModal input").removeClass("success");
+}
 
 const checkBirthdayForChanges = () => {
   if(month.selectedIndex == 0) {
@@ -208,8 +234,7 @@ const setErrorStatus = (error, input) => {
   }
 }
 
-
-// Only numbers
+// Only numbers in input fields
 $("#inputYear, #inputDay").on("input", function() {
   $(this).val(
     $(this)
@@ -218,8 +243,4 @@ $("#inputYear, #inputDay").on("input", function() {
   );
   checkBirthdayForChanges();
 });
-
-$("#inputMonth").on("change", () => {
-  checkBirthdayForChanges();
-});
-
+/* ----------- END OF ACTION HANDLERS FUNCTIONS ----------- */

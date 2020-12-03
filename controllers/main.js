@@ -1,7 +1,5 @@
 // Dependencies
-const fs = require(`fs`);
 const bcrypt = require(`bcrypt`);
-const path = require(`path`);
 
 // User Model
 const User = require(`../models/User`);
@@ -179,6 +177,7 @@ exports.postSettingsChangePassword = async (req, res) => {
   }
 };
 
+// POST => /settings/upload-photo
 exports.postSettingsUploadPhoto = async (req, res) => {
   const { imageEncoded } = req.body;
   try {
@@ -189,7 +188,7 @@ exports.postSettingsUploadPhoto = async (req, res) => {
     );
     res.json({
       isSuccessful: true,
-      message: "Photo has been uploaded",
+      message: "Your profile photo was successfully updated.",
       data: {imageUrl: user.imageUrl}
     });
   } catch (error) {
