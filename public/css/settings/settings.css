@@ -14,7 +14,6 @@
 }
 /* End of Data validation */
 
-
 /* ---------- PAGE CONTENT STYLES ---------- */
 .col-md-10 {
   padding: 0;
@@ -64,3 +63,55 @@ textarea {
 }
 
 /* ---------- END OF CHANGE PASSWORD FIELD ---------- */
+
+/* ---------- UPLOAD PHOTO ---------- */
+
+#upload-image {
+  width: 200px;
+  margin: 100px 0;
+  user-select: none;
+}
+
+#upload-container label {
+  font-weight: bold;
+}
+
+#upload-container label:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#upload-container div {
+  position: relative;
+  z-index: 10;
+}
+
+#upload-container input[type="file"] {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  position: absolute;
+  z-index: -10;
+}
+
+#upload-container {
+  transition: 0.3s;
+}
+
+#upload-container.dragover {
+  outline: 5px solid rgba(22, 177, 255, 0.8);
+  outline-offset: -5px;
+}
+
+#displayPhotoForm .modal-dialog {
+  max-width: 1000px;
+}
+
+#image-wrapper {
+  max-width: 965px;
+}
+
+#image-uploaded {
+  width: 100%;
+}
+/* ---------- END OF UPLOAD PHOTO ---------- */

@@ -22,7 +22,7 @@ const checkTextAreaForChanges = () => {
 $("#formBioButton").on("click", () => {
   $.ajax({
     type: "POST",
-    url: "http://localhost:3000/settings/bio",
+    url: "/settings/bio",
     data: {
       bio: bioTextArea.value.trim(),
     },

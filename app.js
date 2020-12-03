@@ -18,7 +18,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 // Body Parser
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Static files
 app.use(express.static("public"));

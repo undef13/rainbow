@@ -2,24 +2,40 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="images/favicon.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="images/favicon.png" type="image/png" />
     <title>Settings | Rainbow</title>
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    >
+    />
 
-    <link rel="stylesheet" href="/css/settings/settings.css">
-    <link rel="stylesheet" href="/css/common/index.css">
-    <link rel="stylesheet" href="/css/common/data-validation.css">
-    <link rel="stylesheet" href="/css/includes-styles/top-nav.css">
-    <link rel="stylesheet" href="/css/includes-styles/sidebar.css">
-    <link rel="stylesheet" href="/css/includes-styles/horizontal-scroll-nav.css">
+    <link rel="stylesheet" href="/css/settings/settings.css" />
+    <link rel="stylesheet" href="/css/common/index.css" />
+    <link rel="stylesheet" href="/css/common/data-validation.css" />
+    <link rel="stylesheet" href="/css/includes-styles/top-nav.css" />
+    <link rel="stylesheet" href="/css/includes-styles/sidebar.css" />
+    <link
+      rel="stylesheet"
+      href="/css/includes-styles/horizontal-scroll-nav.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.css"
+      integrity="sha512-w+u2vZqMNUVngx+0GVZYM21Qm093kAexjueWOv9e9nIeYJb1iEfiHC7Y+VvmP/tviQyA5IR32mwN/5hTEJx6Ng=="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.css"
+      integrity="sha512-949FvIQOibfhLTgmNws4F3DVlYz3FmCRRhJznR22hx76SKkcpZiVV5Kwo0iwK9L6BFuY+6mpdqB2+vDIGVuyHg=="
+      crossorigin="anonymous"
+    />
   </head>
   <body>
-    <%- include('../includes/top-nav', {user: user}); %>
-    <%- include('../includes/horizontal-scroll-nav', {user: user}); %>
+    <%- include('../includes/top-nav', {user: user}); %> <%-
+    include('../includes/horizontal-scroll-nav', {user: user}); %>
     <div class="container">
       <div class="row">
         <%- include('../includes/sidebar', {user: user}); %>
@@ -27,7 +43,7 @@
           <div class="text-center">
             <h3>Personal Info</h3>
             <p>
-              Basic info, like your name and photo, that you use on Google
+              Basic info, like your name and photo, that you use on Rainbow
               services
             </p>
           </div>
@@ -142,51 +158,50 @@
             <hr class="content-divider" />
 
             <!-- Password Field -->
-            <div               
-              class="row content-wrapper"
-              id="change-password-wrapper"
-              data-toggle="modal"
-              data-target="<%= user.provider == "google" ? "" : "#changePasswordForm" %>"
-            >
-              <div class="col-md-4">
-                <div>Password</div>
-              </div>
-              <div class="col-md-8">
-                <% if (user.provider == "google") { %>
-                  <div>Signed in with Google</div>
-                <% } else { %>
-                  <div class="d-none d-md-block">********</div>
-                  <div id="changePasswordContainer">Last changed <%= user.lastChangePassword.toLocaleDateString("en-US", { year: 'numeric',
-                    month: 'long', day: 'numeric' }) %></div>
-                <% } %>
-              </div>
+            <div class="row content-wrapper" id="change-password-wrapper"
+            data-toggle="modal" data-target="<%= user.provider == "google" ? ""
+            : "#changePasswordForm" %>" >
+            <div class="col-md-4">
+              <div>Password</div>
             </div>
-            <!-- End of Password Field -->
+            <div class="col-md-8">
+              <% if (user.provider == "google") { %>
+              <div>Signed in with Google</div>
+              <% } else { %>
+              <div class="d-none d-md-block">********</div>
+              <div id="changePasswordContainer">
+                Last changed <%=
+                user.lastChangePassword.toLocaleDateString("en-US", { year:
+                'numeric', month: 'long', day: 'numeric' }) %>
+              </div>
+              <% } %>
+            </div>
           </div>
+          <!-- End of Password Field -->
+        </div>
 
-          <div class="wrapper">
-            <div class="content-header-container">
-              <div>
-                <h4>Contact info</h4>
-              </div>
+        <div class="wrapper">
+          <div class="content-header-container">
+            <div>
+              <h4>Contact info</h4>
             </div>
-            <hr />
-            <div class="row content-wrapper">
-              <div class="col-md-4">
-                <div>Email</div>
-              </div>
-              <div class="col-md-8">
-                <div><%= user.email %></div>
-              </div>
+          </div>
+          <hr />
+          <div class="row content-wrapper">
+            <div class="col-md-4">
+              <div>Email</div>
             </div>
-            <hr class="content-divider" />
-            <div class="row content-wrapper">
-              <div class="col-md-4">
-                <div>Phone</div>
-              </div>
-              <div class="col-md-8">
-                <div>0667709787</div>
-              </div>
+            <div class="col-md-8">
+              <div><%= user.email %></div>
+            </div>
+          </div>
+          <hr class="content-divider" />
+          <div class="row content-wrapper">
+            <div class="col-md-4">
+              <div>Phone</div>
+            </div>
+            <div class="col-md-8">
+              <div>0667709787</div>
             </div>
           </div>
         </div>
@@ -473,12 +488,16 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="changePasswordTitle">Change password</h5>
+            <h5 class="modal-title" id="changePasswordTitle">
+              Change password
+            </h5>
           </div>
           <div class="modal-body">
             <form id="changePasswordForm">
               <div class="form-group">
-                <label for="currentPasswordInput" class="col-form-label">Current password:</label>
+                <label for="currentPasswordInput" class="col-form-label"
+                  >Current password:</label
+                >
                 <input
                   type="password"
                   class="form-control"
@@ -528,7 +547,11 @@
             >
               Close
             </button>
-            <button type="button" id="formChangePasswordButton" class="btn btn-primary">
+            <button
+              type="button"
+              id="formChangePasswordButton"
+              class="btn btn-primary"
+            >
               <span
                 class="spinner spinner-border spinner-border-sm"
                 role="status"
@@ -543,15 +566,102 @@
     </div>
     <!-- End of "Change password" modal -->
 
+    <!-- "Change photo" modal -->
+    <div
+      class="modal fade"
+      id="displayPhotoForm"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="photoFormTitle"
+      aria-hidden="true"
+      data-backdrop="static"
+      data-keyboard="false"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="photoTitle">Select profile photo</h5>
+          </div>
+
+          <div id="upload-container" class="modal-body text-center">
+            <img id="upload-image" src="/images/upload.svg" />
+            <div>
+              <input
+                id="file-input"
+                type="file"
+                name="file"
+                accept=".png, .jpeg, .jpg"
+              />
+              <label for="file-input">Choose file</label>
+              <span>or drag it here</span>
+            </div>
+          </div>
+
+          <div id="image-container" class="modal-body text-center" hidden>
+            <div id="image-container">
+              <img id="image-uploaded" src="" alt="" class="" />
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="closeFormPhoto"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              id="formPhotoButton"
+              class="btn btn-primary"
+              disabled
+            >
+              <span
+                class="spinner spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+                hidden
+              ></span>
+              <span class="status-text">Set as profile photo</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of "Change photo" modal -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://kit.fontawesome.com/e307e9c374.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/e307e9c374.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js"
+      integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.js"
+      integrity="sha512-oqBsjjSHWqkDx4UKoU+5IUZN2nW2qDp2GFSKw9+mcFm+ZywqfBKp79nfWmGPco2wzTWuE46XpjtCjZ9tFmI12g=="
+      crossorigin="anonymous"
+    ></script>
+
     <script type="module" src="./javascript/settings/changeName.js"></script>
     <script type="module" src="./javascript/settings/changeBio.js"></script>
-    <script type="module" src="./javascript/settings/changeBirthday.js"></script>
+    <script
+      type="module"
+      src="./javascript/settings/changeBirthday.js"
+    ></script>
     <script type="module" src="./javascript/settings/changeGender.js"></script>
-    <script type="module" src="./javascript/settings/changePassword.js"></script>
+    <script
+      type="module"
+      src="./javascript/settings/changePassword.js"
+    ></script>
+    <script type="module" src="./javascript/settings/changePhoto.js"></script>
     <script src="./javascript/appearance/styles.js"></script>
   </body>
 </html>

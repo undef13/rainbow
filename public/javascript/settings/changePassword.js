@@ -14,7 +14,7 @@ $("#formChangePasswordButton").on("click", () => {
   if (dataValidation()) {
     $.ajax({
       type: "POST",
-      url: "http://localhost:3000/settings/change-password",
+      url: "/settings/change-password",
       data: {
         currentPassword: currentPassword.value.trim(),
         newPassword: newPassword.value.trim(),

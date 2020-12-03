@@ -17,7 +17,7 @@ $("#formBirthdayButton").on("click", (e) => {
     $("#dateStatusText").text("");
     $.ajax({
       type: "POST",
-      url: "http://localhost:3000/settings/birthday",
+      url: "/settings/birthday",
       data: {
         month: month.value,
         year: year.value.trim(),

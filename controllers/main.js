@@ -1,5 +1,7 @@
 // Dependencies
+const fs = require(`fs`);
 const bcrypt = require(`bcrypt`);
+const path = require(`path`);
 
 // User Model
 const User = require(`../models/User`);
@@ -118,7 +120,7 @@ exports.postSettingsGender = async (req, res) => {
   const { gender } = req.body;
   try {
     const user = await User.findOneAndUpdate(
-      { profileId: req.user.profileId }, 
+      { profileId: req.user.profileId },
       { gender },
       { new: true }
     );
@@ -126,7 +128,7 @@ exports.postSettingsGender = async (req, res) => {
       isSuccessful: true,
       message: "Your gender was successfully updated.",
       data: {
-        gender: user.gender
+        gender: user.gender,
       },
     });
   } catch (error) {
@@ -136,15 +138,18 @@ exports.postSettingsGender = async (req, res) => {
       message: "Something went wrong...",
     });
   }
-}
+};
 
 // POST => /settings/change-password
 exports.postSettingsChangePassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;
   try {
     const user = await User.findOne({ profileId: req.user.profileId });
-    const isValidPassword = await bcrypt.compare(currentPassword, user.password);
-    if(isValidPassword) {
+    const isValidPassword = await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
+    if (isValidPassword) {
       const newHashedPassword = await bcrypt.hash(newPassword, 10);
       user.password = newHashedPassword;
       user.lastChangePassword = new Date();
@@ -153,8 +158,10 @@ exports.postSettingsChangePassword = async (req, res) => {
         isSuccessful: true,
         message: "Your password was successfully changed.",
         data: {
-          lastChangePassword: user.lastChangePassword.toLocaleDateString("en-US", { year: 'numeric',
-          month: 'long', day: 'numeric' })
+          lastChangePassword: user.lastChangePassword.toLocaleDateString(
+            "en-US",
+            { year: "numeric", month: "long", day: "numeric" }
+          ),
         },
       });
     } else {
@@ -170,4 +177,25 @@ exports.postSettingsChangePassword = async (req, res) => {
       message: "Something went wrong...",
     });
   }
-}
+};
+
+exports.postSettingsUploadPhoto = async (req, res) => {
+  const { imageEncoded } = req.body;
+  try {
+    const user = await User.findOneAndUpdate(
+      { profileId: req.user.profileId },
+      { imageUrl: imageEncoded },
+      { new: true }
+    );
+    res.json({
+      isSuccessful: true,
+      message: "Photo has been uploaded",
+      data: {imageUrl: user.imageUrl}
+    });
+  } catch (error) {
+    res.json({
+      isSuccessful: false,
+      message: "Something went wrong...",
+    });
+  }
+};

@@ -8,7 +8,7 @@ let initialGender = gender.value;
 $("#formGenderButton").on("click", (e) => {
   $.ajax({
     type: "POST",
-    url: "http://localhost:3000/settings/gender",
+    url: "/settings/gender",
     data: {
       gender: gender.value,
     },

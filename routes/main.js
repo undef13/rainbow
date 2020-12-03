@@ -25,4 +25,6 @@ router.post(`/settings/gender`, isLoggedIn, mainController.postSettingsGender);
 
 router.post(`/settings/change-password`, isLoggedIn, mainController.postSettingsChangePassword);
 
+router.post(`/settings/upload-photo`, isLoggedIn, mainController.postSettingsUploadPhoto);
+
 module.exports = router;

@@ -39,7 +39,7 @@ $("#formNameButton").on("click", () => {
   if (formNameValidation()) {
     $.ajax({
       type: "POST",
-      url: "http://localhost:3000/settings/display-name",
+      url: "/settings/display-name",
       data: {
         givenName: givenNameInput.value.trim(),
         familyName: familyNameInput.value.trim(),
