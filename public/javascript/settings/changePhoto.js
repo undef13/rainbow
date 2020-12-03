@@ -39,11 +39,61 @@ $(document).ready(function () {
 
   // Close Button click
   $("#closeFormPhoto").on("click", () => {
-    onCloseButtonClick();
+    onCloseModal();
   });
 
   // Submit Button Click
   $("#formPhotoButton").on("click", () => {
+    onSubmitButtonClick();
+  });
+
+  // Get Base64 data
+  const getBase64 = (file) => {
+    if (file.type == "image/jpeg" || file.type == "image/png") {
+      if (file.size > 3000000) {
+        $("#displayPhotoForm").modal("hide");
+        alert(false, "File size should be less then 3 mb");
+      } else {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          $("#image-uploaded").attr("src", e.target.result);
+          awakeUploadContainer();
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      $("#displayPhotoForm").modal("hide");
+      alert(false, "Only files with jpeg, jpg and png format are accepted");
+    }
+  };
+
+  // Awake Upload Container
+  const awakeUploadContainer = () => {
+    dropZone.attr("hidden", true);
+    $("#image-container").attr("hidden", false);
+    $("#formPhotoButton").prop("disabled", false);
+    cropper = new Cropper(image, {
+      aspectRatio: 1,
+      viewMode: 3,
+      zoomable: false,
+      minCropBoxWidth: 200,
+      minCropBoxHeight: 200,
+    });
+  };
+
+  // Close button handler
+  const onCloseModal = () => {
+    $("#image-container").attr("hidden", true);
+    $("#image-uploaded").attr("src", null);
+    $("#formPhotoButton").prop("disabled", true);
+    dropZone.attr("hidden", false);
+    if (cropper !== undefined) {
+      cropper.destroy();
+    }
+  };
+
+  // Submit button handler
+  const onSubmitButtonClick = () => {
     const canvas = cropper.getCroppedCanvas({
       width: 400,
       height: 400,
@@ -69,130 +119,9 @@ $(document).ready(function () {
         $("#formPhotoButton, #closeFormPhoto").prop("disabled", false);
         $(".spinner").prop("hidden", true);
         $(".status-text").prop("hidden", false);
-        onCloseButtonClick();
+        onCloseModal();
         $("#displayPhotoForm").modal("hide");
       },
     });
-  });
-
-  // Get Base64 data
-  const getBase64 = (file) => {
-    if (file.type == "image/jpeg" || file.type == "image/png") {
-      if (file.size > 3000000) {
-        $("#displayPhotoForm").modal("hide");
-        alert(false, "File size should be less then 3 mb");
-      } else {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          $("#image-uploaded").attr("src", e.target.result);
-          onLoadChangeDOM();
-        };
-        reader.readAsDataURL(file);
-      }
-    } else {
-      $("#displayPhotoForm").modal("hide");
-      alert(false, "Only files with jpeg, jpg and png format are accepted");
-    }
-  };
-
-  const onLoadChangeDOM = () => {
-    dropZone.attr("hidden", true);
-    $("#image-container").attr("hidden", false);
-    $("#formPhotoButton").prop("disabled", false);
-    cropper = new Cropper(image, {
-      aspectRatio: 1,
-      viewMode: 3,
-      zoomable: false,
-      minCropBoxWidth: 200,
-      minCropBoxHeight: 200,
-    });
-  };
-
-  const onCloseButtonClick = () => {
-    $("#image-container").attr("hidden", true);
-    $("#image-uploaded").attr("src", null);
-    dropZone.attr("hidden", false);
-    $("#formPhotoButton").prop("disabled", true);
-    if (cropper !== undefined) {
-      cropper.destroy();
-    }
   };
 });
-
-// $(document).ready(function () {
-//   let cropper;
-//   let isPhoto = false;
-//   const image = document.getElementById("photo-uploaded");
-// //   const uploadButton = document.getElementById("formPhotoButton");
-
-//   const readURL = (input) => {
-//     if (input.files && input.files[0]) {
-//       const reader = new FileReader();
-
-//       reader.onload = (e) => {
-//         $("#photo-uploaded").attr("src", e.target.result);
-//         console.log(e.target.result);
-//         cropper = new Cropper(image, {
-//           aspectRatio: 1,
-//           viewMode: 3,
-//         });
-//       };
-
-//       reader.readAsDataURL(input.files[0]);
-//     }
-//   };
-
-//   $(".input-photo").on("change", function () {
-//     readURL(this);
-//   });
-
-//   $("#modal-photo-wrapper").on("click", () => {
-//       $(".input-photo").click();
-//   });
-
-//   $("#closeFormPhoto").on("click", () => {
-//     // isPhoto = false;
-//     // if (cropper !== undefined) {
-//     //   cropper.destroy();
-//     // }
-
-//     // $("#photo-uploaded").removeAttr("src")
-//     // $("#photo-uploaded").attr("hidden", true);
-//   });
-
-//   $("#formPhotoButton").on("click", () => {
-//     const canvas = cropper.getCroppedCanvas({
-//       width: 400,
-//       height: 400,
-//     });
-
-//     $.ajax({
-//       url: "/settings/upload-photo",
-//       method: "POST",
-//       data: {
-//         imageEncoded: canvas.toDataURL(),
-//       },
-//       success: (data) => {
-//         console.log(data);
-//       },
-//     });
-
-//     // canvas.toBlob((blob) => {
-//     //   const url = URL.createObjectURL(blob);
-//     //   const reader = new FileReader();
-//     //   reader.readAsDataURL(blob);
-//     //   reader.onloadend = () => {
-//     //     const base64data = reader.result;
-//     //     $.ajax({
-//     //       url: "/settings/upload-photo",
-//     //       method: "POST",
-//     //       data: { imageEncoded: base64data },
-//     //       success: (data) => {
-//     //         $("#photoForm").modal("hide");
-//     //         // $('#uploaded_image').attr('src', data);
-//     //       },
-//     //     });
-//     //   };
-//     // });
-//   });
-// });
