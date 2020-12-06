@@ -1,18 +1,14 @@
 <div class="col-lg-2 sidebar d-none d-lg-block">
   <ul class="sidebar-items">
-    <li class="sidebar-item">
+    <li class="sidebar-item <%= path === 'profileId' ? 'active' : '' %>">
       <a href="/<%= user.profileId %> ">
-        <span>
-          <i class="fas fa-home"></i>
-        </span>
-
+        <span><i class="fas fa-home"></i></span>
         <span>My Profile</span>
       </a>
     </li>
-    <li class="sidebar-item">
+    <li class="sidebar-item <%= path === 'friends' ? 'active' : '' %>">
       <a href="/friends">
         <span><i class="fas fa-user-alt"></i></span>
-
         <span>Friends</span>
       </a>
     </li>

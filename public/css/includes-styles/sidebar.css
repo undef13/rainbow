@@ -9,23 +9,32 @@
 }
 
 .sidebar-item {
-    padding: 3px 0px;
-    transition: .3s;
+	border-bottom-right-radius: 50px;
+	border-top-right-radius: 50px;
+  padding: 3px 0px;
+  transition: 0.3s;
 }
 
 .sidebar-item:hover {
-    background: #eeeeee;
+  background: #eeeeee;
 }
 
 .sidebar-item a {
-    display: block;
-    height: 100%;
+  display: block;
+  height: 100%;
 
-    text-decoration: none;
-    color: #212529;
+  text-decoration: none;
+  color: #212529;
 }
 
 .sidebar-item span {
-    margin: 0 3px;
+  margin: 0 3px;
 }
 
+li.active {
+	background: #dcedfd;
+}
+
+li.active:hover {
+	background: #dcedfd;
+}

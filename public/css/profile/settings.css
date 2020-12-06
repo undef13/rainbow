@@ -15,10 +15,6 @@
 /* End of Data validation */
 
 /* ---------- PAGE CONTENT STYLES ---------- */
-.col-md-10 {
-  padding: 0;
-}
-
 .wrapper {
   padding: 15px;
   border: 1px solid #e1dfdf;
@@ -105,10 +101,6 @@ textarea {
 
 #displayPhotoForm .modal-dialog {
   max-width: 1000px;
-}
-
-#image-wrapper {
-  max-width: 965px;
 }
 
 #image-uploaded {

@@ -10,15 +10,12 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
 
-    <link rel="stylesheet" href="/css/settings/settings.css" />
+    <link rel="stylesheet" href="/css/profile/settings.css" />
     <link rel="stylesheet" href="/css/common/index.css" />
     <link rel="stylesheet" href="/css/common/data-validation.css" />
     <link rel="stylesheet" href="/css/includes-styles/top-nav.css" />
     <link rel="stylesheet" href="/css/includes-styles/sidebar.css" />
-    <link
-      rel="stylesheet"
-      href="/css/includes-styles/horizontal-scroll-nav.css"
-    />
+    <link rel="stylesheet" href="/css/includes-styles/horizontal-scroll-nav.css" />
 
     <link
       rel="stylesheet"
@@ -34,8 +31,8 @@
     />
   </head>
   <body>
-    <%- include('../includes/top-nav', {user: user}); %> <%-
-    include('../includes/horizontal-scroll-nav', {user: user}); %>
+    <%- include('../includes/top-nav', {user: user}); %> 
+    <%- include('../includes/horizontal-scroll-nav', {user: user}); %>
     <div class="container">
       <div class="row">
         <%- include('../includes/sidebar', {user: user}); %>
@@ -589,7 +586,7 @@
           </div>
 
           <div id="image-container" class="modal-body text-center" hidden>
-            <div id="image-container">
+            <div id="image-wrapper">
               <img id="image-uploaded" src="" alt="" class="" />
             </div>
           </div>
@@ -625,11 +622,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script
-      src="https://kit.fontawesome.com/e307e9c374.js"
-      crossorigin="anonymous"
-    ></script>
-
+    <script src="https://kit.fontawesome.com/e307e9c374.js" crossorigin="anonymous"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js"
       integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw=="
@@ -640,18 +633,11 @@
       integrity="sha512-oqBsjjSHWqkDx4UKoU+5IUZN2nW2qDp2GFSKw9+mcFm+ZywqfBKp79nfWmGPco2wzTWuE46XpjtCjZ9tFmI12g=="
       crossorigin="anonymous"
     ></script>
-
     <script type="module" src="./javascript/settings/changeName.js"></script>
     <script type="module" src="./javascript/settings/changeBio.js"></script>
-    <script
-      type="module"
-      src="./javascript/settings/changeBirthday.js"
-    ></script>
+    <script type="module" src="./javascript/settings/changeBirthday.js"></script>
     <script type="module" src="./javascript/settings/changeGender.js"></script>
-    <script
-      type="module"
-      src="./javascript/settings/changePassword.js"
-    ></script>
+    <script type="module" src="./javascript/settings/changePassword.js"></script>
     <script type="module" src="./javascript/settings/changePhoto.js"></script>
     <script src="./javascript/appearance/styles.js"></script>
   </body>

@@ -24,16 +24,18 @@ exports.getProfileId = async (req, res, next) => {
     console.log(error);
   }
 
-  res.render("profile/current-user-profile", {
+  res.render("profile/profile", {
     title: req.user.displayName,
-    user: req.user,
+		user: req.user,
+		path: "profileId"
   });
 };
 
 // GET => /settings
 exports.getSettings = (req, res) => {
   res.render("profile/settings", {
-    user: req.user,
+		user: req.user,
+		path: ""
   });
 };
 
