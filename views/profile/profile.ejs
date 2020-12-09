@@ -108,7 +108,6 @@
 
               <!-- Write post -->
               <div class="wrapper">
-								<form action="/<%= user.profileId %>/add-post" method="POST">
 									<textarea
 										name="postText"
 										id="postTextArea"
@@ -119,7 +118,13 @@
 									<div class="d-flex justify-content-between">
 										<div>
 											<button type="submit" id="postButton" disabled class="btn btn-sm btn-primary"										>
-												Post
+												<span
+													class="spinner spinner-border spinner-border-sm"
+													role="status"
+													aria-hidden="true"
+													hidden
+												></span>
+												<span class="status-text">Post</span>
 											</button>
 										</div>
 
@@ -132,12 +137,11 @@
 											<option>Private</option>
 										</select>
 									</div>
-								</form>
               </div>
 
 							<!-- Posts -->
 							
-							<div class="wrapper">
+							<div class="wrapper" id="postsHeader">
 								Posts
 								<% if (user.posts.length <= 0) { %>
 									<hr>

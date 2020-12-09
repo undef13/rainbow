@@ -13,7 +13,7 @@ router.get(`/`, displayIndex, mainController.getIndex);
 
 router.get(`/:profileId`, isLoggedIn, mainController.getProfileId);
 
-router.post(`/:profileId/add-post`, isLoggedIn, mainController.postAddPost);
+router.post(`/add-post`, isLoggedIn, mainController.postAddPost);
 
 router.post(`/:profileId/delete-post`, isLoggedIn, mainController.postDeletePost);
 
