@@ -21,21 +21,18 @@
   </head>
   <body>
     <!-- Navigation -->
-    <%- include('../includes/top-nav', {user: user}); %> <%-
-    include('../includes/horizontal-scroll-nav', {user: user}); %>
+    <%- include('../includes/top-nav', {user: currentUser}); %> <%-
+    include('../includes/horizontal-scroll-nav', {user: currentUser}); %>
 
     <div class="container">
       <div class="row">
-        <%- include('../includes/sidebar', {user: user}); %>
+        <%- include('../includes/sidebar', {user: currentUser}); %>
         <div class="col-lg-10">
           <div class="row">
             <div class="col-lg-3 main-content">
               <div class="wrapper text-center">
                 <div class="image-wrapper">
                   <img class="img-fluid" src="<%= user.imageUrl %>" alt="" />
-                </div>
-                <div class="link-wrapper">
-                  <a href="/settings" class="btn btn-primary btn-sm">Edit</a>
                 </div>
               </div>
 
@@ -104,118 +101,58 @@
                 <span>Gallery</span>
                 <hr />
                 <img style="width: 100px" src="<%= user.imageUrl %>" alt="" />
-              </div>
-
-              <!-- Write post -->
-              <div class="wrapper">
-								<form action="/<%= user.profileId %>/add-post" method="POST">
-									<textarea
-										name="postText"
-										id="postTextArea"
-										rows="1"
-										placeholder="What's new?"
-									></textarea>
-									<hr />
-									<div class="d-flex justify-content-between">
-										<div>
-											<button type="submit" id="postButton" disabled class="btn btn-sm btn-primary"										>
-												Post
-											</button>
-										</div>
-
-										<select
-											name="isVisible"
-											id="selectPostVisibility"
-											class="form-control-sm w-25"
-										>
-											<option selected>Public</option>
-											<option>Private</option>
-										</select>
-									</div>
-								</form>
-              </div>
+							</div>
+							
 
 							<!-- Posts -->
-							
 							<div class="wrapper">
-								Posts
+								<div>Posts</div>
 								<% if (user.posts.length <= 0) { %>
 									<hr>
-									<div>
-										You do not have posts :(
-									</div>
+									<div><%= user.givenName %> have no posts :(</div>
 								<% } %>
 							</div>
 
-              <% if (user.posts.length > 0) { %> <% for( let index =
-              user.posts.length - 1; index >= 0; index-- ) { %>
-							<div class="wrapper">
-                <div class="post">
-                  <div class="d-flex justify-content-between post-header">
-                    <div
-                      class="d-flex justify-content-start post-creator-container"
-                    >
-                      <div>
-                        <img
-                          style="width: 50px; border-radius: 50%"
-                          src="<%= user.imageUrl %>"
-                          alt=""
-                        />
-                      </div>
-                      <div>
-                        <div><%= user.displayName %></div>
-                        <div>
-                          <%= user.posts[index].publicationDate.toLocaleDateString("en-US", {
-                          year: 'numeric', month: 'long', day: 'numeric', hour:
-                          'numeric', minute: "numeric" }) %>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="dropdown">
-                      <button
-                        class="btn btn-sm dropdown-toggle"
-                        type="button"
-                        id="dropdownMenuButton"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        <i class="fas fa-chevron-down"></i>
-                      </button>
-                      <div
-                        class="dropdown-menu dropdown-menu-right"
-                        aria-labelledby="dropdownMenuButton"
-											>
+							<% if (user.posts.length > 0) { %>
+								<% for(let i = user.posts.length - 1; i >= 0; i--) { %> 
+									<% if (user.posts[i].isPublic) { %>
+										<div class="wrapper">
+											<div class="post">
+												<div class="d-flex justify-content-between post-header">
+													<div
+														class="d-flex justify-content-start post-creator-container"
+													>
+														<div>
+															<img
+																style="width: 50px; border-radius: 50%"
+																src="<%= user.imageUrl %>"
+																alt=""
+															/>
+														</div>
+														<div>
+															<div><%= user.displayName %></div>
+															<div>
+																<%=
+																user.posts[i].publicationDate.toLocaleDateString("en-US",
+																{ year: 'numeric', month: 'long', day: 'numeric',
+																hour: 'numeric', minute: "numeric" }) %>
+															</div>
+														</div>
+													</div>
+												</div>
 
-											<form class="deletePostForm" action="<%= user.profileId %>/delete-post" method="post">
-												<input name="postId" type="text" value="<%= user.posts[index]._id %>" hidden>
-												<button type="submit" class="dropdown-item" href="#">Delete</button>
-											</form>
+												<div class="text-justify">
+													<%= user.posts[i].postText %>
+												</div>
 
-											<form class="editPostForm">
-												<a class="dropdown-item" href="#">Edit</a>
-											</form>
-                        
-                      </div>
-                    </div>
-                  </div>
+												<hr />
 
-                  <div class="text-justify"><%= user.posts[index].postText %></div>
-
-                  <hr />
-
-                  
-									<div class="post-footer d-flex justify-content-between">
-										<div>
-											likes	
+												<div class="post-footer">Likes</div>
+											</div>
 										</div>
-										<div>
-											<%= user.posts[index].isPublic ? "Public" : "Private" %>
-										</div>
-									</div>
-                </div>
-              </div>
-              <% } %> <% } %>
+									<% } %> 
+								<% } %> 
+							<% } %>
             </div>
           </div>
         </div>
@@ -228,8 +165,7 @@
     <script
       src="https://kit.fontawesome.com/e307e9c374.js"
       crossorigin="anonymous"
-		></script>
-    <script src="./javascript/profile/profile.js"></script>
+    ></script>
     <script src="./javascript/appearance/styles.js"></script>
   </body>
 </html>

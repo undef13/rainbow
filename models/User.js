@@ -3,14 +3,11 @@ const mongoose = require(`mongoose`);
 const PostSchema = new mongoose.Schema({
 	postText: String,
 	publicationDate: Date,
-	postLikes: Number,
 	isPublic: {
 		type: Boolean,
 		default: true
 	}
 });
-
-module.exports = Post = mongoose.model("Post", PostSchema);
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -62,10 +59,7 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
 	},
-	posts: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "Post"
-	}],
+	posts: [PostSchema],
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   accountActivationToken: String,
@@ -76,4 +70,5 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
+module.exports = Post = mongoose.model("Post", PostSchema);
 module.exports = User = mongoose.model("User", UserSchema);

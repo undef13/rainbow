@@ -5,6 +5,9 @@ const MongoConnect = require(`connect-mongo`)(session);
 const passport = require(`passport`);
 const flash = require(`connect-flash`);
 
+// const http = require(`http`);
+
+
 // Passport Config
 require(`./config/passport`)(passport);
 
@@ -19,6 +22,7 @@ app.use(express.static('public'));
 
 // Body Parser
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json());
 
 // Static files
 app.use(express.static("public"));
@@ -43,8 +47,10 @@ app.use(passport.session());
 app.use(flash())
 
 // Routes
-app.use(`/`, require(`./routes/main`));
 app.use(`/auth`, require(`./routes/auth`));
+app.use(`/settings`, require(`./routes/settings`));	
+app.use(`/`, require(`./routes/main`));
+
 
 // MongoDB
 mongoose.connect(
@@ -60,6 +66,13 @@ mongoose.connect(
 );
 
 // Server Startup
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is up and running on the port ${PORT}.`);
 });
+// http.createServer(app).listen(3000);
+
+// const io = require(`socket.io`)(http);
+
+// io.on('connection', socket => {
+//   console.log('connect');
+// });
