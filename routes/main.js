@@ -15,6 +15,8 @@ router.get(`/:profileId`, isLoggedIn, mainController.getProfileId);
 
 router.post(`/add-post`, isLoggedIn, mainController.postAddPost);
 
-router.post(`/delete-post`, isLoggedIn, mainController.postDeletePost);
+router.post(`/delete-post`, isLoggedIn, mainController.postDeletePost); 
+
+router.post(`/edit-post`, isLoggedIn, mainController.postEditPost); 
 
 module.exports = router;

@@ -39,7 +39,7 @@
                 </div>
               </div>
 
-              <!-- <div class="wrapper">
+              <div class="wrapper">
                 <span>Friends</span>
                 <hr />
                 <div class="row">
@@ -68,7 +68,7 @@
                     <span>Maks</span>
                   </div>
                 </div>
-              </div> -->
+              </div>
             </div>
 
             <div class="col-lg-9 main-content">
@@ -100,16 +100,15 @@
               </div>
 
               <!-- Galery -->
-              <!-- <div class="wrapper">
+              <div class="wrapper">
                 <span>Gallery</span>
                 <hr />
                 <img style="width: 100px" src="<%= user.imageUrl %>" alt="" />
-              </div> -->
+              </div>
 
               <!-- Write post -->
               <div class="wrapper" id="write-post">
                 <textarea
-                  name="postText"
                   id="postTextArea"
                   rows="1"
 									placeholder="What's new?"
@@ -149,15 +148,17 @@
               <div class="wrapper" id="postsHeader">
 								Posts
 								<% if (user.posts.length <= 0) { %>
-									<hr />
-									<div>You do not have posts :(</div>
+									<div class="have-no-posts">
+										<hr />
+										<div>You do not have posts :(</div>
+									</div>
                 <% } %>
               </div>
 
 							<% if (user.posts.length > 0) { %> 
 								<% for( let index = user.posts.length - 1; index >= 0; index-- ) { %>
 								
-									<div id="<%= user.posts[index]._id %>" class="wrapper">
+									<div id="post_<%= user.posts[index]._id %>" class="wrapper post">
 										<%# Post Header %>
 										<div class="d-flex justify-content-between post-header">
 											<%# Writer Details %>
@@ -194,29 +195,58 @@
 													<i class="fas fa-chevron-down"></i>
 												</button>
 												<div class="dropdown-menu dropdown-menu-right">
-														<button onclick="postsControls('<%= user.posts[index]._id %>', 'deletePost')" class="dropdown-item">Delete</button>
-														<button onclick="postsControls('<%= user.posts[index]._id %>', 'editPost')" class="dropdown-item">Edit</button>
+														<button onclick="postsControls('post_<%= user.posts[index]._id %>', 'deletePost')" class="dropdown-item">Delete</button>
+														<button onclick="postsControls('post_<%= user.posts[index]._id %>', 'editPost')" class="dropdown-item">Edit</button>
 												</div>
 											</div>
 
 										</div>
 
 										<%# Post Body %>
-										<div class="text-justify">
+										<div class="text-justify postText">
 											<%= user.posts[index].postText %>
 										</div>
 
-										<hr />
-
-
-										<%# Post Footer %>
-										<div class="post-footer d-flex justify-content-between">
-											<div>Rainbow</div>
-											<div>
-												<%= user.posts[index].isPublic ? "Public" : "Private" %>
-											</div>
+										<div style="display: none;" class="editPostTextAreaContainer">
+											<textarea id="newPostTextArea" class="textarea" rows="1"></textarea>
 										</div>
 
+										<hr />
+										<%# Post Footer %>
+										<div class="post-footer">
+											
+											<div style="display: none !important;" class="d-flex justify-content-between editPostControlsContainer">
+												<div>
+
+													<button onclick="postsControls('post_<%= user.posts[index]._id %>', 'savePost')" class="btn btn-sm btn-primary saveButton">
+														<span
+															class="spinner spinner-border spinner-border-sm"
+															role="status"
+															aria-hidden="true"
+															hidden
+														></span>
+														<span class="status-text">Save</span>
+													</button>
+
+													<button	class="btn btn-sm btn-secondary" onclick="postsControls('post_<%= user.posts[index]._id %>', 'cancelEditing')">
+														<span class="status-text">Cancel</span>
+													</button>
+
+												</div>
+												
+												<select class="form-control-sm w-25">
+													<option selected>Public</option>
+													<option>Private</option>
+												</select>
+											</div>
+	
+											<div class="d-flex justify-content-between postDataContainer">
+												<div>Rainbow</div>
+												<div class="post-visibility">
+													<%= user.posts[index].isPublic ? "Public" : "Private" %>
+												</div>
+											</div>
+										</div>
 									</div>
 								<% } %>
 							<% } %>
@@ -229,10 +259,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script
-      src="https://kit.fontawesome.com/e307e9c374.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/e307e9c374.js" crossorigin="anonymous"></script>
     <script src="./javascript/profile/profile.js"></script>
     <script src="./javascript/appearance/styles.js"></script>
   </body>
