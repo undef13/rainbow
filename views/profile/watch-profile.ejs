@@ -107,50 +107,47 @@
 							<!-- Posts -->
 							<div class="wrapper">
 								<div>Posts</div>
-								<% if (user.posts.length <= 0) { %>
+								<% if (posts.length <= 0) { %>
 									<hr>
 									<div><%= user.givenName %> have no posts :(</div>
 								<% } %>
 							</div>
 
-							<% if (user.posts.length > 0) { %>
-								<% for(let i = user.posts.length - 1; i >= 0; i--) { %> 
-									<% if (user.posts[i].isPublic) { %>
-										<div class="wrapper">
-											<div class="post">
-												<div class="d-flex justify-content-between post-header">
-													<div
-														class="d-flex justify-content-start post-creator-container"
-													>
-														<div>
-															<img
-																style="width: 50px; border-radius: 50%"
-																src="<%= user.imageUrl %>"
-																alt=""
-															/>
-														</div>
-														<div>
-															<div><%= user.displayName %></div>
-															<div>
-																<%=
-																user.posts[i].publicationDate.toLocaleDateString("en-US",
-																{ year: 'numeric', month: 'long', day: 'numeric',
-																hour: 'numeric', minute: "numeric" }) %>
-															</div>
-														</div>
+							<% if (posts.length > 0) { %>
+								<% for(let i = posts.length - 1; i >= 0; i--) { %> 
+									<div class="wrapper">
+										<div class="d-flex justify-content-between post-header">
+											<div
+												class="d-flex justify-content-start post-creator-container"
+											>
+												<div>
+													<img
+														style="width: 50px; border-radius: 50%"
+														src="<%= user.imageUrl %>"
+														alt=""
+													/>
+												</div>
+												<div>
+													<div><%= user.displayName %></div>
+													<div>
+														<%=
+															posts[i].publicationDate.toLocaleDateString("en-US",
+															{ year: 'numeric', month: 'long', day: 'numeric',
+															hour: 'numeric', minute: "numeric" }) 
+														%>
 													</div>
 												</div>
-
-												<div class="text-justify">
-													<%= user.posts[i].postText %>
-												</div>
-
-												<hr />
-
-												<div class="post-footer">Likes</div>
 											</div>
 										</div>
-									<% } %> 
+
+										<div class="text-justify">
+											<%= posts[i].postText %>
+										</div>
+
+										<hr />
+
+										<div class="post-footer">Rainbow</div>
+									</div>
 								<% } %> 
 							<% } %>
             </div>
