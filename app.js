@@ -9,7 +9,7 @@ const flash = require(`connect-flash`);
 
 
 // Passport Config
-// require(`./config/passport`)(passport);
+require(`./config/passport`)(passport);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -47,7 +47,7 @@ app.use(passport.session());
 app.use(flash())
 
 // Routes
-// app.use(`/auth`, require(`./routes/auth`));
+app.use(`/auth`, require(`./routes/auth`));
 app.use(`/settings`, require(`./routes/settings`));	
 app.use(`/`, require(`./routes/main`));
 
