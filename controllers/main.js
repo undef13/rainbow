@@ -8,8 +8,7 @@ const User = require(`../models/User`);
 // GET => /
 exports.getIndex = (req, res) => {
   res.render("start-page/start-page", {
-		// errors: req.flash("error"),
-		errors: ["Hello"]
+		errors: req.flash("error"),
   });
 };
 
