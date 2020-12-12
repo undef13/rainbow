@@ -9,7 +9,7 @@ const flash = require(`connect-flash`);
 
 
 // Passport Config
-require(`./config/passport`)(passport);
+// require(`./config/passport`)(passport);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
