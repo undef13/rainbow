@@ -11,6 +11,8 @@ const mainController = require(`../controllers/main`);
 
 router.get(`/`, displayIndex, mainController.getIndex);
 
+router.get(`/about`, isLoggedIn, mainController.getAbout);
+
 router.get(`/:profileId`, isLoggedIn, mainController.getProfileId);
 
 router.post(`/add-post`, isLoggedIn, mainController.postAddPost);

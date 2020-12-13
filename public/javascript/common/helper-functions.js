@@ -34,7 +34,7 @@ export const alert = (isSuccessful, message) => {
   );
   $(".alert-container")
     .delay(4000)
-    .fadeOut("slow", function() {
+    .fadeOut("slow", function () {
       $(this).remove();
     });
 };

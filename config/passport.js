@@ -52,7 +52,7 @@ module.exports = (passport) => {
         clientID:
           "288488088369-kegvhvpfte9u1m72hjd342kanhcrpc8e.apps.googleusercontent.com",
         clientSecret: "ZFOu-h0A1OSQNHXGRbDt7kNn",
-        callbackURL: "https://intense-atoll-21763.herokuapp.com/auth/google/callback",
+        callbackURL: "/auth/google/callback",
       },
       async (accessToken, refreshToken, profile, done) => {
         const nanoid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 10);

@@ -113,7 +113,6 @@
                   rows="1"
 									placeholder="What's new?"
 									class="textarea"
-									oninput="checkPostTextAreaText()"
                 ></textarea>
                 <hr />
                 <div class="d-flex justify-content-between">
@@ -121,7 +120,6 @@
                     <button
 											id="publishPostButton"
 											class="btn btn-sm btn-primary"
-											disabled
                     >
                       <span
                         class="spinner spinner-border spinner-border-sm"
@@ -255,12 +253,15 @@
         </div>
       </div>
     </div>
-
+		v
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/e307e9c374.js" crossorigin="anonymous"></script>
     <script src="./javascript/profile/profile.js"></script>
-    <script src="./javascript/appearance/styles.js"></script>
+		<script src="./javascript/appearance/styles.js"></script>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="./javascript/profile/socket-creator.js"></script>
   </body>
 </html>

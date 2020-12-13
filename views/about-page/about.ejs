@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome! | Rainbow</title>
+    <link rel="stylesheet" href="/css/common/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="/css/includes-styles/top-nav.css" />
+    <link rel="stylesheet" href="/css/includes-styles/sidebar.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <%- include('../includes/top-nav', {user: user}); %> <%-
+    include('../includes/horizontal-scroll-nav', {user: user}); %>
+
+    <div class="container">
+      <div class="row">
+        <%- include('../includes/sidebar', {user: user}); %>
+        <div class="col-lg-10 text-justify">
+          <h3>About this project</h3>
+          <hr />
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem
+            quasi error impedit, suscipit est voluptatum cumque placeat tempore
+            omnis, at eligendi velit incidunt molestias dolores aliquam ipsam
+						unde. Omnis, molestias.
+						Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem
+            quasi error impedit, suscipit est voluptatum cumque placeat tempore
+            omnis, at eligendi velit incidunt molestias dolores aliquam ipsam
+						unde. Omnis, molestias.
+						Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem
+            quasi error impedit, suscipit est voluptatum cumque placeat tempore
+            omnis, at eligendi velit incidunt molestias dolores aliquam ipsam
+						unde. Omnis, molestias.
+						Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem
+            quasi error impedit, suscipit est voluptatum cumque placeat tempore
+            omnis, at eligendi velit incidunt molestias dolores aliquam ipsam
+            unde. Omnis, molestias.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/e307e9c374.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./javascript/appearance/styles.js"></script>
+  </body>
+</html>
