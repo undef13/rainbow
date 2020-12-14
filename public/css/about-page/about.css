@@ -1,0 +1,14 @@
+p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 19px;
+}
+
+h3 {
+	color: rgb(13, 210, 240);
+}
+
+hr {
+	border-color:rgb(13, 210, 240)
+}

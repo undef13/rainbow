@@ -10,7 +10,7 @@ module.exports = (io) => {
       console.log(`Client Disconnected`);
     });
 
-    socket.on("add-post", async (data) => {
+    socket.on("add-post-server", async (data) => {
       const userId = mongoose.Types.ObjectId(
         socket.request.session.passport.user
       );
@@ -29,11 +29,43 @@ module.exports = (io) => {
 				const htmlNewPostCreator = ejs.render(newPostCreator, { user, newPost });
 				const htmlNewPostWatcher = ejs.render(newPostWatcher, { user, newPost });
 
-        io.sockets.emit(`add-post`, { htmlNewPostCreator, htmlNewPostWatcher, isPublic: newPost.isPublic });
+        io.sockets.emit(`add-post-client`, { 
+					htmlNewPostCreator,
+					htmlNewPostWatcher,
+					isPublic: newPost.isPublic,
+					profileId: user.profileId,
+				});
+
       } catch (error) {
         console.log(error);
       }
-    });
+		});
+		
+		socket.on("delete-post-server", async (data) => {
+			const postId = data.postId;
+			const userId = mongoose.Types.ObjectId(
+        socket.request.session.passport.user
+      );
+			try {
+				let isPublic;
+				const user = await User.findById(userId);
+				user.posts = user.posts.filter(post => {
+					if (post._id.toString() !== postId) {
+						return post;
+					} else {
+						isPublic = post.isPublic;
+					}
+				});
+				await user.save();
+				io.sockets.emit("delete-post-client", {
+					postId: `post_${postId}`,
+					profileId: user.profileId,
+					isPublic
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		});
   });
 };
 

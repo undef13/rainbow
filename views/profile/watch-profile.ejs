@@ -115,7 +115,7 @@
 
 							<% if (posts.length > 0) { %>
 								<% for(let i = posts.length - 1; i >= 0; i--) { %> 
-									<div class="wrapper">
+									<div id="post_<%= user.posts[i]._id %>" class="wrapper post">
 										<div class="d-flex justify-content-between post-header">
 											<div
 												class="d-flex justify-content-start post-creator-container"
