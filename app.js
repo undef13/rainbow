@@ -12,6 +12,10 @@ const server = http.createServer(app);
 const io = require(`socket.io`)(server);
 require("./config/sockets")(io);
 
+// Variables
+const PORT = process.env.PORT || 3000;
+const mongoURI = process.env.MONGO_URI || "mongodb+srv://root:root@cluster.dhkmq.mongodb.net/rainbow?retryWrites=true&w=majority"
+
 // Passport Config
 require(`./config/passport`)(passport);
 
@@ -58,8 +62,7 @@ app.use(`/settings`, require(`./routes/settings`));
 app.use(`/`, require(`./routes/main`));
 
 // MongoDB
-mongoose.connect(
-  "mongodb+srv://root:root@cluster.dhkmq.mongodb.net/rainbow?retryWrites=true&w=majority",
+mongoose.connect(mongoURI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -70,9 +73,6 @@ mongoose.connect(
     console.log(`MongoDB is connected.`);
   }
 );
-
-// PORT
-const PORT = process.env.PORT || 3000;
 
 // Server Startup
 server.listen(PORT, () => {
