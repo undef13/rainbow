@@ -4,16 +4,9 @@ const ejs = require(`ejs`);
 
 module.exports = (io) => {
   io.on("connection", (socket) => {
-    console.log(`New connection`);
-
-    socket.on("disconnect", () => {
-      console.log(`Client Disconnected`);
-    });
+		const userId = mongoose.Types.ObjectId(socket.request.session.passport.user);
 
     socket.on("add-post-server", async (data) => {
-      const userId = mongoose.Types.ObjectId(
-        socket.request.session.passport.user
-      );
       const _id = mongoose.Types.ObjectId();
       const newPost = {
         _id,
@@ -32,35 +25,45 @@ module.exports = (io) => {
         io.sockets.emit(`add-post-client`, { 
 					htmlNewPostCreator,
 					htmlNewPostWatcher,
-					isPublic: newPost.isPublic,
 					profileId: user.profileId,
+					isPublic: newPost.isPublic
 				});
-
       } catch (error) {
         console.log(error);
       }
 		});
 		
 		socket.on("delete-post-server", async (data) => {
-			const postId = data.postId;
-			const userId = mongoose.Types.ObjectId(
-        socket.request.session.passport.user
-      );
+			const postId = data.postId.split("_")[1];
 			try {
-				let isPublic;
 				const user = await User.findById(userId);
-				user.posts = user.posts.filter(post => {
-					if (post._id.toString() !== postId) {
-						return post;
-					} else {
-						isPublic = post.isPublic;
-					}
-				});
+				user.posts = user.posts.filter(post => post._id.toString() !== postId);
 				await user.save();
 				io.sockets.emit("delete-post-client", {
 					postId: `post_${postId}`,
 					profileId: user.profileId,
-					isPublic
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		});
+
+		socket.on("edit-post-server", async (data) => {
+			const postId = data.postId.split("_")[1];
+			try {
+				const user = await User.findById(userId);
+				user.posts = user.posts.map(post => {
+					if(post._id.toString() == postId.toString()) {
+						post.postText = data.newPostText;
+						post.isPublic = data.isVisible == "Public" ? true : false;
+					}
+					return post;
+				});
+				await user.save();
+				io.sockets.emit("edit-post-client", {
+					postId: `post_${postId}`,
+					postText: data.newPostText,
+					isVisible: data.isVisible
 				});
 			} catch (error) {
 				console.log(error);

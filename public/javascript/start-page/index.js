@@ -110,7 +110,7 @@ const onClickSignUpHandler = () => {
   if (registerValidityCheck()) {
     $.ajax({
       type: "POST",
-      url: "http://localhost:3000/auth/register",
+      url: "/auth/register",
       data: { givenName, familyName, email, password },
       beforeSend: () => {
         $(
@@ -150,7 +150,7 @@ const onClickForgotPasswordHandler = () => {
     const email = forgotPasswordEmailInput.value.trim();
     $.ajax({
       type: "POST",
-      url: "http://localhost:3000/auth/forgot",
+      url: "/auth/forgot",
       data: { email: email },
       beforeSend: () => {
         $("#forgotPasswordEmailInput, button").prop("disabled", true);
