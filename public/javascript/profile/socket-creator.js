@@ -25,7 +25,8 @@ const deletePost = (postId) => {
 socket.on("delete-post-client", (data) => {
   if (document.location.pathname.slice(1) == data.profileId) {
     document.getElementById(data.postId).remove();
-  }
+	}
+	checkForPosts();
 });
 /* --------- END OF DELETING POST --------- */
 
@@ -37,10 +38,10 @@ const postsHeader = document.getElementById("postsHeader");
 
 postButton.addEventListener("click", () => {
   const isPublic = postSelectVisibility.value == "Public" ? true : false;
-  disableAddingInputs(true);
+	disableAddingInputs(true);
   socket.emit("add-post-server", {
     isPublic,
-    postText: postTextArea.value,
+		postText: postTextArea.value,
   });
 });
 
@@ -51,7 +52,8 @@ socket.on("add-post-client", (data) => {
     document
       .getElementById("postsHeader")
       .insertAdjacentHTML("afterEnd", data.htmlNewPostCreator);
-  }
+	}
+	checkForPosts();
 });
 
 // Disable all adding inputs & buttons
@@ -145,3 +147,11 @@ const showEditingControls = (postId, show) => {
   }
 };
 /* --------- END OF EDITING POST --------- */
+
+const checkForPosts = () => {
+	if(document.querySelectorAll(".post").length <= 0) {
+		document.getElementById("haveNoPostsBlock").removeAttribute("hidden", "hidden");
+	} else {
+		document.getElementById("haveNoPostsBlock").setAttribute("hidden", "hidden");
+	}
+}

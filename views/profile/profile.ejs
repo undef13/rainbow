@@ -145,12 +145,10 @@
 
               <div class="wrapper" id="postsHeader">
 								Posts
-								<% if (user.posts.length <= 0) { %>
-									<div class="have-no-posts">
-										<hr />
-										<div>You do not have posts :(</div>
-									</div>
-                <% } %>
+								<div id="haveNoPostsBlock" <%= user.posts.length > 0 ? "hidden" : "" %>>
+									<hr />
+									<div>You do not have posts :(</div>
+								</div>
               </div>
 
 							<% if (user.posts.length > 0) { %> 

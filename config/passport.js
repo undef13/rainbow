@@ -50,8 +50,8 @@ module.exports = (passport) => {
     new GoogleStrategy(
       {
         clientID:
-          "288488088369-kegvhvpfte9u1m72hjd342kanhcrpc8e.apps.googleusercontent.com",
-        clientSecret: "ZFOu-h0A1OSQNHXGRbDt7kNn",
+          "697617080488-lsgkvdm294aob92vh5pghrqek3r0p6kq.apps.googleusercontent.com",
+        clientSecret: "GzKgETojpKb8gv5HiLtqWKJh",
         callbackURL: "/auth/google/callback",
       },
       async (accessToken, refreshToken, profile, done) => {
@@ -67,7 +67,7 @@ module.exports = (passport) => {
           isActive: true,
         };
         try {
-          let user = await User.findOne({ email: profile.emails[0].value });
+					let user = await User.findOne({ email: profile.emails[0].value });
           if (user) {
             done(null, user);
           } else {

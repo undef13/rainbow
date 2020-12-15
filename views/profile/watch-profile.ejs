@@ -108,8 +108,10 @@
 							<div class="wrapper" id="postsHeader">
 								<div>Posts</div>
 								<% if (posts.length <= 0) { %>
-									<hr>
-									<div><%= user.givenName %> have no posts :(</div>
+									<div id="haveNoPostsBlock">
+										<hr>
+										<div><%= user.givenName %> have no posts :(</div>
+									</div>
 								<% } %>
 							</div>
 
