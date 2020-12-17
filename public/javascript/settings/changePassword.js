@@ -2,18 +2,20 @@ import {
   checkPassword,
   checkPasswordRepeat,
 } from "../common/validity-check-functions.js";
-import { alert } from "../common/helper-functions.js";
+import { alert, makeAjax } from "../common/helper-functions.js";
 
 /* ----------- GETTING DATA ----------- */
 const currentPassword = document.getElementById("currentPasswordInput");
 const newPassword = document.getElementById("newPasswordInput");
 const repeatNewPassword = document.getElementById("repeatNewPasswordInput");
+
+const changePasswordModal = document.getElementById("changePasswordModal");
 /* ----------- END OF GETTING DATA ----------- */
 
 /* ----------- ACTION HANDLERS ----------- */
-// Submit button click
-$("#formChangePasswordButton").on("click", () => {
-  onSubmitButtonClick();
+
+document.getElementById("changePasswordSaveButton").addEventListener("click", () => {
+	onSubmitButtonClick();
 });
 
 /* ----------- END OF ACTION HANDLERS ----------- */
@@ -22,7 +24,18 @@ $("#formChangePasswordButton").on("click", () => {
 
 const onSubmitButtonClick = () => {
   if (dataValidation()) {
-    makeAjax();
+		ajaxAction("BEFORE_SEND");
+    makeAjax("/settings/change-password", {
+			currentPassword: currentPassword.value.trim(),
+			newPassword: newPassword.value.trim(),
+		}).then(data => {
+			if (data.data) {
+				document.getElementById("changePasswordContainer")
+					.textContent = `Last changed ${data.data.lastChangePassword}`;
+			}
+			ajaxAction("AFTER_SEND");
+      alert(data.isSuccessful, data.message);
+		});
   }
 }
 
@@ -38,43 +51,33 @@ const dataValidation = () => {
   }
 };
 
-const makeAjax = () => {
-  $.ajax({
-    type: "POST",
-    url: "/settings/change-password",
-    data: {
-      currentPassword: currentPassword.value.trim(),
-      newPassword: newPassword.value.trim(),
-    },
-    beforeSend: ajaxBeforeSend,
-    success: (data) => {
-      if (data.data) {
-        $("#changePasswordContainer").text(
-          `Last changed ${data.data.lastChangePassword}`
-        );
-      }
-      alert(data.isSuccessful, data.message);
-    },
-    complete: ajaxComplete,
-  });
-}
+const ajaxAction = (action) => {
+	const elements = document.querySelectorAll("input, button");
+	switch (action) {
+		case "BEFORE_SEND":
+			for(let element of elements) {
+				element.disabled = true;
+			}
+			changePasswordModal.querySelector(".spinner").hidden = false;
+			changePasswordModal.querySelector(".button-text").hidden = true;
+			break;
+		case "AFTER_SEND":
+			for(let element of elements) {
+				element.disabled = false;
+			}
+			changePasswordModal.querySelector(".spinner").hidden = true;
+			changePasswordModal.querySelector(".button-text").hidden = false;
+			const formGroups = changePasswordModal.querySelectorAll(".form-group");
+			const inputs = changePasswordModal.querySelectorAll("input");
+			for(let formGroup of formGroups) {
+				formGroup.classList.remove("success");
+			}
+			for(let input of inputs) {
+				input.value = "";
+			}
 
-const ajaxBeforeSend = () => {
-  $(
-    "#currentPasswordInput, #newPasswordInput, #repeatNewPasswordInput, #closeFormChangePassword, #formChangePasswordButton"
-  ).prop("disabled", true);
-  $(".spinner").prop("hidden", false);
-  $(".status-text").prop("hidden", true);
-}
-
-const ajaxComplete = () => {
-  $(
-    "#currentPasswordInput, #newPasswordInput, #repeatNewPasswordInput, #closeFormChangePassword, #formChangePasswordButton"
-  ).prop("disabled", false);
-  $(".spinner").prop("hidden", true);
-  $(".status-text").prop("hidden", false);
-  $("#changePasswordModal").modal("hide");
-  $("#changePasswordModal .form-group").removeClass("success");
-  $("#changePasswordModal .form-group input[type='password']").val('')
+  		// $("#changePasswordModal .form-group input[type='password']").val('')
+			break;
+	}
 }
 /* ----------- END OF ACTION HANDLERS FUNCTIONS ----------- */
