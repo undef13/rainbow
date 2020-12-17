@@ -343,10 +343,10 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="birthdayTitle">Birthday</h5>
+            <h5 class="modal-title">Birthday</h5>
           </div>
           <div class="modal-body">
-            <form id="birthdayForm">
+            <form>
               <div class="form-row">
                 <div class="form-group col-md-5">
                   <label for="inputMonth">Month</label>
@@ -385,7 +385,6 @@
             <p class="mr-auto" id="dateStatusText"></p>
             <button
               type="button"
-              id="closeFormBirthday"
               class="btn btn-secondary"
               data-dismiss="modal"
             >
@@ -393,7 +392,6 @@
             </button>
             <button
               type="button"
-              id="birthdaySaveButton"
               class="btn btn-primary"
             >
               <span
@@ -424,12 +422,12 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="genderTitle">Gender</h5>
+            <h5 class="modal-title">Gender</h5>
           </div>
           <div class="modal-body">
-            <form id="genderForm">
+            <form>
               <div class="form-group">
-                <select id="inputGender" class="form-control">
+                <select id="selectGender" class="form-control">
                   <option <%= user.gender ? "" : "selected" %> >Choose...</option>
                   <option <%= user.gender ? user.gender == "Female" ? "selected" : "" : "" %> >Female</option>
                   <option <%= user.gender ? user.gender == "Male" ? "selected" : "" : "" %> >Male</option>
@@ -441,13 +439,12 @@
           <div class="modal-footer">
             <button
               type="button"
-              id="closeFormGender"
               class="btn btn-secondary"
               data-dismiss="modal"
             >
               Close
             </button>
-            <button type="button" id="formGenderButton" class="btn btn-primary">
+            <button type="button" id="genderSaveButton" class="btn btn-primary">
               <span
                 class="spinner spinner-border spinner-border-sm"
                 role="status"

@@ -1,68 +1,66 @@
-import { alert } from "../common/helper-functions.js";
+import { alert, makeAjax } from "../common/helper-functions.js";
 
 /* ----------- GETTING DATA ----------- */
-const gender = document.getElementById("inputGender");
-const button = document.getElementById("formGenderButton");
+const selectGender = document.getElementById("selectGender");
+const genderSaveButton = document.getElementById("genderSaveButton");
+const genderModal = document.getElementById("genderModal");
 /* ----------- END OF GETTING DATA ----------- */
 
-/* ----------- SETTING INITIAL VALUES ----------- */
-let initialGender = gender.value;
-/* ----------- END OF SETTING INITIAL VALUES ----------- */
+// Initial value
+let initialGender = selectGender.value;
 
 /* ----------- ACTION HANDLERS ----------- */
-$("#formGenderButton").on("click", (e) => {
-  makeAjax();
+
+genderSaveButton.addEventListener("click", () => {
+	ajaxAction("BEFORE_SEND");
+	makeAjax("/settings/gender", { gender: selectGender.value }).then(data => {
+		document.getElementById("genderContainer").textContent = data.data.gender;
+		initialGender = data.data.gender;
+		alert(data.isSuccessful, data.message);
+		ajaxAction("AFTER_SEND");
+	})
 });
 
-$("#gender-wrapper").on("click", () => {
-  checkGenderForChanges();
+document.getElementById("gender-wrapper").addEventListener("click", () => {
+	checkGenderForChanges();
 });
 
-$("#inputGender").on("change", () => {
-  checkGenderForChanges();
+selectGender.addEventListener("change", () => {
+	checkGenderForChanges();
 });
 /* ----------- END OF ACTION HANDLERS ----------- */
 
 /* ----------- ACTION HANDLERS FUNCTIONS ----------- */
-const makeAjax = () => {
-  $.ajax({
-    type: "POST",
-    url: "/settings/gender",
-    data: {
-      gender: gender.value,
-    },
-    beforeSend: ajaxBeforeSend,
-    success: (data) => {
-      $("#genderContainer").text(data.data.gender);
-      initialGender = data.data.gender;
-      alert(data.isSuccessful, data.message);
-    },
-    complete: ajaxComplete,
-  });
-}
 
-const ajaxBeforeSend = () => {
-  $("#inputGender, #formGenderButton, #closeFormGender").prop("disabled", true);
-  $(".spinner").prop("hidden", false);
-  $(".status-text").prop("hidden", true);
-}
-
-const ajaxComplete = () => {
-  $("#inputGender, #formGenderButton, #closeFormGender").prop("disabled", false);
-  $(".spinner").prop("hidden", true);
-  $(".status-text").prop("hidden", false);
-  checkGenderForChanges();
-  $("#genderModal").modal("hide");
+const ajaxAction = (action) => {
+	const elements = genderModal.querySelectorAll("button, select");
+	switch(action) {
+		case "BEFORE_SEND":
+			for(let element of elements) {
+				element.disabled = true;
+			}
+			genderModal.querySelector(".spinner").hidden = false;
+			genderModal.querySelector(".button-text").hidden = true;
+			break;
+		case "AFTER_SEND":
+			for(let element of elements) {
+				element.disabled = false;
+			}
+			genderModal.querySelector(".spinner").hidden = true;
+			genderModal.querySelector(".button-text").hidden = false;
+			checkGenderForChanges();
+			break;
+	}
 }
 
 const checkGenderForChanges = () => {
-    if (gender.selectedIndex == 0) {
-        return button.disabled = true;
+    if (selectGender.selectedIndex == 0) {
+        return genderSaveButton.disabled = true;
     }
-    if(initialGender == gender.value) {
-        button.disabled = true;
+    if(initialGender == selectGender.value) {
+			genderSaveButton.disabled = true;
     } else {
-        button.disabled = false
+			genderSaveButton.disabled = false
     }
 }
 
