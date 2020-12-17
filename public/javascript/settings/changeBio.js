@@ -1,56 +1,48 @@
-import { alert } from "../common/helper-functions.js";
+import { alert, closeModal, makeAjax } from "../common/helper-functions.js";
 
 /* ----------- GETTING DATA ----------- */
 const bioTextArea = document.getElementById("bioTextArea");
-const bioSaveButton = document.getElementById("formBioButton");
+const bioSaveButton = document.getElementById("bioSaveButton");
+const bioContainer = document.getElementById("bioContainer");
+const bioModal = document.getElementById("bioModal");
 /* ----------- END OF GETTING DATA ----------- */
 
-/* ----------- GETTING DATA ----------- */
+// Initial Value
 let initialBioText = bioTextArea.value.trim();
-/* ----------- END OF GETTING DATA ----------- */
 
-/* ----------- ACTION HANDLERS ----------- */
-$("#formBioButton").on("click", () => {
-  makeAjax();
+/* ----------- EVENT LISTENERS ----------- */
+bioSaveButton.addEventListener("click", () => {
+	ajaxAction("BEFORE_SEND");
+  makeAjax("/settings/bio", {
+		bio: bioTextArea.value.trim()
+	}).then(data => {
+		let newBioText = data.data.bio;
+		initialBioText = newBioText;
+		if (newBioText == "") {
+			bioContainer.textContent = "None";
+		} else if(newBioText.length > 35) {
+			bioContainer.textContent = `${newBioText.slice(0, 35)}...`;
+		} else {
+			bioContainer.textContent = newBioText;
+		}
+		ajaxAction("AFTER_SEND");
+		alert(data.isSuccessful, data.message);
+	});
 });
-/* ----------- END OF ACTION HANDLERS ----------- */
 
-/* ----------- ACTION HANDLERS FUNCTIONS ----------- */
-const makeAjax = () => {
-  $.ajax({
-    type: "POST",
-    url: "/settings/bio",
-    data: {
-      bio: bioTextArea.value.trim(),
-    },
-    beforeSend: ajaxBeforeSend,
-    success: (data) => {
-      $("#bioContainer").text(
-        data.data.bio !== ""
-          ? data.data.bio.length > 35
-            ? `${data.data.bio.slice(0, 35)}...`
-            : data.data.bio
-          : "None"
-      );
-      initialBioText = data.data.bio;
-      alert(data.isSuccessful, data.message);
-    },
-    complete: ajaxComplete,
-  });
-}
+document.getElementById("bio-wrapper").addEventListener("click", () => {
+	symbolsLeft();
+});
 
-const ajaxBeforeSend = () => {
-  $("#bioTextArea, #formBioButton, #closeFormBio").prop("disabled", true);
-  $(".spinner").prop("hidden", false);
-  $(".status-text").prop("hidden", true);
-}
+document.getElementById("bioTextArea").addEventListener("input", () => {
+	symbolsLeft();
+});
+/* ----------- END OF EVENT LISTENERS ----------- */
 
-const ajaxComplete = () => {
-  $("#bioTextArea, #formBioButton, #closeFormBio").prop("disabled", false);
-  $(".spinner").prop("hidden", true);
-  $(".status-text").prop("hidden", false);
-  checkTextAreaForChanges();
-  $("#bioModal").modal("hide");
+const symbolsLeft = () => {
+	let charactersLeft = bioTextArea.maxLength - bioTextArea.value.length;
+	document.querySelector(".characters-left").textContent = charactersLeft;
+	checkTextAreaForChanges();
 }
 
 const checkTextAreaForChanges = () => {
@@ -60,16 +52,25 @@ const checkTextAreaForChanges = () => {
     bioSaveButton.disabled = false;
   }
 };
-/* ----------- END OF ACTION HANDLERS FUNCTIONS ----------- */
 
-/* ----------- EVENT LISTENERS ----------- */
-$("#bio-wrapper").on("click", () => {
-  $(".characters-left").text(bioTextArea.maxLength - bioTextArea.value.length);
-  checkTextAreaForChanges();
-});
-
-$("#bioTextArea").on("input", () => {
-  $(".characters-left").text(bioTextArea.maxLength - bioTextArea.value.length);
-  checkTextAreaForChanges();
-});
-/* ----------- END OF EVENT LISTENERS ----------- */
+const ajaxAction = (action) => {
+	const elements = bioModal.querySelectorAll("button, textarea");
+	switch (action) {
+		case "BEFORE_SEND":
+			for(let element of elements) {
+				element.disabled = true;
+			}
+			bioModal.querySelector(".spinner").hidden = false;
+			bioModal.querySelector(".button-text").hidden = true;
+			break;
+		case "AFTER_SEND":
+			for(let element of elements) {
+				element.disabled = false;
+			}	
+			bioModal.querySelector(".spinner").hidden = true;
+			bioModal.querySelector(".button-text").hidden = false;
+			checkTextAreaForChanges();
+			closeModal(bioModal);
+			break;
+	}
+}

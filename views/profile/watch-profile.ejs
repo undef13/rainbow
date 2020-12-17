@@ -107,12 +107,11 @@
 							<!-- Posts -->
 							<div class="wrapper" id="postsHeader">
 								<div>Posts</div>
-								<% if (posts.length <= 0) { %>
-									<div id="haveNoPostsBlock">
-										<hr>
-										<div><%= user.givenName %> have no posts :(</div>
-									</div>
-								<% } %>
+								<div id="haveNoPostsBlock" <%= user.posts.length > 0 ? "hidden" : "" %>>
+									<hr />
+									<div><%= user.givenName %> have no posts :(</div>
+								</div>
+							
 							</div>
 
 							<% if (posts.length > 0) { %>

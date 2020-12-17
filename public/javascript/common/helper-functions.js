@@ -38,3 +38,22 @@ export const alert = (isSuccessful, message) => {
       $(this).remove();
     });
 };
+
+/* Close modal */
+export const closeModal = (modal) => {
+	modal.classList.remove('show');
+	modal.setAttribute('aria-hidden', 'true');
+	modal.setAttribute('style', 'display: none');
+	const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+	document.body.removeChild(modalBackdrops[0]);	
+}
+
+/* Ajax */
+export const makeAjax = async (url = "", data = {}) => {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return response.json();
+};
