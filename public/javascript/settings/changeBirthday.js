@@ -1,14 +1,17 @@
-import { alert } from "../common/helper-functions.js";
+import { alert, closeModal, makeAjax } from "../common/helper-functions.js";
 
 /* ----------- GETTING DATA ----------- */
-const month = document.getElementById("inputMonth");
+const selectMonth = document.getElementById("inputMonth");
 const year = document.getElementById("inputYear");
 const day = document.getElementById("inputDay");
-const button = document.getElementById("formBirthdayButton");
+const birthdaySaveButton = document.getElementById("birthdaySaveButton");
+
+const birthdayWrapper = document.getElementById("birthday-wrapper");
+const birthdayModal = document.getElementById("birthdayModal");
 /* ----------- END OF GETTING DATA ----------- */
 
 /* ----------- SETTING INITIAL VALUES ----------- */
-let initialMonth = month.selectedIndex;
+let initialMonth = selectMonth.selectedIndex;
 let initialYear = year.value;
 let initialDay = day.value;
 /* ----------- END OF SETTING INITIAL VALUES ----------- */
@@ -19,15 +22,15 @@ const minimalYear = currentYear - 100;
 /* ----------- END OF CONSTANT VALUES ----------- */
 
 /* ----------- ACTION HANDLERS ----------- */
-$("#formBirthdayButton").on("click", () => {
-  onSubmitButtonClick();
+birthdaySaveButton.addEventListener("click", () => {
+	onSubmitButtonClick();
 });
 
-$("#birthday-wrapper").on("click", () => {
+birthdayWrapper.addEventListener("click", () => {
   checkBirthdayForChanges();
 });
 
-$("#inputMonth").on("change", () => {
+selectMonth.addEventListener("change", () => {
   checkBirthdayForChanges();
 });
 /* ----------- END OF ACTION HANDLERS ----------- */
@@ -35,65 +38,61 @@ $("#inputMonth").on("change", () => {
 /* ----------- ACTION HANDLERS FUNCTIONS ----------- */
 const onSubmitButtonClick = () => {
   if (dataValidation()) {
-    makeAjax();
-  } else {
-    $("#dateStatusText").text("Invalid date");
-  }
-}
-
-const makeAjax = () => {
-  $.ajax({
-    type: "POST",
-    url: "/settings/birthday",
-    data: {
-      month: month.value,
+		ajaxAction("BEFORE_SEND");
+    makeAjax("/settings/birthday", {
+			month: selectMonth.value,
       year: year.value.trim(),
       day: day.value.trim(),
-    },
-    beforeSend: ajaxBeforeSend,
-    success: (data) => {
-      $("#birthdayContainer").text(
-        dateToText(data.data.month, data.data.year, data.data.day)
-      );
+		}).then(data => {
+			document.getElementById("birthdayContainer").textContent = dateToText(data.data.month, data.data.year, data.data.day);
       initialYear = data.data.year;
       initialDay = data.data.day;
       initialMonth = data.data.month + 1;
-      alert(data.isSuccessful, data.message);
-    },
-    complete: ajaxComplete,
-  });
+			alert(data.isSuccessful, data.message);
+			
+			ajaxAction("AFTER_SEND");
+		})
+  } else {
+    birthdayModal.querySelector("#dateStatusText").textContent = "Invalid date";
+  }
 }
 
-const ajaxBeforeSend = () => {
-  $("#inputMonth, #inputYear, #inputDay, #formBirthdayButton, #closeFormBirthday").prop(
-    "disabled",
-    true
-  );
-  $(".spinner").prop("hidden", false);
-  $(".status-text").prop("hidden", true);
-}
-
-const ajaxComplete = () => {
-  $("#inputMonth, #inputYear, #inputDay, #formBirthdayButton, #closeFormBirthday").prop(
-    "disabled",
-    false
-  );
-  $(".spinner").prop("hidden", true);
-  $(".status-text").prop("hidden", false);
-  checkBirthdayForChanges();
-  $("#birthdayModal").modal("hide");
-  $("#dateStatusText").text("");
-  $("#birthdayModal input").removeClass("success");
+const ajaxAction = (action) => {
+	const elements = birthdayModal.querySelectorAll("input, select, button");
+	switch (action) {
+		case "BEFORE_SEND":
+			for(let element of elements) {
+				element.disabled = true;
+			}
+			birthdayModal.querySelector(".spinner").hidden = false;
+			birthdayModal.querySelector(".button-text").hidden = true;
+			break;
+		case "AFTER_SEND":
+			for(let element of elements) {
+				element.disabled = false;
+			}
+			birthdayModal.querySelector(".spinner").hidden = true;
+			birthdayModal.querySelector(".button-text").hidden = false;
+			checkBirthdayForChanges();
+			// closeModal(birthdayModal)
+			birthdayModal.querySelector("#dateStatusText").textContent = "";
+			const inputs = birthdayModal.querySelectorAll("input");
+			for(let input of inputs) {
+				input.classList.remove("error");
+				input.classList.remove("success");
+			}
+			break;
+	}
 }
 
 const checkBirthdayForChanges = () => {
-  if(month.selectedIndex == 0) {
-    return button.disabled = true;
+  if(selectMonth.selectedIndex == 0) {
+    return birthdaySaveButton.disabled = true;
   }
-  if(year.value == initialYear && day.value == initialDay && month.selectedIndex == initialMonth) {
-    button.disabled = true;
+  if(year.value == initialYear && day.value == initialDay && selectMonth.selectedIndex == initialMonth) {
+    birthdaySaveButton.disabled = true;
   } else {
-    button.disabled = false;
+    birthdaySaveButton.disabled = false;
   }
 }
 
@@ -128,7 +127,7 @@ const dateToText = (month, year, day) => {
 
 const dataValidation = () => {
   let userYear = year.value;
-  let userMonth = month.value;
+  let userMonth = selectMonth.value;
   let userDay = day.value;
 
   if (
@@ -228,19 +227,20 @@ const checkDayValidity = (userDay, userMonth, userYear) => {
 
 const setErrorStatus = (error, input) => {
   if (error) {
-    input.className = "form-control error";
+    input.classList.add("error");
   } else {
-    input.className = "form-control success";
+		input.classList.add("success");
   }
 }
 
 // Only numbers in input fields
-$("#inputYear, #inputDay").on("input", function() {
-  $(this).val(
-    $(this)
-      .val()
-      .replace(/^0|[^\d]/g, "")
-  );
-  checkBirthdayForChanges();
+day.addEventListener("input", function() {
+	this.value = this.value.replace(/^0|[^\d]/g, "");
+	checkBirthdayForChanges();
+});
+
+year.addEventListener("input", function() {
+	this.value = this.value.replace(/^0|[^\d]/g, "");
+	checkBirthdayForChanges();
 });
 /* ----------- END OF ACTION HANDLERS FUNCTIONS ----------- */

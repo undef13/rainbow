@@ -70,7 +70,7 @@ const ajaxAction = (action) => {
 			bioModal.querySelector(".spinner").hidden = true;
 			bioModal.querySelector(".button-text").hidden = false;
 			checkTextAreaForChanges();
-			closeModal(bioModal);
+			// closeModal(bioModal);
 			break;
 	}
 }

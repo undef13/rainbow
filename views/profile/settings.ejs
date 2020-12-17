@@ -285,7 +285,7 @@
             <h5 class="modal-title">Bio</h5>
           </div>
           <div class="modal-body">
-            <form id="bioForm">
+            <form>
               <div class="form-group">
                 <p class="font-weight-light">
                   Any details such as occupation or city. <br />
@@ -367,14 +367,14 @@
                 </div>
                 <div class="form-group col-md-4">
                   <label for="inputYear">Year</label>
-                  <input type="text" class="form-control" id="inputYear"
+                  <input autocomplete="off" type="text" class="form-control" id="inputYear"
                   value="<%= user.birthday ? user.birthday.getFullYear() : ""
                   %>" />
                 </div>
 
                 <div class="form-group col-md-3">
                   <label for="inputDay">Day</label>
-                  <input type="text" class="form-control" id="inputDay"
+                  <input autocomplete="off" type="text" class="form-control" id="inputDay"
                   value="<%= user.birthday ? user.birthday.getDate() : "" %>" />
                 </div>
               </div>
@@ -392,7 +392,7 @@
             </button>
             <button
               type="button"
-              id="formBirthdayButton"
+              id="birthdaySaveButton"
               class="btn btn-primary"
             >
               <span
