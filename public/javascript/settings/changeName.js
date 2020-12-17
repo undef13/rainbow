@@ -1,19 +1,16 @@
-import {
-  checkGivenName,
-  checkFamilyName,
-} from "../common/validity-check-functions.js";
-import { alert } from "../common/helper-functions.js";
+import { checkGivenName, checkFamilyName } from "../common/validity-check-functions.js";
+import { alert, makeAjax } from "../common/helper-functions.js";
 
 /* ----------- GETTING DATA ----------- */
 const givenNameInput = document.getElementById("givenNameInput");
 const familyNameInput = document.getElementById("familyNameInput");
-const formNameButton = document.getElementById("formNameButton");
+const genderSaveButton = document.getElementById("nameSaveButton");
+const displayNameModal = document.getElementById("displayNameModal");
 /* ----------- END OF GETTING DATA ----------- */
 
-/* ----------- SETTING INITIAL VALUES ----------- */
+// Initial values
 let initialGivenName = givenNameInput.value.trim();
 let initialFamilyName = familyNameInput.value.trim();
-/* ----------- END OF SETTING INITIAL VALUES ----------- */
 
 /* ----------- CHECK INPUTS FOR CHANGES ----------- */
 const checkInputsForChanges = () => {
@@ -21,21 +18,20 @@ const checkInputsForChanges = () => {
     givenNameInput.value.trim() == initialGivenName &&
     familyNameInput.value.trim() == initialFamilyName
   ) {
-    formNameButton.disabled = true;
+    genderSaveButton.disabled = true;
   } else {
-    formNameButton.disabled = false;
+    genderSaveButton.disabled = false;
   }
 };
 /* ----------- END OF CHECK INPUTS FOR CHANGES ----------- */
 
 /* ----------- ACTION HANDLERS ----------- */
-// Click on div to block button
-$("#name-wrapper").on("click", () => {
-  checkInputsForChanges();
+document.getElementById("name-wrapper").addEventListener("click", () => {
+	checkInputsForChanges();
 });
 
 // Click on "Save" button in the name form
-$("#formNameButton").on("click", () => {
+genderSaveButton.addEventListener("click", () => {
   onSubmitButtonClick();
 });
 
@@ -44,48 +40,45 @@ $("#formNameButton").on("click", () => {
 /* ----------- ACTION HANDLERS FUNCTIONS ----------- */
 const onSubmitButtonClick = () => {
   if (formNameValidation()) {
-    makeAjax();
+		ajaxAction("BEFORE_SEND");
+    makeAjax("/settings/display-name", {
+			givenName: givenNameInput.value.trim(),
+      familyName: familyNameInput.value.trim()
+		}).then(data => {
+			document.getElementById("displayNameContainer").textContent = data.data.displayName;
+			document.getElementById("displayNameSpan").textContent = data.data.displayName;
+      initialGivenName = data.data.givenName;
+			initialFamilyName = data.data.familyName;
+			ajaxAction("AFTER_SEND");
+			checkInputsForChanges();
+      alert(data.isSuccessful, data.message);
+		});
   }
 };
 
-const makeAjax = () => {
-  $.ajax({
-    type: "POST",
-    url: "/settings/display-name",
-    data: {
-      givenName: givenNameInput.value.trim(),
-      familyName: familyNameInput.value.trim(),
-    },
-    beforeSend: ajaxBeforeSend,
-    success: (data) => {
-      $("#displayNameContainer").text(data.data.displayName);
-      $("#displayNameSpan").text(data.data.displayName);
-
-      initialGivenName = data.data.givenName;
-      initialFamilyName = data.data.familyName;
-      checkInputsForChanges();
-      alert(data.isSuccessful, data.message);
-    },
-    complete: ajaxComplete,
-  });
-};
-
-const ajaxBeforeSend = () => {
-  $("#givenNameInput, #familyNameInput, #closeFormName").prop("disabled", true);
-  $(".spinner").prop("hidden", false);
-  $(".status-text").prop("hidden", true);
-};
-
-const ajaxComplete = () => {
-  $("#givenNameInput, #familyNameInput, #closeFormName").prop(
-    "disabled",
-    false
-  );
-  $(".spinner").prop("hidden", true);
-  $(".status-text").prop("hidden", false);
-  $("#displayNameModal").modal("hide");
-  $("#displayNameModal .form-group").removeClass("success");
-};
+const ajaxAction = (action) => {
+	const elements = displayNameModal.querySelectorAll("button, input");
+	switch (action) {
+		case "BEFORE_SEND":
+			for(let element of elements) {
+				element.disabled = true;
+			}
+			displayNameModal.querySelector(".spinner").hidden = false;
+			displayNameModal.querySelector(".button-text").hidden = true;
+			break;
+		case "AFTER_SEND":
+			for(let element of elements) {
+				element.disabled = false;
+			}
+			displayNameModal.querySelector(".spinner").hidden = true;
+			displayNameModal.querySelector(".button-text").hidden = false;
+			const formGroups = displayNameModal.querySelectorAll(".form-group");
+			for(let formGroup of formGroups) {
+				formGroup.classList.remove("success");
+			}
+			break;
+	}
+}
 /* ----------- END OF ACTION HANDLERS FUNCTIONS ----------- */
 
 /* ----------- FUNCTIONS FOR VALIDATION FORMS ----------- */

@@ -213,13 +213,14 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="displayNameTitle">Name</h5>
+            <h5 class="modal-title">Name</h5>
           </div>
           <div class="modal-body">
-            <form id="displayNameForm">
+            <form>
               <div class="form-group">
                 <label for="givenNameInput" class="col-form-label">Name:</label>
-                <input
+								<input
+									autocomplete="off"
                   type="text"
                   class="form-control"
                   id="givenNameInput"
@@ -233,7 +234,8 @@
                 <label for="familyNameInput" class="col-form-label"
                   >Last name:</label
                 >
-                <input
+								<input
+									autocomplete="off"
                   type="text"
                   class="form-control"
                   id="familyNameInput"
@@ -248,13 +250,12 @@
           <div class="modal-footer">
             <button
               type="button"
-              id="closeFormName"
               class="btn btn-secondary"
               data-dismiss="modal"
             >
               Close
             </button>
-            <button type="button" id="formNameButton" class="btn btn-primary">
+            <button type="button" id="nameSaveButton" class="btn btn-primary">
               <span
                 class="spinner spinner-border spinner-border-sm"
                 role="status"
@@ -392,7 +393,8 @@
             </button>
             <button
               type="button"
-              class="btn btn-primary"
+							class="btn btn-primary"
+							id="birthdaySaveButton"
             >
               <span
                 class="spinner spinner-border spinner-border-sm"

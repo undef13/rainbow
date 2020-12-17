@@ -27,16 +27,27 @@ export const isValidPassword = (password) => {
 
 /* Alert function */
 export const alert = (isSuccessful, message) => {
-  $("body").append(
-    `<div style="margin:0;" class='alert alert-${
-      isSuccessful ? "success" : "danger"
-    } fixed-bottom alert-container text-center' role='alert'><span>${message}</span></div>`
-  );
-  $(".alert-container")
-    .delay(4000)
-    .fadeOut("slow", function () {
-      $(this).remove();
-    });
+	let alert = document.createElement('div');
+  alert.className = "alert";
+  alert.innerHTML = `<div style="margin:0;" class='alert alert-${
+		isSuccessful ? "success" : "danger"
+	} fixed-bottom alert-container text-center' role='alert'><span>${message}</span></div>`;
+  document.body.append(alert);
+
+	setTimeout(() => {
+		const fadeTarget = document.querySelector(".alert-container");
+		const fadeEffect = setInterval(() => {
+				if (!fadeTarget.style.opacity) {
+						fadeTarget.style.opacity = 1;
+				}
+				if (fadeTarget.style.opacity > 0) {
+						fadeTarget.style.opacity -= 0.1;
+				} else {
+						fadeTarget.remove();
+						clearInterval(fadeEffect);
+				}
+		}, 50);
+	}, 4000);
 };
 
 /* Close modal */
