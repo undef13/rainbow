@@ -1,6 +1,14 @@
 import { checkGivenName, checkFamilyName, checkEmail, checkPassword, checkPasswordRepeat } from "../common/validity-check-functions.js";
-import { alert } from "../common/helper-functions.js";
+import { alert, makeAjax } from "../common/helper-functions.js";
+
+// Constants
+const REGISTER_BEFORE_SEND = "REGISTER_BEFORE_SEND";
+const REGISTER_AFTER_SEND = "REGISTER_AFTER_SEND";
+const RECOVER_BEFORE_SEND = "RECOVER_BEFORE_SEND";
+const RECOVER_AFTER_SEND = "RECOVER_AFTER_SEND";
+
 /* ---------- GETTING DATA ---------- */
+const createNewAccountModal = document.getElementById("createNewAccountModal");
 const registerForm = document.getElementById("registerForm");
 const registerGivenNameInput = document.getElementById("registerGivenNameInput");
 const registerFamilyNameInput = document.getElementById("registerFamilyNameInput");
@@ -14,6 +22,7 @@ const loginPasswordInput = document.getElementById("loginPasswordInput");
 
 const forgotPasswordForm = document.getElementById("forgotPasswordForm");
 const forgotPasswordEmailInput = document.getElementById("forgotPasswordEmailInput");
+const forgotPasswordModal = document.getElementById("forgotPasswordModal");
 /* ---------- END OF GETTING DATA ---------- */
 
 /* ---------- DATA VALIDATION FUNCTIONS ---------- */
@@ -42,7 +51,6 @@ const registerValidityCheck = () => {
 const loginValidityCheck = () => {
   let loginEmailInputValue = loginEmailInput.value.trim();
   let loginPasswordInputValue = loginPasswordInput.value.trim();
-
   if (
     checkEmail(loginEmailInputValue, loginEmailInput) & 
     checkPassword(loginPasswordInputValue, loginPasswordInput)
@@ -56,31 +64,29 @@ const loginValidityCheck = () => {
 // Forgot Password Validation
 const forgotPasswordValidityCheck = () => {
   const forgotPasswordEmailInputValue = forgotPasswordEmailInput.value.trim();
-
   if(checkEmail(forgotPasswordEmailInputValue, forgotPasswordEmailInput)) {
     return true;
   } else {
     return false;
   }
-
 };
 /* ---------- END OF DATA VALIDATION FUNCTIONS ---------- */
 
 /* ---------- ACTION HANDLERS ---------- */
 // Sign up handler
-$("#signUpButton").on("click", () => {
-  onClickSignUpHandler();
+document.getElementById("signUpButton").addEventListener("click", () => {
+	onClickSignUpHandler();
 });
 
 // Forgot password handler
-$("#forgotPasswordButton").on("click", () => {
-  onClickForgotPasswordHandler();
+document.getElementById("forgotPasswordButton").addEventListener("click", () => {
+	onClickForgotPasswordHandler();
 });
 
 // Preventing default behavior "Forgot password" link
-$("#forgotPasswordLink").on("click", (e) => {
-  e.preventDefault();
-})
+document.getElementById("forgotPasswordLink").addEventListener("click", (e) => {
+	e.preventDefault();
+});
 /* ---------- END OF ACTION HANDLERS ---------- */
 
 /* ---------- EVENT LISTENERS ---------- */
@@ -108,75 +114,84 @@ const onClickSignUpHandler = () => {
   const email = registerEmailInput.value.trim();
   const password = registerPasswordInput.value.trim();
   if (registerValidityCheck()) {
-    $.ajax({
-      type: "POST",
-      url: "/auth/register",
-      data: { givenName, familyName, email, password },
-      beforeSend: () => {
-        $(
-          "#registerGivenNameInput, #registerFamilyNameInput, #registerEmailInput, #registerPasswordInput, #registerPasswordRepeatInput, button"
-        ).prop("disabled", true);
-        $(".spinner").prop("hidden", false);
-        $(".status-text").prop("hidden", true);
-      },
-      success: (data) => {
-        if (typeof data === "string") {
+		ajaxAction(REGISTER_BEFORE_SEND);
+		makeAjax("/auth/register", {
+			givenName, familyName, email, password
+		})
+		.then(data => {
+			if (typeof data === "string") {
           data = JSON.parse(data);
-        }
-        if (data.isSuccessful) {
-          $("#registerStatusText").addClass("success");
-          $("#registerStatusText").removeClass("error");
-        } else {
-          $("#registerStatusText").addClass("error");
-          $("#registerStatusText").removeClass("success");
-        }
-        alert(data.isSuccessful, data.message);
-      },
-      complete: () => {
-        $(
-          "#registerGivenNameInput, #registerFamilyNameInput, #registerEmailInput, #registerPasswordInput, #registerPasswordRepeatInput, button"
-        ).prop("disabled", false);
-        $(".spinner").prop("hidden", true);
-        $(".status-text").prop("hidden", false);
-        $("#createNewAccountModal").modal("hide");
-      },
-    });
+      }
+      if (data.isSuccessful) {
+				document.getElementById("registerStatusText").classList.add("success");
+				document.getElementById("registerStatusText").classList.remove("error");
+      } else {
+				document.getElementById("registerStatusText").classList.add("error");
+				document.getElementById("registerStatusText").classList.remove("success");
+			}
+			ajaxAction(REGISTER_AFTER_SEND);
+      alert(data.isSuccessful, data.message);
+		});
   }
 };
 
 // Forgot password handler function
 const onClickForgotPasswordHandler = () => {
   if (forgotPasswordValidityCheck()) {
-    const email = forgotPasswordEmailInput.value.trim();
-    $.ajax({
-      type: "POST",
-      url: "/auth/forgot",
-      data: { email: email },
-      beforeSend: () => {
-        $("#forgotPasswordEmailInput, button").prop("disabled", true);
-        $(".spinner").prop("hidden", false);
-        $(".status-text").prop("hidden", true);
-      },
-      success: (data) => {
-        if (typeof data === "string") {
-          data = JSON.parse(data);
-        }
-        if (data.isSuccessful) {
-          $("#forgotPasswordStatusText").addClass("success");
-          $("#forgotPasswordStatusText").removeClass("error");
-        } else {
-          $("#forgotPasswordStatusText").addClass("error");
-          $("#forgotPasswordStatusText").removeClass("success");
-        }
-        alert(data.isSuccessful, data.message);
-      },
-      complete: () => {
-        $("#forgotPasswordEmailInput, button").prop("disabled", false);
-        $(".spinner").prop("hidden", true);
-        $(".status-text").prop("hidden", false);
-        $("#forgotPasswordModal").modal("hide");
-      },
-    });
+		const email = forgotPasswordEmailInput.value.trim();
+		ajaxAction(RECOVER_BEFORE_SEND);
+		makeAjax("/auth/forgot", { email })
+		.then(data => {
+			if (typeof data === "string") {
+				data = JSON.parse(data);
+			}
+			if (data.isSuccessful) {
+				document.getElementById("registerStatusText").classList.add("success");
+				document.getElementById("registerStatusText").classList.remove("error");
+			} else {
+				document.getElementById("registerStatusText").classList.add("error");
+				document.getElementById("registerStatusText").classList.remove("success");
+			}
+			ajaxAction(RECOVER_AFTER_SEND);
+			alert(data.isSuccessful, data.message);
+		});
   }
 };
 /* ---------- END OF ACTION HANDLERS FUNCTIONS ---------- */
+
+const ajaxAction = (action) => {
+	const registerElements = createNewAccountModal.querySelectorAll("input, button");
+	const recoverElements = forgotPasswordModal.querySelectorAll("input, button");
+	switch (action) {
+		case REGISTER_BEFORE_SEND:
+			for(let element of registerElements) {
+				element.disabled = true;
+			}
+			createNewAccountModal.querySelector(".spinner").hidden = false;
+			createNewAccountModal.querySelector(".status-text").hidden = true;
+			break;
+		case REGISTER_AFTER_SEND:
+			for(let element of registerElements) {
+				element.disabled = false;
+			}
+			createNewAccountModal.querySelector(".spinner").hidden = true;
+			createNewAccountModal.querySelector(".status-text").hidden = false;
+			// close modal
+			break;
+		case RECOVER_BEFORE_SEND:
+			for(let element of recoverElements) {
+				element.disabled = true;
+			}
+			forgotPasswordModal.querySelector(".spinner").hidden = false;
+			forgotPasswordModal.querySelector(".status-text").hidden = true;
+			break;
+		case RECOVER_AFTER_SEND:
+			for(let element of recoverElements) {
+				element.disabled = false;
+			}
+			forgotPasswordModal.querySelector(".spinner").hidden = true;
+			forgotPasswordModal.querySelector(".status-text").hidden = false;
+			//hide modal
+			break;
+	}
+}
