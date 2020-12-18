@@ -75,8 +75,6 @@ const ajaxAction = (action) => {
 			for(let input of inputs) {
 				input.value = "";
 			}
-
-  		// $("#changePasswordModal .form-group input[type='password']").val('')
 			break;
 	}
 }
