@@ -112,7 +112,11 @@ const onClickSignUpHandler = () => {
   const givenName = registerGivenNameInput.value.trim();
   const familyName = registerFamilyNameInput.value.trim();
   const email = registerEmailInput.value.trim();
-  const password = registerPasswordInput.value.trim();
+	const password = registerPasswordInput.value.trim();
+
+	const createAccModal = document.getElementById('createNewAccountModal');
+	const modal = bootstrap.Modal.getInstance(createAccModal);
+
   if (registerValidityCheck()) {
 		ajaxAction(REGISTER_BEFORE_SEND);
 		makeAjax("/auth/register", {
@@ -130,6 +134,7 @@ const onClickSignUpHandler = () => {
 				document.getElementById("registerStatusText").classList.remove("success");
 			}
 			ajaxAction(REGISTER_AFTER_SEND);
+			modal.hide();
       alert(data.isSuccessful, data.message);
 		});
   }
@@ -139,6 +144,10 @@ const onClickSignUpHandler = () => {
 const onClickForgotPasswordHandler = () => {
   if (forgotPasswordValidityCheck()) {
 		const email = forgotPasswordEmailInput.value.trim();
+
+		const recoverPassModal = document.getElementById('forgotPasswordModal');
+		const modal = bootstrap.Modal.getInstance(recoverPassModal);
+
 		ajaxAction(RECOVER_BEFORE_SEND);
 		makeAjax("/auth/forgot", { email })
 		.then(data => {
@@ -153,6 +162,7 @@ const onClickForgotPasswordHandler = () => {
 				document.getElementById("registerStatusText").classList.remove("success");
 			}
 			ajaxAction(RECOVER_AFTER_SEND);
+			modal.hide();
 			alert(data.isSuccessful, data.message);
 		});
   }

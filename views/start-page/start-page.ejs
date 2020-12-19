@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="/css/start-page/start-page.css" />
     <link rel="stylesheet" href="/css/common/index.css">
     <link rel="stylesheet" href="/css/common/data-validation.css">
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
+		/> -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
   </head>
   <body>
     <% if (errors.length > 0) { %>
@@ -48,7 +49,6 @@
                     name="email"
                     id="loginEmailInput"
                     placeholder="Email"
-                    autocomplete="off"
                   />
                   <i class="fas fa-check-circle"></i>
                   <i class="fas fa-exclamation-circle"></i>
@@ -75,8 +75,8 @@
               <div class="linkContainer">
                 <a
                   id="forgotPasswordLink"
-                  data-toggle="modal"
-                  data-target="#forgotPasswordModal"
+                  data-bs-toggle="modal"
+                  data-bs-target="#forgotPasswordModal"
                   >Forgot password?</a
                 >
               </div>
@@ -88,8 +88,8 @@
                 class="btn btn-success"
                 type="button"
                 value="Create New Account"
-                data-toggle="modal"
-                data-target="#createNewAccountModal"
+                data-bs-toggle="modal"
+                data-bs-target="#createNewAccountModal"
               />
               <div class="text-divider">OR</div>
               <a id="googleLink" href="/auth/google">Sign in with Google</a>
@@ -108,23 +108,15 @@
       role="dialog"
       aria-labelledby="createNewAccountModalTitle"
       aria-hidden="true"
-      data-backdrop="static"
-      data-keyboard="false"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="forgotPasswordTitle">
+            <h5 class="modal-title">
               Create New Account | Rainbow
             </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
           </div>
           <div class="modal-body">
             <form id="registerForm">
@@ -197,7 +189,7 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Close
             </button>
@@ -224,23 +216,15 @@
       role="dialog"
       aria-labelledby="forgotPasswordModalTitle"
       aria-hidden="true"
-      data-backdrop="static"
-      data-keyboard="false"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="forgotPasswordTitle">
+            <h5 class="modal-title">
               Forgot Password? | Rainbow
             </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
           </div>
           <div class="modal-body">
             <form id="forgotPasswordForm">
@@ -262,7 +246,7 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Close
             </button>
@@ -284,10 +268,10 @@
       </div>
     </div>
     <!-- -------------- End of Forgot Password Modal window -------------- -->
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
     <script
       src="https://kit.fontawesome.com/e307e9c374.js"
       crossorigin="anonymous"

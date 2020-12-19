@@ -74,6 +74,18 @@ const disableAddingInputs = (disable) => {
       .setAttribute("hidden", "hidden");
   }
 };
+
+postTextArea.addEventListener("input", () => {
+	checkPostTextAreaText();
+});
+
+const checkPostTextAreaText = () => {
+  if (postTextArea.value === "") {
+    postButton.disabled = true;
+  } else {
+    postButton.disabled = false;
+  }
+};
 /* --------- END OF ADDING POST --------- */
 
 /* --------- EDITING POST --------- */
@@ -90,7 +102,7 @@ const cancelEditing = (postId) => {
 // Save changes button click
 const savePost = (postId) => {
   const postContainer = document.getElementById(postId);
-  const editText = postContainer.querySelector(`#newPostTextArea`);
+  const editText = postContainer.querySelector(`.textarea`);
   const selectVisibility = postContainer.querySelector(`select`);
 	const buttons = postContainer.querySelectorAll(`button`);
 	
@@ -143,7 +155,7 @@ const showEditingControls = (postId, show) => {
     editControls.style.setProperty("display", "none", "important");
     postInfo.style.setProperty("display", "");
     textContainer.style.setProperty("display", "block");
-    editTextContainer.style.setProperty("display", "none");
+		editTextContainer.style.setProperty("display", "none");
   }
 };
 /* --------- END OF EDITING POST --------- */
