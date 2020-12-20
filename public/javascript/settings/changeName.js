@@ -76,6 +76,8 @@ const ajaxAction = (action) => {
 			for(let formGroup of formGroups) {
 				formGroup.classList.remove("success");
 			}
+			const modal = bootstrap.Modal.getInstance(displayNameModal);
+			modal.hide();
 			break;
 	}
 }

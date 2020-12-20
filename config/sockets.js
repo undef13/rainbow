@@ -101,7 +101,7 @@ const newPostCreator = `<div id="post_<%= newPost._id %>" class="wrapper post">
 		<button
 			class="btn btn-sm dropdown-toggle"
 			type="button"
-			data-toggle="dropdown"
+			data-bs-toggle="dropdown"
 			aria-haspopup="true"
 			aria-expanded="false"
 		>
@@ -116,7 +116,7 @@ const newPostCreator = `<div id="post_<%= newPost._id %>" class="wrapper post">
 </div>
 
 <%# Post Body %>
-<div class="text-justify postText">
+<div class="text-justify postText text-break">
 	<%= newPost.postText %>
 </div>
 
@@ -187,7 +187,7 @@ const newPostWatcher = `<div id="post_<%= newPost._id %>" class="wrapper post">
 </div>
 </div>
 <%# Post Body %>
-<div class="text-justify postText">
+<div class="text-justify postText text-break">
 <%= newPost.postText %>
 </div>
 <hr />

@@ -1,10 +1,10 @@
 /* Data validation */
-.form-group i {
+.form-collection i {
   top: 49px;
   right: 13px;
 }
 
-.form-group small {
+.form-collection small {
   top: 77px;
   left: 0;
 }
@@ -54,7 +54,7 @@ textarea {
 
 /* ---------- CHANGE PASSWORD FIELD ---------- */
 
-#changePasswordForm .form-group {
+#changePasswordForm .form-collection {
   margin-bottom: 20px !important;
 }
 

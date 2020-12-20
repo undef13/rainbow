@@ -1,4 +1,4 @@
-import { alert, closeModal, makeAjax } from "../common/helper-functions.js";
+import { alert, makeAjax } from "../common/helper-functions.js";
 
 /* ----------- GETTING DATA ----------- */
 const selectMonth = document.getElementById("inputMonth");
@@ -48,9 +48,8 @@ const onSubmitButtonClick = () => {
       initialYear = data.data.year;
       initialDay = data.data.day;
       initialMonth = data.data.month + 1;
-			alert(data.isSuccessful, data.message);
-			
 			ajaxAction("AFTER_SEND");
+			alert(data.isSuccessful, data.message);
 		})
   } else {
     birthdayModal.querySelector("#dateStatusText").textContent = "Invalid date";
@@ -74,7 +73,8 @@ const ajaxAction = (action) => {
 			birthdayModal.querySelector(".spinner").hidden = true;
 			birthdayModal.querySelector(".button-text").hidden = false;
 			checkBirthdayForChanges();
-			// closeModal(birthdayModal)
+			const modal = bootstrap.Modal.getInstance(birthdayModal);
+			modal.hide();
 			birthdayModal.querySelector("#dateStatusText").textContent = "";
 			const inputs = birthdayModal.querySelectorAll("input");
 			for(let input of inputs) {

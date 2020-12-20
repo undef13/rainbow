@@ -49,6 +49,8 @@ const ajaxAction = (action) => {
 			genderModal.querySelector(".spinner").hidden = true;
 			genderModal.querySelector(".button-text").hidden = false;
 			checkGenderForChanges();
+			const modal = bootstrap.Modal.getInstance(genderModal);
+			modal.hide();
 			break;
 	}
 }

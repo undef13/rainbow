@@ -1,56 +1,54 @@
-/* Data validation */
-.form-group {
+.form-collection {
   margin-bottom: 30px !important;
   position: relative !important;
 }
 
-.form-group input:focus {
+.form-collection input:focus {
   outline: 0;
   border-color: #007bff;
   box-shadow: none;
 }
 
-.form-group.success input, .success {
+.form-collection.success input, .success {
   border-color: #2ecc71;
 }
 
-.form-group.error input, .error {
+.form-collection.error input, .error {
   border-color: #e74c3c;
 }
 
-.form-group i {
+.form-collection i {
   visibility: hidden;
   position: absolute;
 }
 
-.form-group.success i.fa-check-circle {
+.form-collection.success i.fa-check-circle {
   color: #2ecc71;
   visibility: visible;
 }
 
-.form-group.error i.fa-exclamation-circle {
+.form-collection.error i.fa-exclamation-circle {
   color: #e74c3c;
   visibility: visible;
 }
 
-.form-group small {
+.form-collection small {
   position: absolute;
   visibility: hidden;
 }
 
-.form-group.error small {
+.form-collection.error small {
   color: #e74c3c;
 }
 
-.form-group.success small {
+.form-collection.success small {
   color: #2ecc71;
 }
 
-.form-group.success small {
+.form-collection.success small {
   visibility: visible;
 }
 
-.form-group.error small {
+.form-collection.error small {
   visibility: visible;
 }
-/* End of Data validation */

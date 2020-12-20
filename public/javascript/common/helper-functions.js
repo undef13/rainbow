@@ -2,9 +2,13 @@
 export const setStatus = (input, error, message = "Looks good.") => {
   const formGroup = input.parentElement;
   const small = formGroup.querySelector("small");
-  error
-    ? (formGroup.className = "form-group error")
-    : (formGroup.className = "form-group success");
+  if (error) {
+    formGroup.classList.add("error");
+    formGroup.classList.remove("success");
+  } else {
+    formGroup.classList.add("success");
+    formGroup.classList.remove("error");
+  }
   small.innerText = message;
 };
 
@@ -27,37 +31,27 @@ export const isValidPassword = (password) => {
 
 /* Alert function */
 export const alert = (isSuccessful, message) => {
-	let alert = document.createElement('div');
-  alert.className = "alert";
+  let alert = document.createElement("div");
   alert.innerHTML = `<div style="margin:0;" class='alert alert-${
-		isSuccessful ? "success" : "danger"
-	} fixed-bottom alert-container text-center' role='alert'><span>${message}</span></div>`;
-  document.body.append(alert);
+    isSuccessful ? "success" : "danger"
+  } fixed-bottom alert-container text-center' role='alert'><span>${message}</span></div>`;
+  document.body.appendChild(alert);
 
-	setTimeout(() => {
-		const fadeTarget = document.querySelector(".alert-container");
-		const fadeEffect = setInterval(() => {
-				if (!fadeTarget.style.opacity) {
-						fadeTarget.style.opacity = 1;
-				}
-				if (fadeTarget.style.opacity > 0) {
-						fadeTarget.style.opacity -= 0.1;
-				} else {
-						fadeTarget.remove();
-						clearInterval(fadeEffect);
-				}
-		}, 50);
-	}, 4000);
+  setTimeout(() => {
+    const fadeTarget = document.querySelector(".alert");
+    const fadeEffect = setInterval(() => {
+      if (!fadeTarget.style.opacity) {
+        fadeTarget.style.opacity = 1;
+      }
+      if (fadeTarget.style.opacity > 0) {
+        fadeTarget.style.opacity -= 0.1;
+      } else {
+        fadeTarget.remove();
+        clearInterval(fadeEffect);
+      }
+    }, 50);
+  }, 4000);
 };
-
-/* Close modal */
-export const closeModal = (modal) => {
-	modal.classList.remove('show');
-	modal.setAttribute('aria-hidden', 'true');
-	modal.setAttribute('style', 'display: none');
-	const modalBackdrops = document.getElementsByClassName('modal-backdrop');
-	document.body.removeChild(modalBackdrops[0]);	
-}
 
 /* Ajax */
 export const makeAjax = async (url = "", data = {}) => {

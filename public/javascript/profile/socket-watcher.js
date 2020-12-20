@@ -1,7 +1,6 @@
 const socket = io(`/`);
 
 socket.on("add-post-client", (data) => {
-  console.log("asd");
   if (data.isPublic && document.location.pathname.slice(1) == data.profileId) {
     document
       .getElementById("postsHeader")
@@ -25,7 +24,6 @@ socket.on("edit-post-client", (data) => {
 			post.setAttribute("hidden", "hidden");
 		} else if(data.isVisible == "Public") {
 			post.removeAttribute("hidden", "hidden");
-		}	else {
 			post.querySelector(".postText").textContent = data.postText;
 		}
   }

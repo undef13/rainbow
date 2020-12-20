@@ -6,17 +6,20 @@
     <link rel="icon" href="images/favicon.png" type="image/png" />
     <title>Settings | Rainbow</title>
     <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-		/>
-		
-
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="/css/profile/settings.css" />
     <link rel="stylesheet" href="/css/common/index.css" />
     <link rel="stylesheet" href="/css/common/data-validation.css" />
     <link rel="stylesheet" href="/css/includes-styles/top-nav.css" />
     <link rel="stylesheet" href="/css/includes-styles/sidebar.css" />
-    <link rel="stylesheet" href="/css/includes-styles/horizontal-scroll-nav.css" />
+    <link
+      rel="stylesheet"
+      href="/css/includes-styles/horizontal-scroll-nav.css"
+    />
 
     <link
       rel="stylesheet"
@@ -32,8 +35,8 @@
     />
   </head>
   <body>
-    <%- include('../includes/top-nav', {user: user}); %> 
-    <%- include('../includes/horizontal-scroll-nav', {user: user}); %>
+    <%- include('../includes/top-nav', {user: user}); %> <%-
+    include('../includes/horizontal-scroll-nav', {user: user}); %>
     <div class="container">
       <div class="row">
         <%- include('../includes/sidebar', {user: user}); %>
@@ -60,8 +63,8 @@
             <div
               class="row content-wrapper"
               id="photo-wrapper"
-              data-toggle="modal"
-              data-target="#displayPhotoForm"
+              data-bs-toggle="modal"
+              data-bs-target="#displayPhotoModal"
             >
               <div class="col-md-4">
                 <div>Photo</div>
@@ -80,8 +83,8 @@
             <div
               id="name-wrapper"
               class="row content-wrapper"
-              data-toggle="modal"
-              data-target="#displayNameModal"
+              data-bs-toggle="modal"
+              data-bs-target="#displayNameModal"
             >
               <div class="col-md-4">
                 <div>Name</div>
@@ -98,8 +101,8 @@
             <div
               id="bio-wrapper"
               class="row content-wrapper"
-              data-toggle="modal"
-              data-target="#bioModal"
+              data-bs-toggle="modal"
+              data-bs-target="#bioModal"
             >
               <div class="col-md-4">
                 <div>Bio</div>
@@ -119,8 +122,8 @@
             <div
               class="row content-wrapper"
               id="birthday-wrapper"
-              data-toggle="modal"
-              data-target="#birthdayModal"
+              data-bs-toggle="modal"
+              data-bs-target="#birthdayModal"
             >
               <div class="col-md-4">
                 <div>Birthday</div>
@@ -141,8 +144,8 @@
             <div
               class="row content-wrapper"
               id="gender-wrapper"
-              data-toggle="modal"
-              data-target="#genderModal"
+              data-bs-toggle="modal"
+              data-bs-target="#genderModal"
             >
               <div class="col-md-4">
                 <div>Gender</div>
@@ -156,41 +159,52 @@
             <hr class="content-divider" />
 
             <!-- Password Field -->
-            <div class="row content-wrapper" id="change-password-wrapper"
-            data-toggle="modal" data-target="<%= user.provider == "google" ? ""
-            : "#changePasswordModal" %>" >
-            <div class="col-md-4">
-              <div>Password</div>
-            </div>
-            <div class="col-md-8">
-              <% if (user.provider == "google") { %>
-              <div>Signed in with Google</div>
-              <% } else { %>
-              <div class="d-none d-md-block">********</div>
-              <div id="changePasswordContainer">
-                Last changed <%=
-                user.lastChangePassword.toLocaleDateString("en-US", { year:
-                'numeric', month: 'long', day: 'numeric' }) %>
+            <% if (user.provider == "google") { %>
+            <div class="row content-wrapper">
+              <div class="col-md-4">
+                <div>Password</div>
               </div>
-              <% } %>
+              <div class="col-md-8">
+                <div>Signed in with Google</div>
+              </div>
             </div>
+            <% } else { %>
+            <div
+              class="row content-wrapper"
+              id="change-password-wrapper"
+              data-bs-toggle="modal"
+              data-bs-target="#changePasswordModal"
+            >
+              <div class="col-md-4">
+                <div>Password</div>
+              </div>
+              <div class="col-md-8">
+                <div class="d-none d-md-block">********</div>
+                <div id="changePasswordContainer">
+                  Last changed
+                  <%=user.lastChangePassword.toLocaleDateString("en-US", {
+                  year:'numeric', month: 'long', day: 'numeric' }) %>
+                </div>
+              </div>
+            </div>
+            <% } %>
+            <!-- End of Password Field -->
           </div>
-          <!-- End of Password Field -->
-        </div>
 
-        <div class="wrapper">
-          <div class="content-header-container">
-            <div>
-              <h4>Contact info</h4>
+          <div class="wrapper">
+            <div class="content-header-container">
+              <div>
+                <h4>Contact info</h4>
+              </div>
             </div>
-          </div>
-          <hr />
-          <div class="row content-wrapper">
-            <div class="col-md-4">
-              <div>Email</div>
-            </div>
-            <div class="col-md-8">
-              <div><%= user.email %></div>
+            <hr />
+            <div class="row content-wrapper">
+              <div class="col-md-4">
+                <div>Email</div>
+              </div>
+              <div class="col-md-8">
+                <div><%= user.email %></div>
+              </div>
             </div>
           </div>
         </div>
@@ -207,8 +221,8 @@
       role="dialog"
       aria-labelledby="displayNameModalTitle"
       aria-hidden="true"
-      data-backdrop="static"
-      data-keyboard="false"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -217,10 +231,10 @@
           </div>
           <div class="modal-body">
             <form>
-              <div class="form-group">
+              <div class="form-collection">
                 <label for="givenNameInput" class="col-form-label">Name:</label>
-								<input
-									autocomplete="off"
+                <input
+                  autocomplete="off"
                   type="text"
                   class="form-control"
                   id="givenNameInput"
@@ -230,12 +244,12 @@
                 <i class="fas fa-exclamation-circle"></i>
                 <small></small>
               </div>
-              <div class="form-group">
+              <div class="form-collection">
                 <label for="familyNameInput" class="col-form-label"
                   >Last name:</label
                 >
-								<input
-									autocomplete="off"
+                <input
+                  autocomplete="off"
                   type="text"
                   class="form-control"
                   id="familyNameInput"
@@ -251,7 +265,7 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Close
             </button>
@@ -278,8 +292,8 @@
       role="dialog"
       aria-labelledby="bioModalTitle"
       aria-hidden="true"
-      data-backdrop="static"
-      data-keyboard="false"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -288,7 +302,7 @@
           </div>
           <div class="modal-body">
             <form>
-              <div class="form-group">
+              <div class="form-collection">
                 <p class="font-weight-light">
                   Any details such as occupation or city. <br />
                   Example: designer from Ukraine
@@ -299,7 +313,8 @@
                   class="form-control"
                   id="bioTextArea"
                 >
-<%= user.bio %></textarea>
+<%= user.bio %></textarea
+                >
                 <p class="characters-left-container">
                   Characters left: <span class="characters-left">100</span>
                 </p>
@@ -311,7 +326,7 @@
               type="button"
               id="closeFormBio"
               class="btn btn-secondary"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Close
             </button>
@@ -338,8 +353,8 @@
       role="dialog"
       aria-labelledby="birthdayModalTitle"
       aria-hidden="true"
-      data-backdrop="static"
-      data-keyboard="false"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -348,8 +363,8 @@
           </div>
           <div class="modal-body">
             <form>
-              <div class="form-row">
-                <div class="form-group col-md-5">
+              <div class="row">
+                <div class="col-md-5">
                   <label for="inputMonth">Month</label>
                   <select id="inputMonth" class="form-control">
                     <option <%= user.birthday ? "" : "selected" %> >Choose...</option>
@@ -367,34 +382,35 @@
                     <option <%= user.birthday ? user.birthday.getMonth() == 11 ? "selected" : "" : "" %> >December</option>
                   </select>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="col-md-4">
                   <label for="inputYear">Year</label>
-                  <input autocomplete="off" type="text" class="form-control" id="inputYear"
-                  value="<%= user.birthday ? user.birthday.getFullYear() : ""
-                  %>" />
+                  <input autocomplete="off" type="text" class="form-control"
+                  id="inputYear" value="<%= user.birthday ?
+                  user.birthday.getFullYear() : "" %>" />
                 </div>
 
-                <div class="form-group col-md-3">
+                <div class="col-md-3">
                   <label for="inputDay">Day</label>
-                  <input autocomplete="off" type="text" class="form-control" id="inputDay"
-                  value="<%= user.birthday ? user.birthday.getDate() : "" %>" />
+                  <input autocomplete="off" type="text" class="form-control"
+                  id="inputDay" value="<%= user.birthday ?
+                  user.birthday.getDate() : "" %>" />
                 </div>
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <p class="mr-auto" id="dateStatusText"></p>
+            <p class="me-auto" id="dateStatusText"></p>
             <button
               type="button"
               class="btn btn-secondary"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Close
             </button>
             <button
               type="button"
-							class="btn btn-primary"
-							id="birthdaySaveButton"
+              class="btn btn-primary"
+              id="birthdaySaveButton"
             >
               <span
                 class="spinner spinner-border spinner-border-sm"
@@ -418,8 +434,8 @@
       role="dialog"
       aria-labelledby="genderModalTitle"
       aria-hidden="true"
-      data-backdrop="static"
-      data-keyboard="false"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -428,21 +444,19 @@
           </div>
           <div class="modal-body">
             <form>
-              <div class="form-group">
-                <select id="selectGender" class="form-control">
-                  <option <%= user.gender ? "" : "selected" %> >Choose...</option>
-                  <option <%= user.gender ? user.gender == "Female" ? "selected" : "" : "" %> >Female</option>
-                  <option <%= user.gender ? user.gender == "Male" ? "selected" : "" : "" %> >Male</option>
-                  <option <%= user.gender ? user.gender == "Other" ? "selected" : "" : "" %> >Other</option>
-                </select>
-              </div>
+							<select id="selectGender" class="form-control">
+								<option <%= user.gender ? "" : "selected" %> >Choose...</option>
+								<option <%= user.gender ? user.gender == "Female" ? "selected" : "" : "" %> >Female</option>
+								<option <%= user.gender ? user.gender == "Male" ? "selected" : "" : "" %> >Male</option>
+								<option <%= user.gender ? user.gender == "Other" ? "selected" : "" : "" %> >Other</option>
+							</select>
             </form>
           </div>
           <div class="modal-footer">
             <button
               type="button"
               class="btn btn-secondary"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Close
             </button>
@@ -469,22 +483,18 @@
       role="dialog"
       aria-labelledby="changePasswordModalTitle"
       aria-hidden="true"
-      data-backdrop="static"
-      data-keyboard="false"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">
-              Change password
-            </h5>
+            <h5 class="modal-title">Change password</h5>
           </div>
           <div class="modal-body">
             <form>
-              <div class="form-group">
-                <label for="currentPasswordInput" class="col-form-label"
-                  >Current password:</label
-                >
+              <div class="form-collection">
+                <label for="currentPasswordInput" class="col-form-label">Current password:</label>
                 <input
                   type="password"
                   class="form-control"
@@ -495,7 +505,7 @@
                 <i class="fas fa-exclamation-circle"></i>
                 <small></small>
               </div>
-              <div class="form-group">
+              <div class="form-collection">
                 <label for="newPasswordInput" class="col-form-label"
                   >New password:</label
                 >
@@ -509,7 +519,7 @@
                 <i class="fas fa-exclamation-circle"></i>
                 <small></small>
               </div>
-              <div class="form-group">
+              <div class="form-collection">
                 <label for="repeatNewPasswordInput" class="col-form-label"
                   >Repeat new password:</label
                 >
@@ -529,7 +539,7 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Close
             </button>
@@ -555,13 +565,13 @@
     <!-- "Change photo" modal -->
     <div
       class="modal fade"
-      id="displayPhotoForm"
+      id="displayPhotoModal"
       tabindex="-1"
       role="dialog"
       aria-labelledby="photoFormTitle"
       aria-hidden="true"
-      data-backdrop="static"
-      data-keyboard="false"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -585,7 +595,7 @@
 
           <div id="image-container" class="modal-body text-center" hidden>
             <div id="image-wrapper">
-              <img id="image-uploaded" src="" />
+              <img id="image-uploaded" src="" alt="Uploaded image"/>
             </div>
           </div>
 
@@ -594,7 +604,7 @@
               type="button"
               id="closeFormPhoto"
               class="btn btn-secondary"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Close
             </button>
@@ -617,10 +627,16 @@
       </div>
     </div>
     <!-- End of "Change photo" modal -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://kit.fontawesome.com/e307e9c374.js" crossorigin="anonymous"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/e307e9c374.js"
+      crossorigin="anonymous"
+    ></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js"
       integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw=="
@@ -633,9 +649,15 @@
     ></script>
     <script type="module" src="./javascript/settings/changeName.js"></script>
     <script type="module" src="./javascript/settings/changeBio.js"></script>
-    <script type="module" src="./javascript/settings/changeBirthday.js"></script>
+    <script
+      type="module"
+      src="./javascript/settings/changeBirthday.js"
+    ></script>
     <script type="module" src="./javascript/settings/changeGender.js"></script>
-    <script type="module" src="./javascript/settings/changePassword.js"></script>
+    <script
+      type="module"
+      src="./javascript/settings/changePassword.js"
+    ></script>
     <script type="module" src="./javascript/settings/changePhoto.js"></script>
     <script src="./javascript/appearance/styles.js"></script>
   </body>

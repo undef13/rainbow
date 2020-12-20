@@ -1,4 +1,4 @@
-import { alert, closeModal, makeAjax } from "../common/helper-functions.js";
+import { alert, makeAjax } from "../common/helper-functions.js";
 
 /* ----------- GETTING DATA ----------- */
 const bioTextArea = document.getElementById("bioTextArea");
@@ -70,7 +70,8 @@ const ajaxAction = (action) => {
 			bioModal.querySelector(".spinner").hidden = true;
 			bioModal.querySelector(".button-text").hidden = false;
 			checkTextAreaForChanges();
-			// closeModal(bioModal);
+			const modal = bootstrap.Modal.getInstance(bioModal);
+			modal.hide();
 			break;
 	}
 }

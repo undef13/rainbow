@@ -72,22 +72,22 @@ a:hover {
   .textContainer p {
     margin-bottom: 25px !important;
   }
-  .form-group i {
+  .form-collection i {
     top: 11px !important;
   }
-  .form-group small {
+  .form-collection small {
     top: 40px !important;
   }
 }
 /* End of Setup for small screens */
 
 /* Data validation */
-.form-group i {
+.form-collection i {
   top: 14px;
   right: 13px;
 }
 
-.form-group small {
+.form-collection small {
   top: 47px;
   left: 0;
 }
