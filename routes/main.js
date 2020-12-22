@@ -13,6 +13,4 @@ router.get(`/`, displayIndex, mainController.getIndex);
 
 router.get(`/about`, isLoggedIn, mainController.getAbout);
 
-router.get(`/:profileId`, isLoggedIn, mainController.getProfileId);
-
 module.exports = router;

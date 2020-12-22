@@ -1,0 +1,47 @@
+.wrapper {
+  border: 1px solid #e1dfdf;
+  border-radius: 5px;
+	padding: 15px;
+	margin: 10px 0;
+}
+.display-image {
+	width: 100px;
+	border-radius: 50px;
+}
+.display-user-info .display-name {
+	font-size: 25px;
+	font-family: 'Roboto', sans-serif;
+}
+.display-user-info .display-name a {
+	text-decoration: none;
+	color: #6C757D;
+	transition: .3s;
+}
+.display-user-info .display-name a:hover {
+	color: #a8b2b8;
+}
+.display-user-info .display-bio {
+	font-size: 15px;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.display-user-info hr {
+	margin: 5px 0;
+}
+
+@media only screen and (max-width: 1400px) {
+	.add-friend {
+		margin-top: 10px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+  .display-image {
+		width: 75px;
+	}
+	.display-user-info .display-name {
+		font-size: 20px;
+	}
+	.display-user-info .display-bio {
+		font-size: 13px;
+	}
+}
