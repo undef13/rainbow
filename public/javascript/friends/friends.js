@@ -1,4 +1,6 @@
 const userContainer = document.getElementById("usersContainer");
+const userSearch = document.getElementById("userSearch");
+
 let makeAjax = true;
 let page = 2;
 
@@ -18,11 +20,9 @@ const addUserCards = async () => {
   if (makeAjax && docBottom < clientBottom) {
 		makeAjax = false;
 		document.querySelector(".show-spinner").hidden = false;
-
 		const response = await fetch(`/friends?page=${page}&ajax=true`, {
 			method: "GET",
 		});
-
 		const data = await response.json();
 		console.log(data);
 		if (!data.data.newUsers) {
@@ -31,10 +31,8 @@ const addUserCards = async () => {
 		} else {
 			let div = document.createElement("div");
 			div.innerHTML = data.data.newUsers;
-	
 			document.querySelector(".show-spinner").hidden = true;
 			userContainer.appendChild(div);
-			
 			makeAjax = true;
 			page += 1;
 		}
@@ -42,3 +40,7 @@ const addUserCards = async () => {
 }
 
 window.addEventListener("scroll", addUserCards);
+userSearch.addEventListener("submit", () => {
+	console.log(`asd`);
+	makeAjax = false;
+})

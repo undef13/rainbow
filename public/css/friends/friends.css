@@ -27,6 +27,10 @@
 .display-user-info hr {
 	margin: 5px 0;
 }
+input:focus {
+	box-shadow: none !important;
+	border-color: rgb(0, 187, 255) !important;
+}
 
 @media only screen and (max-width: 1400px) {
 	.add-friend {

@@ -6,6 +6,6 @@ const friendsController = require("../controllers/friends");
 
 router.get(`/friends`, friendsController.getFriends);
 
-// router.get(`/friends/add-cards`, friendsController.getAdditionalCards);
+router.post(`/friends`, friendsController.postFriends);
 
 module.exports = router;

@@ -35,43 +35,47 @@
         <div class="col-lg-10">
           <h3>Find friends</h3>
           <hr />
-          <form action="/friends" method="POST">
+          <form action="/friends" method="POST" id="userSearch">
             <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">@</span>
-              <input
+              <span class="input-group-text">Search</span>
+							<input
+								name="searchName"
                 type="text"
                 class="form-control"
-                placeholder="Username"
-                aria-label="Username"
-                aria-describedby="basic-addon1"
+								placeholder="Input name of user. For example: 'Maksym' or 'Maksym Babii'"
+								autocomplete="off"
               />
             </div>
           </form>
           <div id="usersContainer">
-            <% for( let i = 0; i < allUsers.length; i++ ) { %>
-            <div class="wrapper user-card">
-              <div class="row">
-                <div class="col-md-auto">
-                  <img
-                    class="display-image"
-                    src="<%= allUsers[i].imageUrl %>"
-                    alt=""
-                  />
-                </div>
-                <div class="col-md-9 display-user-info">
-                  <div class="display-name">
-                    <a href="/<%= allUsers[i].profileId %>"><span><%= allUsers[i].displayName %></span></a>
-                  </div>
-                  <hr />
-                  <div class="display-bio text-break">
-                    <span><%= allUsers[i].bio %></span>
-                  </div>
-                </div>
-                <div class="col-md-auto align-self-center add-friend">
-                  <button class="btn btn-primary">Add friend</button>
-                </div>
-              </div>
-            </div>
+						<% if (allUsers.length > 0) { %>
+							<% for( let i = 0; i < allUsers.length; i++ ) { %>
+								<div class="wrapper user-card">
+									<div class="row">
+										<div class="col-md-auto">
+											<img
+												class="display-image"
+												src="<%= allUsers[i].imageUrl %>"
+												alt=""
+											/>
+										</div>
+										<div class="col-md-9 display-user-info">
+											<div class="display-name">
+												<a href="/<%= allUsers[i].profileId %>"><span><%= allUsers[i].displayName %></span></a>
+											</div>
+											<hr />
+											<div class="display-bio text-break">
+												<span><%= allUsers[i].bio %></span>
+											</div>
+										</div>
+										<div class="col-md-auto align-self-center add-friend">
+											<button class="btn btn-primary">Add friend</button>
+										</div>
+									</div>
+								</div>
+								<% } %>
+						<% } else { %>
+							<h3 class="text-center mt-5">Oops. There is nobody here.</h3>
             <% } %>
 					</div>
 					<div class="d-flex justify-content-center my-3">

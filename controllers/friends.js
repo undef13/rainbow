@@ -27,7 +27,6 @@ exports.getFriends = async (req, res) => {
 		});
 	}
 }
-
 const html = `<% for( let i = 0; i < users.length; i++ ) { %>
 	<div class="wrapper user-card">
 		<div class="row">
@@ -53,3 +52,19 @@ const html = `<% for( let i = 0; i < users.length; i++ ) { %>
 		</div>
 	</div>
 	<% } %>`
+
+// POST => /friends
+exports.postFriends = async (req, res) => {
+	const { searchName } = req.body;
+	const regExp = new RegExp(searchName, 'i');
+	try {
+		const users = await User.find({displayName: { $regex: regExp }});
+		res.render("friends/friends", {
+			allUsers: users,
+			user: req.user,
+			path: "friends"
+		})
+	} catch (error) {
+		console.log(error);
+	}
+}
