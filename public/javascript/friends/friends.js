@@ -38,9 +38,4 @@ const addUserCards = async () => {
 		}
   }
 }
-
 window.addEventListener("scroll", addUserCards);
-userSearch.addEventListener("submit", () => {
-	console.log(`asd`);
-	makeAjax = false;
-})

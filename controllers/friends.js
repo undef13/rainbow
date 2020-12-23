@@ -59,7 +59,7 @@ exports.postFriends = async (req, res) => {
 	const regExp = new RegExp(searchName, 'i');
 	try {
 		const users = await User.find({displayName: { $regex: regExp }});
-		res.render("friends/friends", {
+		res.render("friends/friends-search", {
 			allUsers: users,
 			user: req.user,
 			path: "friends"
