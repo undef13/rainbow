@@ -1,22 +1,44 @@
-window.addEventListener('scroll', addUserCards);
 const userContainer = document.getElementById("usersContainer");
+let makeAjax = true;
+let page = 2;
 
-function addUserCards() {
-	let docBottom = Math.max(
-document.body.scrollHeight, document.documentElement.scrollHeight,
-document.body.offsetHeight, document.documentElement.offsetHeight,
-document.body.clientHeight, document.documentElement.clientHeight
-	) - 100;
+const addUserCards = async () => {
+  let docBottom =
+    Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight
+    ) - 400;
 
-	console.log(`Doc: ${docBottom}`);
+  let clientBottom = document.documentElement.clientHeight + window.pageYOffset;
 
-	let clientBottom = document.documentElement.clientHeight + window.pageYOffset;
+  if (makeAjax && docBottom < clientBottom) {
+		makeAjax = false;
+		document.querySelector(".show-spinner").hidden = false;
 
-	console.log(`Client: ${clientBottom}`);
+		const response = await fetch(`/friends?page=${page}&ajax=true`, {
+			method: "GET",
+		});
 
-	if ( docBottom < clientBottom ) {
-		let div = document.createElement('div');
-		div.innerHTML = `asd`
-		userContainer.appendChild(div);
-	}
+		const data = await response.json();
+		console.log(data);
+		if (!data.data.newUsers) {
+			makeAjax = false;
+			document.querySelector(".show-spinner").hidden = true;
+		} else {
+			let div = document.createElement("div");
+			div.innerHTML = data.data.newUsers;
+	
+			document.querySelector(".show-spinner").hidden = true;
+			userContainer.appendChild(div);
+			
+			makeAjax = true;
+			page += 1;
+		}
+  }
 }
+
+window.addEventListener("scroll", addUserCards);
