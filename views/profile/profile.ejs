@@ -38,32 +38,22 @@
 
               <div class="wrapper">
                 <span>Friends</span>
-                <hr />
-                <div class="row">
-                  <div class="col-4 text-center">
-                    <img
-                      style="width: 35px; border-radius: 50%"
-                      src="<%= user.imageUrl %>"
-                      alt=""
-                    />
-                    <span>Maks</span>
-                  </div>
-                  <div class="col-4 text-center">
-                    <img
-                      style="width: 35px; border-radius: 50%"
-                      src="<%= user.imageUrl %>"
-                      alt=""
-                    />
-                    <span>Valeriia</span>
-                  </div>
-                  <div class="col-4 text-center">
-                    <img
-                      style="width: 35px; border-radius: 50%"
-                      src="<%= user.imageUrl %>"
-                      alt=""
-                    />
-                    <span>Maks</span>
-                  </div>
+								<hr />
+								<div class="row">
+									<% if (user.friends.length > 0) { %>
+										<% for( let i = 0; i < array.length; i++ ) { %>
+											<div class="col-4 text-center">
+												<img
+													style="width: 35px; border-radius: 50%"
+													src="<%= user.friends[i].imageUrl %>"
+													alt=""
+												/>
+												<span>user.friends[i].givenName</span>
+											</div>
+										<% } %>
+									<% } else {%>
+										<div>Seems like you do not have friends :(</div>
+									<% } %>
                 </div>
               </div>
             </div>

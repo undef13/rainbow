@@ -2,17 +2,29 @@
   padding: 0 20px 0 0;
 }
 
-.sidebar-items {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
-.sidebar-item {
+.sidebar .sidebar-item {
 	border-bottom-right-radius: 50px;
 	border-top-right-radius: 50px;
   padding: 3px 0px;
   transition: 0.3s;
+}
+
+.sidebar-friends {
+	text-align: end;
+	padding: 0 0 0 20px;
+}
+
+.sidebar-friends .sidebar-item {
+	border-bottom-left-radius: 50px;
+	border-top-left-radius: 50px;
+  padding: 3px 0px;
+  transition: 0.3s;
+}
+
+.sidebar-items {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 
 .sidebar-item:hover {

@@ -10,6 +10,8 @@ const PostSchema = new mongoose.Schema({
 });
 
 const UserSchema = new mongoose.Schema({
+	friends: [this],
+	pendingFriends: [this],
   email: {
     type: String,
     required: true,

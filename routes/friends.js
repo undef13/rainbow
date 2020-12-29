@@ -4,8 +4,14 @@ const router = express.Router();
 // Controller
 const friendsController = require("../controllers/friends");
 
-router.get(`/friends`, friendsController.getFriends);
+router.get(`/`, friendsController.getFriends);
 
-router.post(`/friends`, friendsController.postFriends);
+router.post(`/`, friendsController.postFriends);
+
+router.post(`/add-friend`, friendsController.postAddFriend);
+
+router.get(`/your-friends`, friendsController.getYourFriends);
+
+router.get(`/pending-requests`, friendsController.getPendingRequests);
 
 module.exports = router;

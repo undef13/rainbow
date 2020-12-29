@@ -60,7 +60,7 @@ app.use(flash());
 app.use(`/auth`, require(`./routes/auth`));
 app.use(`/settings`, require(`./routes/settings`));
 app.use(`/`, require(`./routes/main`));
-app.use(`/`, require(`./routes/friends`));
+app.use(`/friends`, require(`./routes/friends`));
 app.use(`/`, require(`./routes/profile`));
 
 // MongoDB

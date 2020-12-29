@@ -1,41 +1,34 @@
-const userContainer = document.getElementById("usersContainer");
-const userSearch = document.getElementById("userSearch");
-
-let makeAjax = true;
-let page = 2;
-
-const addUserCards = async () => {
-  let docBottom =
-    Math.max(
-      document.body.scrollHeight,
-      document.documentElement.scrollHeight,
-      document.body.offsetHeight,
-      document.documentElement.offsetHeight,
-      document.body.clientHeight,
-      document.documentElement.clientHeight
-    ) - 400;
-
-  let clientBottom = document.documentElement.clientHeight + window.pageYOffset;
-
-  if (makeAjax && docBottom < clientBottom) {
-		makeAjax = false;
-		document.querySelector(".show-spinner").hidden = false;
-		const response = await fetch(`/friends?page=${page}&ajax=true`, {
-			method: "GET",
-		});
-		const data = await response.json();
-		console.log(data);
-		if (!data.data.newUsers) {
-			makeAjax = false;
-			document.querySelector(".show-spinner").hidden = true;
-		} else {
-			let div = document.createElement("div");
-			div.innerHTML = data.data.newUsers;
-			document.querySelector(".show-spinner").hidden = true;
-			userContainer.appendChild(div);
-			makeAjax = true;
-			page += 1;
-		}
-  }
+const addFriend = async (userId) => {
+	const response = await fetch("/friends/add-friend", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({userId}),
+	});
+	const data = await response.json();
+	alert(data.isSuccessful, data.message);
 }
-window.addEventListener("scroll", addUserCards);
+
+
+
+const alert = (isSuccessful, message) => {
+  let alert = document.createElement("div");
+  alert.innerHTML = `<div style="margin:0;" class='alert alert-${
+    isSuccessful ? "success" : "danger"
+  } fixed-bottom alert-container text-center' role='alert'><span>${message}</span></div>`;
+  document.body.appendChild(alert);
+
+  setTimeout(() => {
+    const fadeTarget = document.querySelector(".alert");
+    const fadeEffect = setInterval(() => {
+      if (!fadeTarget.style.opacity) {
+        fadeTarget.style.opacity = 1;
+      }
+      if (fadeTarget.style.opacity > 0) {
+        fadeTarget.style.opacity -= 0.1;
+      } else {
+        fadeTarget.remove();
+        clearInterval(fadeEffect);
+      }
+    }, 50);
+  }, 4000);
+};

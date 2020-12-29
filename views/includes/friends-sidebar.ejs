@@ -1,0 +1,19 @@
+<div class="col-lg-2 sidebar-friends d-none d-lg-block">
+	<ul class="sidebar-items">
+		<li class="sidebar-item <%= path2 === 'friends' ? 'active' : '' %>">
+			<a href="/friends">
+				<span>Search friends</span>
+			</a>
+		</li>
+		<li class="sidebar-item <%= path2 === 'yourFriends' ? 'active' : '' %>">
+			<a href="/friends/your-friends">
+				<span>Your friends</span>
+			</a>
+		</li>
+		<li class="sidebar-item <%= path2 === 'pendingRequests' ? 'active' : '' %>">
+			<a href="/friends/pending-requests">
+				<span>Pending requests</span>
+			</a>
+		</li>
+	</ul>
+</div>

@@ -27,37 +27,30 @@
               <div class="wrapper text-center">
                 <div class="image-wrapper">
                   <img class="img-fluid" src="<%= user.imageUrl %>" alt="" />
-                </div>
+								</div>
+								<div class="link-wrapper">
+									<button class="btn-sm btn btn-primary" onclick="addFriend('<%= user._id %>')">Add a friend</button>
+								</div>
               </div>
 
               <div class="wrapper">
                 <span>Friends</span>
                 <hr />
                 <div class="row">
-                  <div class="col-4 text-center">
-                    <img
-                      style="width: 35px; border-radius: 50%"
-                      src="<%= user.imageUrl %>"
-                      alt=""
-                    />
-                    <span>Maks</span>
-                  </div>
-                  <div class="col-4 text-center">
-                    <img
-                      style="width: 35px; border-radius: 50%"
-                      src="<%= user.imageUrl %>"
-                      alt=""
-                    />
-                    <span>Valeriia</span>
-                  </div>
-                  <div class="col-4 text-center">
-                    <img
-                      style="width: 35px; border-radius: 50%"
-                      src="<%= user.imageUrl %>"
-                      alt=""
-                    />
-                    <span>Maks</span>
-                  </div>
+									<% if (user.friends.length > 0) { %>
+										<% for( let i = 0; i < array.length; i++ ) { %>
+											<div class="col-4 text-center">
+												<img
+													style="width: 35px; border-radius: 50%"
+													src="<%= user.friends[i].imageUrl %>"
+													alt=""
+												/>
+												<span>user.friends[i].givenName</span>
+											</div>
+										<% } %>
+									<% } else {%>
+										<div>It's empty here</div>
+									<% } %>
                 </div>
               </div>
             </div>
