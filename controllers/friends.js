@@ -1,6 +1,7 @@
 // Dependency
 const User = require(`../models/User`);
 const ejs = require(`ejs`);
+const mongoose = require(`mongoose`);
 
 // GET => /friends
 exports.getFriends = async (req, res) => {
@@ -64,7 +65,8 @@ exports.postFriends = async (req, res) => {
 		res.render("friends/friends-search", {
 			allUsers: users,
 			user: req.user,
-			path: "friends"
+			path: "friends",
+			path2: "friends"
 		})
 	} catch (error) {
 		console.log(error);
@@ -109,7 +111,6 @@ exports.postAddFriend = async (req, res) => {
 			isSuccessful: true,
 			message: `Request was send to ${friend.displayName}`,
 		});
-		
 	} catch (error) {
 		console.log(error);
 		res.json({
@@ -133,10 +134,60 @@ exports.getYourFriends = async (req, res) => {
 // GET => /friends/your-friends
 exports.getPendingRequests = async (req, res) => {
 	const user = await User.findOne({ profileId: req.user.profileId });
+	const users = await User.find({ _id: { $in: user.pendingFriends } }).exec();
 	res.render("friends/pending-requests", {
 		user,
-		users: user.pendingFriends,
+		users,
 		path: "friends",
 		path2: "pendingRequests"
 	})
+}
+
+// POST => /friends/decline-request
+exports.postDeclineRequest = async (req, res) => {
+	const { userId } = req.body;
+	try {
+		const user = await User.findOne({ profileId: req.user.profileId });
+		user.pendingFriends = user.pendingFriends.filter(item => item.toString() !== userId);
+		await user.save();
+		res.json({
+			isSuccessful: true,
+			message: "Request declined",
+			data: {
+				requestId: `request_${userId}`
+			}
+		})
+	} catch (error) {
+		console.log(error);
+		res.json({
+			isSuccessful: false,
+			message: "Something went wrong..."
+		});
+	}
+}
+
+exports.postAcceptRequest = async (req, res) => {
+	const { userId } = req.body;
+	try {
+		const user = await User.findOne({ profileId: req.user.profileId });
+		const friend = await User.findOne({ _id: userId });
+		friend.friends.push(req.user._id);
+		user.friends.push(mongoose.Types.ObjectId(userId));
+		user.pendingFriends = user.pendingFriends.filter(item => item.toString() !== userId);
+		await user.save();
+		await friend.save();
+		res.json({
+			isSuccessful: true,
+			message: "Request accepted",
+			data: {
+				requestId: `request_${userId}`
+			}
+		})
+	} catch (error) {
+		res.json({
+			isSuccessful: false,
+			message: "Something went wrong..."
+		});
+		console.log(error);
+	}
 }

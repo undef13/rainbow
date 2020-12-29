@@ -1,0 +1,19 @@
+.request-card {
+  border: 1px solid #e1dfdf;
+  border-radius: 5px;
+	padding: 15px;
+	margin: 10px 0;
+}
+
+.request-card hr {
+	margin: 5px 0;
+}
+
+.image-container img {
+	border-radius: 50px;
+	width: 100px;
+}
+
+.buttons-container {
+	margin-top: 10px;
+}

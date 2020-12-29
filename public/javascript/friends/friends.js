@@ -1,3 +1,4 @@
+// Send friend request
 const addFriend = async (userId) => {
 	const response = await fetch("/friends/add-friend", {
 		method: "POST",
@@ -8,6 +9,43 @@ const addFriend = async (userId) => {
 	alert(data.isSuccessful, data.message);
 }
 
+// Accept friend request
+const acceptRequest = async (userId) => {
+	const response = await fetch("/friends/accept-request", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({userId}),
+	});
+	const data = await response.json();
+	if (data.isSuccessful) {
+		document.getElementById(data.data.requestId).remove();
+		if(document.querySelectorAll(".request-card").length <= 0) {
+			document.getElementById("haveNoFriendsBlock").hidden = false;
+		}
+		alert(true, data.message);
+	} else {
+		alert(false, data.message);
+	}
+}
+
+// Decline friend request
+const declineRequest = async (userId) => {
+	const response = await fetch("/friends/decline-request", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({userId}),
+	});
+	const data = await response.json();
+	if (data.isSuccessful) {
+		document.getElementById(data.data.requestId).remove();
+		if(document.querySelectorAll(".request-card").length <= 0) {
+			document.getElementById("haveNoFriendsBlock").hidden = false;
+		}
+		alert(true, data.message);
+	} else {
+		alert(false, data.message);
+	}
+}
 
 
 const alert = (isSuccessful, message) => {

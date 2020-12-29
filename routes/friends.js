@@ -14,4 +14,8 @@ router.get(`/your-friends`, friendsController.getYourFriends);
 
 router.get(`/pending-requests`, friendsController.getPendingRequests);
 
+router.post(`/decline-request`, friendsController.postDeclineRequest);
+
+router.post(`/accept-request`, friendsController.postAcceptRequest);
+
 module.exports = router;

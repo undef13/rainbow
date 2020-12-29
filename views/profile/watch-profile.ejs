@@ -37,15 +37,17 @@
                 <span>Friends</span>
                 <hr />
                 <div class="row">
-									<% if (user.friends.length > 0) { %>
-										<% for( let i = 0; i < array.length; i++ ) { %>
-											<div class="col-4 text-center">
-												<img
-													style="width: 35px; border-radius: 50%"
-													src="<%= user.friends[i].imageUrl %>"
-													alt=""
-												/>
-												<span>user.friends[i].givenName</span>
+									<% if (friends.length > 0) { %>
+										<% for( let i = 0; i < friends.length; i++ ) { %>
+											<div class="col-4 text-center friend-link">
+												<a href="/<%= friends[i].profileId %>">
+													<img
+														style="width: 35px; border-radius: 50%"
+														src="<%= friends[i].imageUrl %>"
+														alt=""
+													/>
+													<span><%= friends[i].givenName %></span>
+												</a>
 											</div>
 										<% } %>
 									<% } else {%>
@@ -61,7 +63,7 @@
                 <div>
                   <h4><%= user.displayName %></h4>
                 </div>
-                <div><%= user.bio %></div>
+                <div class="text-break"><%= user.bio %></div>
                 <hr />
 
                 <% if (user.birthday === null && user.gender == "None") { %>
