@@ -19,7 +19,7 @@ const acceptRequest = async (userId) => {
 	const data = await response.json();
 	if (data.isSuccessful) {
 		document.getElementById(data.data.requestId).remove();
-		if(document.querySelectorAll(".request-card").length <= 0) {
+		if(document.querySelectorAll("card").length <= 0) {
 			document.getElementById("haveNoFriendsBlock").hidden = false;
 		}
 		alert(true, data.message);
@@ -38,7 +38,7 @@ const declineRequest = async (userId) => {
 	const data = await response.json();
 	if (data.isSuccessful) {
 		document.getElementById(data.data.requestId).remove();
-		if(document.querySelectorAll(".request-card").length <= 0) {
+		if(document.querySelectorAll(".card").length <= 0) {
 			document.getElementById("haveNoFriendsBlock").hidden = false;
 		}
 		alert(true, data.message);

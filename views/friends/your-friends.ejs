@@ -18,16 +18,13 @@
     />
     <link rel="stylesheet" href="/css/includes-styles/top-nav.css" />
     <link rel="stylesheet" href="/css/includes-styles/sidebar.css" />
-    <link
-      rel="stylesheet"
-      href="/css/includes-styles/horizontal-scroll-nav.css"
-    />
-    <link rel="stylesheet" href="/css/friends/friends.css" />
+    <link rel="stylesheet" href="/css/includes-styles/horizontal-scroll-nav.css" />
+		<link rel="stylesheet" href="/css/friends/cards-style.css">
   </head>
   <body>
     <!-- Navigation -->
-    <%- include('../includes/top-nav', {user: user}); %> <%-
-    include('../includes/horizontal-scroll-nav', {user: user}); %>
+		<%- include('../includes/top-nav', {user: user}); %> 
+		<%- include('../includes/horizontal-scroll-nav', {user: user}); %>
 
     <div class="container">
       <div class="row">
@@ -37,7 +34,38 @@
           <hr />
           <% if (users.length > 0) { %>
 						<% for( let i = 0; i < users.length; i++ ) { %>
-							<div>Friend</div>
+							<div id="card_<%= users[i]._id %>" class="card">
+								<div class="row">
+									<div class="col-md-2 image-container">
+										<img src="<%= users[i].imageUrl %>" alt="">
+									</div>
+									<div class="col-md-10">
+										<div class="name-container">
+											<%= users[i].displayName %>
+										</div>
+										<hr>
+										<div class="text-break bio-container">
+											<%= users[i].bio %>
+										</div>
+									</div>
+								</div>
+								<div class="d-flex buttons-container">
+									<div class="ms-auto">
+										<div class="btn-group">
+											<button type="button" class="btn btn-secondary" disabled>Write a message</button>
+											<button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+												<span><i class="fas fa-chevron-down"></i></span>
+											</button>
+											<ul class="dropdown-menu">
+												<li><h6 class="dropdown-header">Actions</h6></li>
+												<li><hr class="dropdown-divider"></li>
+												<li><a href="/<%= users[i].profileId %>" class="dropdown-item" type="button">Go to profile</a></li>
+												<li><button class="dropdown-item" type="button">Delete friend</button></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
 						<% } %>
 					<% } else { %>
 						<h3 class="mt-5 text-center">Oh, it`s okay...</h3>

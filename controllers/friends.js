@@ -7,7 +7,7 @@ const mongoose = require(`mongoose`);
 exports.getFriends = async (req, res) => {
 	const limit = 7;
 	const { page = 1, ajax = false } = req.query;
-	const users = await User.find({ profileId: { $nin: [req.user.profileId] } })
+	const users = await User.find({ profileId: { $ne: req.user.profileId }, _id: { $nin: req.user.friends } })
 		.limit(limit * 1)
 		.skip((page - 1) * limit)
 		.exec();
@@ -32,14 +32,14 @@ exports.getFriends = async (req, res) => {
 const html = `<% for( let i = 0; i < users.length; i++ ) { %>
 	<div class="wrapper user-card">
 		<div class="row">
-			<div class="col-md-auto">
+			<div class="col-md-2">
 				<img
 					class="display-image"
 					src="<%= users[i].imageUrl %>"
 					alt=""
 				/>
 			</div>
-			<div class="col-md-9 display-user-info">
+			<div class="col-md-10 display-user-info">
 				<div class="display-name">
 					<a href="/<%= users[i].profileId %>"><span><%= users[i].displayName %></span></a>
 				</div>
@@ -48,8 +48,10 @@ const html = `<% for( let i = 0; i < users.length; i++ ) { %>
 					<span><%= users[i].bio %></span>
 				</div>
 			</div>
-			<div class="col-md-auto align-self-center add-friend">
-				<button class="btn btn-primary" onclick="addFriend('<%= users[i]._id %>')">Add friend</button>
+		</div>
+		<div class="d-flex buttons-container">
+			<div class="ms-auto">
+				<button class="btn btn-sm btn-primary" onclick="addFriend('<%= users[i]._id %>')">Send request</button>
 			</div>
 		</div>
 	</div>
@@ -61,7 +63,11 @@ exports.postFriends = async (req, res) => {
 	const { searchName } = req.body;
 	const regExp = new RegExp(searchName, 'i');
 	try {
-		const users = await User.find({displayName: { $regex: regExp }});
+		const users = await User.find({ 
+			displayName: { $regex: regExp }, 
+			profileId: { $ne: req.user.profileId }, 
+			_id: { $nin: req.user.friends } }
+		);
 		res.render("friends/friends-search", {
 			allUsers: users,
 			user: req.user,
@@ -123,15 +129,16 @@ exports.postAddFriend = async (req, res) => {
 // GET => /friends/your-friends
 exports.getYourFriends = async (req, res) => {
 	const user = await User.findOne({ profileId: req.user.profileId });
+	const users = await User.find({ _id: { $in: user.friends } }).exec();
 	res.render("friends/your-friends", {
 		user,
-		users: user.friends,
+		users,
 		path: "friends",
 		path2: "yourFriends"
 	})
 }
 
-// GET => /friends/your-friends
+// GET => /friends/pending-requests
 exports.getPendingRequests = async (req, res) => {
 	const user = await User.findOne({ profileId: req.user.profileId });
 	const users = await User.find({ _id: { $in: user.pendingFriends } }).exec();

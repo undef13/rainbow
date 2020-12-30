@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/css/includes-styles/top-nav.css" />
     <link rel="stylesheet" href="/css/includes-styles/sidebar.css" />
 		<link rel="stylesheet" href="/css/includes-styles/horizontal-scroll-nav.css" />
-		<link rel="stylesheet" href="/css/friends/pending-requests.css">
+		<link rel="stylesheet" href="/css/friends/cards-style.css">
   </head>
   <body>
     <!-- Navigation -->
@@ -36,17 +36,17 @@
 
 					<% if (users.length > 0) { %>
 						<% for( let i = 0; i < users.length; i++ ) { %>
-							<div id="request_<%= users[i]._id %>" class="request-card">
+							<div id="request_<%= users[i]._id %>" class="card">
 								<div class="row">
 									<div class="col-md-2 image-container">
 										<img src="<%= users[i].imageUrl %>" alt="">
 									</div>
 									<div class="col-md-10">
-										<div>
+										<div class="name-container">
 											<%= users[i].displayName %>
 										</div>
 										<hr>
-										<div class="text-break">
+										<div class="text-break bio-container">
 											<%= users[i].bio %>
 										</div>
 									</div>
