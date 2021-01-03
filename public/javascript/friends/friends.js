@@ -47,6 +47,24 @@ const declineRequest = async (userId) => {
 	}
 }
 
+// Remove from friends
+const removeFriend = async (userId) => {
+	const response = await fetch("/friends/remove-friend", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({userId}),
+	});
+	const data = await response.json();
+	if (data.isSuccessful) {
+		document.getElementById(data.data.requestId).remove();
+		if(document.querySelectorAll(".card").length <= 0) {
+			document.getElementById("haveNoFriendsBlock").hidden = false;
+		}
+		alert(true, data.message);
+	} else {
+		alert(false, data.message);
+	}
+}
 
 const alert = (isSuccessful, message) => {
   let alert = document.createElement("div");

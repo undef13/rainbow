@@ -60,7 +60,7 @@
 												<li><h6 class="dropdown-header">Actions</h6></li>
 												<li><hr class="dropdown-divider"></li>
 												<li><a href="/<%= users[i].profileId %>" class="dropdown-item" type="button">Go to profile</a></li>
-												<li><button class="dropdown-item" type="button">Delete friend</button></li>
+												<li><button class="dropdown-item" type="button" onclick="removeFriend(`<%= users[i]._id %>`)">Remove from friends</button></li>
 											</ul>
 										</div>
 									</div>
