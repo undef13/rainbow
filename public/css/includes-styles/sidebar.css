@@ -50,3 +50,10 @@ li.active {
 li.active:hover {
 	background: #dcedfd;
 }
+
+.counter {
+	width: 25px;
+	height: 25px;
+	background-color: #81C1FD;
+	border-radius: 50%;
+}

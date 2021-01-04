@@ -12,7 +12,10 @@
 		</li>
 		<li class="sidebar-item <%= path2 === 'pendingRequests' ? 'active' : '' %>">
 			<a href="/friends/pending-requests">
-				<span>Pending requests</span>
+				<div class="d-flex justify-content-between">
+					<span <%= requestsCounter == 0 ? "hidden" : "" %> class="counter text-center"><%= requestsCounter %></span>
+					<span class="ms-auto">Pending</span>
+				</div>
 			</a>
 		</li>
 	</ul>

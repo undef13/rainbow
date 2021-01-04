@@ -7,9 +7,15 @@
       </a>
     </li>
     <li class="sidebar-item <%= path === 'friends' ? 'active' : '' %>">
-      <a href="/friends">
-        <span><i class="fas fa-user-alt"></i></span>
-        <span>Friends</span>
+			<a href="/friends/your-friends">
+				<div class="d-flex justify-content-between">
+					<div class="me-auto">
+						<span><i class="fas fa-user-alt"></i></span>
+        		<span>Friends</span>
+					</div>	
+					
+					<span <%= requestsCounter == 0 ? "hidden" : "" %> class="counter text-center"><%= requestsCounter %></span>
+				</div>
       </a>
     </li>
   </ul>

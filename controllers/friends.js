@@ -26,7 +26,8 @@ exports.getFriends = async (req, res) => {
   } else {
     res.render("friends/friends", {
       allUsers: users,
-      user: req.user,
+			user: req.user,
+			requestsCounter: req.user.pendingFriends.length,
       path: "friends",
       path2: "friends",
     });
@@ -73,7 +74,8 @@ exports.postFriends = async (req, res) => {
     });
     res.render("friends/friends-search", {
       allUsers: users,
-      user: req.user,
+			user: req.user,
+			requestsCounter: req.user.pendingFriends.length,
       path: "friends",
       path2: "friends",
     });
@@ -112,9 +114,13 @@ exports.postAddFriend = async (req, res) => {
 
     if (user) {
       user.pendingFriends.push(req.user._id);
-      await user.save();
+			await user.save();
+			res.json({
+				isSuccessful: true,
+				message: `Request to ${user.displayName} has been sent`
+			})
     } else {
-      return res.json({
+      res.json({
         isSuccessful: false,
         message: "Action is not available",
       });
@@ -134,7 +140,8 @@ exports.getYourFriends = async (req, res) => {
   const users = await User.find({ _id: { $in: user.friends } }).exec();
   res.render("friends/your-friends", {
     user,
-    users,
+		users,
+		requestsCounter: user.pendingFriends.length,
     path: "friends",
     path2: "yourFriends",
   });
@@ -143,16 +150,17 @@ exports.getYourFriends = async (req, res) => {
 // GET => /friends/pending-requests
 exports.getPendingRequests = async (req, res) => {
   const user = await User.findOne({ profileId: req.user.profileId });
-  const users = await User.find({ _id: { $in: user.pendingFriends } }).exec();
+	const users = await User.find({ _id: { $in: user.pendingFriends } }).exec();
   res.render("friends/pending-requests", {
-    user,
-    users,
+		user,
+		users,
+		requestsCounter: users.length,
     path: "friends",
     path2: "pendingRequests",
   });
 };
 
-// POST => /friends/accept-request
+// POST => /friends/decline-request
 exports.postDeclineRequest = async (req, res) => {
   const { userId } = req.body;
   try {
@@ -165,7 +173,8 @@ exports.postDeclineRequest = async (req, res) => {
       isSuccessful: true,
       message: "Request declined",
       data: {
-        requestId: `request_${userId}`,
+				requestId: `request_${userId}`,
+				requestsCounter: user.pendingFriends.length
       },
     });
   } catch (error) {
@@ -194,7 +203,8 @@ exports.postAcceptRequest = async (req, res) => {
       isSuccessful: true,
       message: "Request accepted",
       data: {
-        requestId: `request_${userId}`,
+				requestId: `request_${userId}`,
+				requestsCounter: user.pendingFriends.length
       },
     });
   } catch (error) {
@@ -221,7 +231,10 @@ exports.postRemoveFriend = async (req, res) => {
 
 		res.json({
 			isSuccessful: true,
-			message: `Friend removed`
+			message: `Friend removed`,
+			data: {
+				cardId: `card_${userId}`
+			}
 		});
   } catch (error) {
 		console.log(error);

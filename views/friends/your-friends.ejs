@@ -31,7 +31,12 @@
         <%- include('../includes/sidebar', {user: user}); %>
         <div class="col-lg-8">
           <h3>Your friends</h3>
-          <hr />
+					<hr />
+					
+					<div id="haveNoFriendsBlock" <%= users.length > 0 ? "hidden" : "" %>>
+						<h3 class="mt-5 text-center">Oh, its ok...</h3>
+					</div>
+
           <% if (users.length > 0) { %>
 						<% for( let i = 0; i < users.length; i++ ) { %>
 							<div id="card_<%= users[i]._id %>" class="card">
@@ -67,8 +72,6 @@
 								</div>
 							</div>
 						<% } %>
-					<% } else { %>
-						<h3 class="mt-5 text-center">Oh, it`s okay...</h3>
 					<% } %>
 				</div>
 				<%- include('../includes/friends-sidebar') %> 

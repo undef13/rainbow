@@ -10,6 +10,7 @@ exports.getProfileId = async (req, res, next) => {
       title: req.user.displayName,
 			user: req.user,
 			friends,
+			requestsCounter: req.user.pendingFriends.length,
 			path: "profileId"
     });
   } else {

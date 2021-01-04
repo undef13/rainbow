@@ -1,3 +1,5 @@
+const socket = io(`/`);
+
 // Send friend request
 const addFriend = async (userId) => {
 	const response = await fetch("/friends/add-friend", {
@@ -7,6 +9,7 @@ const addFriend = async (userId) => {
 	});
 	const data = await response.json();
 	alert(data.isSuccessful, data.message);
+	socket.emit("friend-request", { userId })
 }
 
 // Accept friend request
@@ -17,15 +20,7 @@ const acceptRequest = async (userId) => {
     body: JSON.stringify({userId}),
 	});
 	const data = await response.json();
-	if (data.isSuccessful) {
-		document.getElementById(data.data.requestId).remove();
-		if(document.querySelectorAll("card").length <= 0) {
-			document.getElementById("haveNoFriendsBlock").hidden = false;
-		}
-		alert(true, data.message);
-	} else {
-		alert(false, data.message);
-	}
+	removeUserCard(data);
 }
 
 // Decline friend request
@@ -36,15 +31,7 @@ const declineRequest = async (userId) => {
     body: JSON.stringify({userId}),
 	});
 	const data = await response.json();
-	if (data.isSuccessful) {
-		document.getElementById(data.data.requestId).remove();
-		if(document.querySelectorAll(".card").length <= 0) {
-			document.getElementById("haveNoFriendsBlock").hidden = false;
-		}
-		alert(true, data.message);
-	} else {
-		alert(false, data.message);
-	}
+	removeUserCard(data);
 }
 
 // Remove from friends
@@ -56,7 +43,7 @@ const removeFriend = async (userId) => {
 	});
 	const data = await response.json();
 	if (data.isSuccessful) {
-		document.getElementById(data.data.requestId).remove();
+		document.getElementById(data.data.cardId).remove();
 		if(document.querySelectorAll(".card").length <= 0) {
 			document.getElementById("haveNoFriendsBlock").hidden = false;
 		}
@@ -88,3 +75,25 @@ const alert = (isSuccessful, message) => {
     }, 50);
   }, 4000);
 };
+
+const removeUserCard = (data) => {
+	if (data.isSuccessful) {
+
+		document.getElementById(data.data.requestId).remove();
+
+		if(data.data.requestsCounter == 0) {
+			document.querySelectorAll(".counter").forEach(item => item.hidden = true);
+		} else {
+			document.querySelectorAll(".counter").forEach(item => item.textContent = data.data.requestsCounter);
+			document.querySelectorAll(".counter").forEach(item => item.hidden = false);	
+		}
+
+		if(document.querySelectorAll(".card").length <= 0) {
+			document.getElementById("haveNoFriendsBlock").hidden = false;
+		}
+
+		alert(true, data.message);
+	} else {
+		alert(false, data.message);
+	}
+}

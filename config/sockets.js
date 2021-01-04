@@ -2,9 +2,29 @@ const User = require("../models/User");
 const mongoose = require("mongoose");
 const ejs = require(`ejs`);
 
+
 module.exports = (io) => {
   io.on("connection", (socket) => {
+
 		const userId = mongoose.Types.ObjectId(socket.request.session.passport.user);
+
+		socket.join(`${userId}`);
+		
+		socket.on("disconnect", (data) => {
+			console.log(`Disconnected`);
+		});
+
+		console.log(socket.rooms);
+
+
+		socket.on("friend-request", (data) => {
+			console.log(data.userId);
+			socket.to(data.userId).emit("friend-request-notify", { message: "Friend request" });
+		});
+
+
+
+		// POSTS LOGIC
     socket.on("add-post-server", async (data) => {
       const _id = mongoose.Types.ObjectId();
       const newPost = {
@@ -66,19 +86,6 @@ module.exports = (io) => {
 				});
 			} catch (error) {
 				console.log(error);
-			}
-		});
-
-		socket.on("add-friend", async (data) => {
-			console.log(`Socket id from the client: ${data.socketId}`);
-			const ids = await io.allSockets();
-			console.log(`All sockets id: ${ids}`);
-			for (let id of ids) {
-				console.log(`Id: ${id}`);
-				if (id == data.socketId) {
-					console.log(`Id to which send notif: ${id}`);
-					io.to(id).emit("notification", { message: "Friend request!" });
-				}
 			}
 		});
   });
