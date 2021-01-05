@@ -5,23 +5,13 @@ const ejs = require(`ejs`);
 
 module.exports = (io) => {
   io.on("connection", (socket) => {
-
 		const userId = mongoose.Types.ObjectId(socket.request.session.passport.user);
-
 		socket.join(`${userId}`);
 		
-		socket.on("disconnect", (data) => {
-			console.log(`Disconnected`);
-		});
-
-		console.log(socket.rooms);
-
 
 		socket.on("friend-request", (data) => {
-			console.log(data.userId);
-			socket.to(data.userId).emit("friend-request-notify", { message: "Friend request" });
+			socket.to(data.userId).emit("notification");
 		});
-
 
 
 		// POSTS LOGIC

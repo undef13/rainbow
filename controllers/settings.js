@@ -8,7 +8,8 @@ const User = require(`../models/User`);
 exports.getSettings = (req, res) => {
   res.render("profile/settings", {
 		user: req.user,
-		path: ""
+		path: "",
+		requestsCounter: req.user.pendingFriends.length
   });
 };
 

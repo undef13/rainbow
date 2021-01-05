@@ -10,6 +10,7 @@ exports.getIndex = (req, res) => {
 exports.getAbout = (req, res) => {
 	res.render("about-page/about", {
 		user: req.user,
-		path: ""
+		path: "",
+		requestsCounter: req.user.pendingFriends.length,
 	});
 }

@@ -1,5 +1,3 @@
-const socket = io(`/`);
-
 socket.on("add-post-client", (data) => {
   if (data.isPublic && document.location.pathname.slice(1) == data.profileId) {
     document

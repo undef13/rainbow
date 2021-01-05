@@ -628,6 +628,10 @@
     </div>
     <!-- End of "Change photo" modal -->
 
+		<div aria-live="polite" aria-atomic="true" class=" fixed-bottom">
+			<div class="toast-container"></div>
+		</div>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
@@ -649,16 +653,12 @@
     ></script>
     <script type="module" src="./javascript/settings/changeName.js"></script>
     <script type="module" src="./javascript/settings/changeBio.js"></script>
-    <script
-      type="module"
-      src="./javascript/settings/changeBirthday.js"
-    ></script>
+    <script type="module" src="./javascript/settings/changeBirthday.js"></script>
     <script type="module" src="./javascript/settings/changeGender.js"></script>
-    <script
-      type="module"
-      src="./javascript/settings/changePassword.js"
-    ></script>
+    <script type="module" src="./javascript/settings/changePassword.js"></script>
     <script type="module" src="./javascript/settings/changePhoto.js"></script>
-    <script src="./javascript/appearance/styles.js"></script>
+		<script src="./javascript/appearance/styles.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="./javascript/common/notification.js"></script>
   </body>
 </html>

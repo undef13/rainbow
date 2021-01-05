@@ -1,5 +1,3 @@
-const socket = io(`/`);
-
 const postsControls = (postId, action) => {
   switch (action) {
     case "deletePost":

@@ -1,57 +1,55 @@
-const socket = io(`/`);
-
 // Send friend request
 const addFriend = async (userId) => {
-	const response = await fetch("/friends/add-friend", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({userId}),
-	});
-	const data = await response.json();
-	alert(data.isSuccessful, data.message);
-	socket.emit("friend-request", { userId })
-}
+  const response = await fetch("/friends/add-friend", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId }),
+  });
+  const data = await response.json();
+  alert(data.isSuccessful, data.message);
+  socket.emit("friend-request", { userId });
+};
 
 // Accept friend request
 const acceptRequest = async (userId) => {
-	const response = await fetch("/friends/accept-request", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({userId}),
-	});
-	const data = await response.json();
-	removeUserCard(data);
-}
+  const response = await fetch("/friends/accept-request", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId }),
+  });
+  const data = await response.json();
+  removeUserCard(data);
+};
 
 // Decline friend request
 const declineRequest = async (userId) => {
-	const response = await fetch("/friends/decline-request", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({userId}),
-	});
-	const data = await response.json();
-	removeUserCard(data);
-}
+  const response = await fetch("/friends/decline-request", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId }),
+  });
+  const data = await response.json();
+  removeUserCard(data);
+};
 
 // Remove from friends
 const removeFriend = async (userId) => {
-	const response = await fetch("/friends/remove-friend", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({userId}),
-	});
-	const data = await response.json();
-	if (data.isSuccessful) {
-		document.getElementById(data.data.cardId).remove();
-		if(document.querySelectorAll(".card").length <= 0) {
-			document.getElementById("haveNoFriendsBlock").hidden = false;
-		}
-		alert(true, data.message);
-	} else {
-		alert(false, data.message);
-	}
-}
+  const response = await fetch("/friends/remove-friend", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId }),
+  });
+  const data = await response.json();
+  if (data.isSuccessful) {
+    document.getElementById(data.data.cardId).remove();
+    if (document.querySelectorAll(".card").length <= 0) {
+      document.getElementById("haveNoFriendsBlock").hidden = false;
+    }
+    alert(true, data.message);
+  } else {
+    alert(false, data.message);
+  }
+};
 
 const alert = (isSuccessful, message) => {
   let alert = document.createElement("div");
@@ -77,23 +75,28 @@ const alert = (isSuccessful, message) => {
 };
 
 const removeUserCard = (data) => {
-	if (data.isSuccessful) {
+  if (data.isSuccessful) {
+    document.getElementById(data.data.requestId).remove();
 
-		document.getElementById(data.data.requestId).remove();
+    if (data.data.requestsCounter == 0) {
+      document
+        .querySelectorAll(".counter")
+        .forEach((item) => (item.hidden = true));
+    } else {
+      document
+        .querySelectorAll(".counter")
+        .forEach((item) => (item.textContent = data.data.requestsCounter));
+      document
+        .querySelectorAll(".counter")
+        .forEach((item) => (item.hidden = false));
+    }
 
-		if(data.data.requestsCounter == 0) {
-			document.querySelectorAll(".counter").forEach(item => item.hidden = true);
-		} else {
-			document.querySelectorAll(".counter").forEach(item => item.textContent = data.data.requestsCounter);
-			document.querySelectorAll(".counter").forEach(item => item.hidden = false);	
-		}
+    if (document.querySelectorAll(".card").length <= 0) {
+      document.getElementById("haveNoFriendsBlock").hidden = false;
+    }
 
-		if(document.querySelectorAll(".card").length <= 0) {
-			document.getElementById("haveNoFriendsBlock").hidden = false;
-		}
-
-		alert(true, data.message);
-	} else {
-		alert(false, data.message);
-	}
-}
+    alert(true, data.message);
+  } else {
+    alert(false, data.message);
+  }
+};
