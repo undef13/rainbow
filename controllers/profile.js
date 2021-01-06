@@ -20,6 +20,27 @@ exports.getProfileId = async (req, res, next) => {
         console.log(`User with id '${req.params.profileId}' was not found`);
         return next();
 			}
+
+			let actionButton = "ADD_FRIEND";
+			
+			req.user.pendingFriends.map(pendingFriend => {
+				if (pendingFriend.toString() == user._id.toString()) {
+					actionButton = "ACCEPT_REQUEST"
+				}
+			});
+
+			user.pendingFriends.map(pendingFriend => {
+				if (pendingFriend.toString() == req.user._id.toString()) {
+					actionButton = "CANCEL_REQUEST"
+				}
+			});
+
+			req.user.friends.map(friend => {
+				if (friend.toString() == user._id.toString()) {
+					actionButton = "WRITE_MESSAGE"
+				}
+			});
+
 			const posts = user.posts.filter(post => post.isPublic === true);
 			const friends = await User.find({ _id: { $in: user.friends } }).limit(3).exec();
 
@@ -29,10 +50,16 @@ exports.getProfileId = async (req, res, next) => {
 				currentUser: req.user,
 				posts,
 				friends,
+				requestsCounter: req.user.pendingFriends.length,
+				actionButton,
         path: ""
       });
     } catch (error) {
-      console.log(error);
+			console.log(error);
+			res.json({
+				isSuccessful: false,
+				message: "Something went wrong...",
+			});
     }
   }
 };

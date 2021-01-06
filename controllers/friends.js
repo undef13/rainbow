@@ -113,12 +113,17 @@ exports.postAddFriend = async (req, res) => {
     const user = await User.findOne(filter);
 
     if (user) {
-      user.pendingFriends.push(req.user._id);
+			user.pendingFriends.push(req.user._id);
+			const notificationHtml = ejs.render(requestFriendNotification, { user: req.user });
 			await user.save();
 			res.json({
 				isSuccessful: true,
-				message: `Request to ${user.displayName} has been sent`
-			})
+				message: `Request to ${user.displayName} has been sent`,
+				data: {
+					requestsCounter: user.pendingFriends.length,
+					notificationHtml
+				}
+			});
     } else {
       res.json({
         isSuccessful: false,
@@ -244,3 +249,18 @@ exports.postRemoveFriend = async (req, res) => {
 		})
 	}
 };
+
+const requestFriendNotification = `
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+	<div class="toast-header">					
+		<strong class="me-auto">Friend request</strong>
+		<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+	</div>
+	<div class="toast-body">
+		<div>A new friend request from <%= user.displayName %></div>
+		<div class="mt-2 pt-2 border-top">
+			<a type="button" class="btn btn-sm btn-primary" href="/<%= user.profileId %>">Check profile</a>
+		</div>
+	</div>
+</div>
+`

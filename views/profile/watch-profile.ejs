@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="images/favicon.png" type="image/png" />
+    <link rel="icon" href="/images/favicon.svg" sizes="any" type="image/svg+xml">
     <title><%= title %> | Rainbow</title>
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
@@ -28,9 +28,23 @@
                 <div class="image-wrapper">
                   <img class="img-fluid" src="<%= user.imageUrl %>" alt="" />
 								</div>
-								<div class="link-wrapper">
-									<button class="btn-sm btn btn-primary" onclick="addFriend('<%= user._id %>')">Add a friend</button>
-								</div>
+								<% if (actionButton == "ACCEPT_REQUEST") { %>
+									<div class="link-wrapper">
+										<button class="btn-sm btn btn-primary" onclick="acceptRequest('<%= user._id %>', 'Profile')">Accept request</button>
+									</div>
+								<% } else if(actionButton == "WRITE_MESSAGE") { %>
+									<div class="link-wrapper">
+										<button disabled class="btn-sm btn btn-primary">Write message</button>
+									</div>
+								<% } else if (actionButton == "CANCEL_REQUEST") { %>
+									<div class="link-wrapper">
+										<button class="btn-sm btn btn-primary" onclick="cancelRequest('<%= user._id %>', 'Profile')">Cancel request</button>
+									</div>
+								<% } else { %>
+									<div class="link-wrapper">
+										<button class="btn-sm btn btn-primary" onclick="addFriend('<%= user._id %>')">Send friend request</button>
+									</div>
+								<% } %>
               </div>
 
               <div class="wrapper">
@@ -153,9 +167,9 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/e307e9c374.js" crossorigin="anonymous"></script>
 		<script src="./javascript/appearance/styles.js"></script>
+		<script src="./javascript/friends/friends.js"></script>
 
 		<script src="/socket.io/socket.io.js"></script>
-		
 		<script src="./javascript/common/notification.js"></script>
 		<script src="./javascript/profile/socket-watcher.js"></script>
   </body>

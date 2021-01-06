@@ -9,6 +9,16 @@
 	font-size: 25px;
 }
 
+.name-container a {
+	color: #6C757D;
+	text-decoration: none;
+	transition: .3s;
+}
+
+.name-container a:hover {
+	color: #a8b2b8;
+}
+
 .bio-container {
 	font-size: 17px;
 	color: #979797;
@@ -26,3 +36,4 @@
 .buttons-container {
 	margin-top: 10px;
 }
+

@@ -5,21 +5,41 @@ const addFriend = async (userId) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ userId }),
   });
-  const data = await response.json();
-  alert(data.isSuccessful, data.message);
-  socket.emit("friend-request", { userId });
+	const data = await response.json();
+  if (data.isSuccessful) {
+    socket.emit("friend-request", {
+      userId,
+      requestsCounter: data.data.requestsCounter,
+      notificationHtml: data.data.notificationHtml,
+    });
+    alert(true, data.message);
+  } else {
+    alert(false, data.message);
+  }
 };
 
 // Accept friend request
-const acceptRequest = async (userId) => {
+const acceptRequest = async (userId, whereAccepted = "Cards") => {
   const response = await fetch("/friends/accept-request", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ userId }),
   });
-  const data = await response.json();
-  removeUserCard(data);
+	const data = await response.json();
+	switch (whereAccepted) {
+		case "Cards":
+			removeUserCard(data);
+			break;
+		case "Profile":
+			console.log(`Accepted from profile. Reload page...`)
+			break
+	}
 };
+
+// Cancel request
+const cancelRequest = async (userId, whereAccepted = "Cards") => {
+	console.log(`Canceled`);
+}
 
 // Decline friend request
 const declineRequest = async (userId) => {
