@@ -24,3 +24,18 @@ socket.on("notification", (data) => {
 		.forEach((item) => (item.hidden = false));
 	}
 });
+
+socket.on("request-canceled", (data) => {
+	if (data.requestsCounter) {
+		document
+		.querySelectorAll(".counter")
+		.forEach((item) => (item.textContent = data.requestsCounter));
+	document
+		.querySelectorAll(".counter")
+		.forEach((item) => (item.hidden = false));
+	} else {
+		document
+		.querySelectorAll(".counter")
+		.forEach((item) => (item.hidden = true));
+	}
+});

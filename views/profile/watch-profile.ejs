@@ -28,29 +28,40 @@
                 <div class="image-wrapper">
                   <img class="img-fluid" src="<%= user.imageUrl %>" alt="" />
 								</div>
+								
 								<% if (actionButton == "ACCEPT_REQUEST") { %>
 									<div class="link-wrapper">
-										<button class="btn-sm btn btn-primary" onclick="acceptRequest('<%= user._id %>', 'Profile')">Accept request</button>
+										<div id="acceptActions" class="btn-group">
+											<button class="btn btn-sm btn-primary" onclick="acceptRequest('<%= user._id %>', 'Profile')">Accept request</button>
+											<button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+												<i class="fas fa-chevron-down"></i>
+											</button>
+											<ul class="dropdown-menu">
+												<li><button class="dropdown-item btn-sm" onclick="declineRequest('<%= user._id %>', 'Profile')">Decline</button></li>
+											</ul>
+										</div>
+										<button hidden id="friendActionButton" class="btn-sm btn btn-primary" onclick="addFriend('<%= user._id %>', 'Profile')">Send friend request</button>
 									</div>
 								<% } else if(actionButton == "WRITE_MESSAGE") { %>
 									<div class="link-wrapper">
-										<button disabled class="btn-sm btn btn-primary">Write message</button>
+										<button disabled class="btn-sm btn btn-primary">Write a message</button>
 									</div>
 								<% } else if (actionButton == "CANCEL_REQUEST") { %>
 									<div class="link-wrapper">
-										<button class="btn-sm btn btn-primary" onclick="cancelRequest('<%= user._id %>', 'Profile')">Cancel request</button>
+										<button id="friendActionButton" class="btn-sm btn btn-primary" onclick="cancelRequest('<%= user._id %>', 'Profile')">Cancel request</button>
 									</div>
 								<% } else { %>
 									<div class="link-wrapper">
-										<button class="btn-sm btn btn-primary" onclick="addFriend('<%= user._id %>')">Send friend request</button>
+										<button id="friendActionButton" class="btn-sm btn btn-primary" onclick="addFriend('<%= user._id %>', 'Profile')">Send friend request</button>
 									</div>
 								<% } %>
+
               </div>
 
               <div class="wrapper">
                 <span>Friends</span>
                 <hr />
-                <div class="row">
+                <div id="friendLinksContainer" class="row">
 									<% if (friends.length > 0) { %>
 										<% for( let i = 0; i < friends.length; i++ ) { %>
 											<div class="col-4 text-center friend-link">
@@ -65,7 +76,7 @@
 											</div>
 										<% } %>
 									<% } else {%>
-										<div>It's empty here</div>
+										<div id="noFriendsBlock">It's empty here</div>
 									<% } %>
                 </div>
               </div>
@@ -112,7 +123,7 @@
 								<div>Posts</div>
 								<div id="haveNoPostsBlock" <%= user.posts.length > 0 ? "hidden" : "" %>>
 									<hr />
-									<div><%= user.givenName %> have no posts :(</div>
+									<div><%= user.givenName %> has no posts :(</div>
 								</div>
 							
 							</div>

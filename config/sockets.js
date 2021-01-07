@@ -16,7 +16,11 @@ module.exports = (io) => {
           requestsCounter: data.requestsCounter,
           notificationHtml: data.notificationHtml,
         });
-    });
+		});
+		
+		socket.on("friend-request-canceled", (data) => {
+			socket.to(data.userId).emit("request-canceled", { requestsCounter: data.requestsCounter })
+		})
 
     // POSTS LOGIC
     socket.on("add-post-server", async (data) => {

@@ -20,4 +20,6 @@ router.post(`/accept-request`, friendsController.postAcceptRequest);
 
 router.post(`/remove-friend`, friendsController.postRemoveFriend);
 
+router.post(`/cancel-request`, friendsController.postCancelRequest);
+
 module.exports = router;

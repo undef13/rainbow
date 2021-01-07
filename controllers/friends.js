@@ -167,21 +167,38 @@ exports.getPendingRequests = async (req, res) => {
 
 // POST => /friends/decline-request
 exports.postDeclineRequest = async (req, res) => {
-  const { userId } = req.body;
+	const { userId } = req.body;
+	let isPendingFriend = false;
   try {
-    const user = await User.findOne({ profileId: req.user.profileId });
-    user.pendingFriends = user.pendingFriends.filter(
-      (item) => item.toString() !== userId
-    );
-    await user.save();
-    res.json({
-      isSuccessful: true,
-      message: "Request declined",
-      data: {
-				requestId: `request_${userId}`,
-				requestsCounter: user.pendingFriends.length
-      },
-    });
+		const user = await User.findOne({ profileId: req.user.profileId });
+		
+		for(item of user.pendingFriends) {
+			if(item.toString() == userId.toString()) {
+				isPendingFriend = true;
+			}
+		}
+
+		if(isPendingFriend) {
+			user.pendingFriends = user.pendingFriends.filter(
+				(item) => item.toString() !== userId
+			);
+			await user.save();
+			res.json({
+				isSuccessful: true,
+				message: "Request declined",
+				data: {
+					requestId: `request_${userId}`,
+					requestsCounter: user.pendingFriends.length
+				},
+			});
+		} else {
+			res.json({
+				isSuccessful: false,
+				message: "You do not have any pending request",
+			});
+		}
+
+
   } catch (error) {
     console.log(error);
     res.json({
@@ -193,25 +210,43 @@ exports.postDeclineRequest = async (req, res) => {
 
 // POST => /friends/accept-request
 exports.postAcceptRequest = async (req, res) => {
-  const { userId } = req.body;
+	const { userId } = req.body;
+	let isPendingFriend = false;
   try {
     const user = await User.findOne({ profileId: req.user.profileId });
-    const friend = await User.findOne({ _id: userId });
-    friend.friends.push(req.user._id);
-    user.friends.push(mongoose.Types.ObjectId(userId));
-    user.pendingFriends = user.pendingFriends.filter(
-      (item) => item.toString() !== userId
-    );
-    await user.save();
-    await friend.save();
-    res.json({
-      isSuccessful: true,
-      message: "Request accepted",
-      data: {
-				requestId: `request_${userId}`,
-				requestsCounter: user.pendingFriends.length
-      },
-    });
+		const friend = await User.findOne({ _id: userId });
+		
+		for(item of user.pendingFriends) {
+			if(item.toString() == userId.toString()) {
+				isPendingFriend = true;
+			}
+		}
+
+		if(isPendingFriend) {
+			friend.friends.push(req.user._id);
+			user.friends.push(mongoose.Types.ObjectId(userId));
+			user.pendingFriends = user.pendingFriends.filter((item) => item.toString() !== userId);
+			await user.save();
+			await friend.save();
+			res.json({
+				isSuccessful: true,
+				message: "Request accepted",
+				data: {
+					requestId: `request_${userId}`,
+					requestsCounter: user.pendingFriends.length,
+					user: {
+						profileId: req.user.profileId,
+						imageUrl: req.user.imageUrl,
+						givenName: req.user.givenName
+					}
+				},
+			})
+		} else {
+			res.json({
+				isSuccessful: false,
+				message: "You do not have any pending requests"
+			});
+		}
   } catch (error) {
     res.json({
       isSuccessful: false,
@@ -249,6 +284,35 @@ exports.postRemoveFriend = async (req, res) => {
 		})
 	}
 };
+
+// POST => friends/cancel-request
+exports.postCancelRequest = async (req, res) => {
+	const { userId } = req.body;
+	if (userId.length !== 24) {
+		return;
+	}
+	try {
+		const user = await User.findById(userId);
+		if (user) {
+			user.pendingFriends = user.pendingFriends.filter(pendingFriend => pendingFriend.toString() !== req.user._id.toString());
+			await user.save();
+			res.json({
+				isSuccessful: true,
+				message: "Canceled",
+				data: {
+					requestsCounter: user.pendingFriends.length
+				}
+			})
+		} else {
+			res.json({
+				isSuccessful: false,
+				message: `Something went wrong...`
+			});
+		}
+	} catch (error) {
+		console.log(error);
+	}
+}
 
 const requestFriendNotification = `
 <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
