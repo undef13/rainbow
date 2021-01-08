@@ -1,6 +1,6 @@
 <div class="container d-lg-none text-center scrollmenu-wrapper">
   <div class="scrollmenu">
-    <a href="/<%= user.profileId %>">My profile</a>
-    <a href="/friends">Friends</a>
+    <a class="scrollmenu-item <%= path === 'profileId' ? 'active' : '' %>" href="/<%= user.profileId %>">My profile</a>
+		<a class="scrollmenu-item <%= path === 'friends' ? 'active' : '' %>" href="/friends">Friends</a>
   </div>
 </div>

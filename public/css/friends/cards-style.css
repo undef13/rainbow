@@ -37,3 +37,14 @@
 	margin-top: 10px;
 }
 
+@media only screen and (max-width: 768px) {
+  .image-container img {
+		width: 75px;
+	}
+	.name-container {
+		font-size: 20px;
+	}
+	.bio-container {
+		font-size: 13px;
+	}
+}

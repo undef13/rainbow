@@ -58,15 +58,15 @@
 								<div class="d-flex buttons-container">
 									<div class="ms-auto">
 										<div class="btn-group">
-											<button type="button" class="btn btn-secondary" disabled>Write a message</button>
-											<button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+											<button type="button" class="btn btn-sm btn-secondary" disabled>Write a message</button>
+											<button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
 												<span><i class="fas fa-chevron-down"></i></span>
 											</button>
 											<ul class="dropdown-menu">
 												<li><h6 class="dropdown-header">Actions</h6></li>
 												<li><hr class="dropdown-divider"></li>
-												<li><a href="/<%= users[i].profileId %>" class="dropdown-item" type="button">Go to profile</a></li>
-												<li><button class="dropdown-item" type="button" onclick="removeFriend(`<%= users[i]._id %>`)">Remove from friends</button></li>
+												<li><a href="/<%= users[i].profileId %>" class="dropdown-item btn-sm" type="button">Go to profile</a></li>
+												<li><button class="dropdown-item btn-sm" type="button" onclick="removeFriend(`<%= users[i]._id %>`)">Remove from friends</button></li>
 											</ul>
 										</div>
 									</div>

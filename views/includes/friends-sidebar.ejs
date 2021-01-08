@@ -20,3 +20,17 @@
 		</li>
 	</ul>
 </div>
+
+<div class="container fixed-bottom d-lg-none bottom-menu-wrapper">
+  <div class="text-center">
+		<a class="bottom-menu-item <%= path2 === 'friends' ? 'active' : '' %>" href="/friends">
+			<i class="fas fa-search fa-2x"></i>
+		</a>
+		<a class="bottom-menu-item <%= path2 === 'yourFriends' ? 'active' : '' %>" href="/friends/your-friends">
+			<i class="fas fa-user-alt fa-2x"></i>
+		</a>
+		<a class="bottom-menu-item <%= path2 === 'pendingRequests' ? 'active' : '' %>" href="/friends/pending-requests">
+			<i class="fas fa-clock fa-2x"></i>
+		</a>
+  </div>
+</div>

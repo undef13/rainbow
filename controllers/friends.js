@@ -9,11 +9,12 @@ exports.getFriends = async (req, res) => {
   const { page = 1, ajax = false } = req.query;
   const users = await User.find({
     profileId: { $ne: req.user.profileId },
-    _id: { $nin: req.user.friends },
+		_id: { $nin: req.user.friends },
   })
     .limit(limit * 1)
     .skip((page - 1) * limit)
-    .exec();
+		.exec();
+		
   if (ajax) {
     const newUsers = ejs.render(html, { users });
     res.json({
@@ -26,13 +27,15 @@ exports.getFriends = async (req, res) => {
   } else {
     res.render("friends/friends", {
       allUsers: users,
-			user: req.user,
-			requestsCounter: req.user.pendingFriends.length,
+      user: req.user,
+      requestsCounter: req.user.pendingFriends.length,
       path: "friends",
       path2: "friends",
     });
   }
 };
+
+// New cards with Ajax
 const html = `<% for( let i = 0; i < users.length; i++ ) { %>
 	<div class="wrapper user-card">
 		<div class="row">
@@ -55,7 +58,7 @@ const html = `<% for( let i = 0; i < users.length; i++ ) { %>
 		</div>
 		<div class="d-flex buttons-container">
 			<div class="ms-auto">
-				<button class="btn btn-sm btn-primary" onclick="addFriend('<%= users[i]._id %>')">Send request</button>
+				<button id="friendActionButton" class="btn btn-sm btn-primary" onclick="addFriend('<%= users[i]._id %>')">Send request</button>
 			</div>
 		</div>
 	</div>
@@ -74,13 +77,17 @@ exports.postFriends = async (req, res) => {
     });
     res.render("friends/friends-search", {
       allUsers: users,
-			user: req.user,
-			requestsCounter: req.user.pendingFriends.length,
+      user: req.user,
+      requestsCounter: req.user.pendingFriends.length,
       path: "friends",
       path2: "friends",
     });
   } catch (error) {
     console.log(error);
+    res.json({
+      isSuccessful: false,
+      message: "Something went wrong...",
+    });
   }
 };
 
@@ -89,6 +96,12 @@ exports.postAddFriend = async (req, res) => {
   const { userId } = req.body;
   try {
     const currentUser = await User.findOne({ profileId: req.user.profileId });
+		if (!currentUser) {
+			return res.json({
+				isSuccessful: false,
+				message: "Something went wrong...",
+			});
+		}
 
     const pendingFriendsIds = [];
     currentUser.pendingFriends.forEach((item) => {
@@ -113,17 +126,19 @@ exports.postAddFriend = async (req, res) => {
     const user = await User.findOne(filter);
 
     if (user) {
-			user.pendingFriends.push(req.user._id);
-			const notificationHtml = ejs.render(requestFriendNotification, { user: req.user });
-			await user.save();
-			res.json({
-				isSuccessful: true,
-				message: `Request to ${user.displayName} has been sent`,
-				data: {
-					requestsCounter: user.pendingFriends.length,
-					notificationHtml
-				}
-			});
+      user.pendingFriends.push(req.user._id);
+      const notificationHtml = ejs.render(requestFriendNotification, {
+        user: req.user,
+      });
+      await user.save();
+      res.json({
+        isSuccessful: true,
+        message: `Request to ${user.displayName} has been sent`,
+        data: {
+          requestsCounter: user.pendingFriends.length,
+          notificationHtml,
+        },
+      });
     } else {
       res.json({
         isSuccessful: false,
@@ -141,12 +156,18 @@ exports.postAddFriend = async (req, res) => {
 
 // GET => /friends/your-friends
 exports.getYourFriends = async (req, res) => {
-  const user = await User.findOne({ profileId: req.user.profileId });
+	const user = await User.findOne({ profileId: req.user.profileId });
+	if (!user) {
+		return res.json({
+			isSuccessful: false,
+			message: "Something went wrong...",
+		});
+  }
   const users = await User.find({ _id: { $in: user.friends } }).exec();
   res.render("friends/your-friends", {
     user,
-		users,
-		requestsCounter: user.pendingFriends.length,
+    users,
+    requestsCounter: user.pendingFriends.length,
     path: "friends",
     path2: "yourFriends",
   });
@@ -155,11 +176,18 @@ exports.getYourFriends = async (req, res) => {
 // GET => /friends/pending-requests
 exports.getPendingRequests = async (req, res) => {
   const user = await User.findOne({ profileId: req.user.profileId });
-	const users = await User.find({ _id: { $in: user.pendingFriends } }).exec();
+  if (!user) {
+		return res.json({
+			isSuccessful: false,
+			message: "Something went wrong...",
+		});
+  }
+
+  const users = await User.find({ _id: { $in: user.pendingFriends } }).exec();
   res.render("friends/pending-requests", {
-		user,
-		users,
-		requestsCounter: users.length,
+    user,
+    users,
+    requestsCounter: users.length,
     path: "friends",
     path2: "pendingRequests",
   });
@@ -167,38 +195,45 @@ exports.getPendingRequests = async (req, res) => {
 
 // POST => /friends/decline-request
 exports.postDeclineRequest = async (req, res) => {
-	const { userId } = req.body;
-	let isPendingFriend = false;
+  const { userId } = req.body;
+  if (userId.length !== 24) {
+    return;
+  }
+  let isPendingFriend = false;
   try {
-		const user = await User.findOne({ profileId: req.user.profileId });
-		
-		for(item of user.pendingFriends) {
-			if(item.toString() == userId.toString()) {
-				isPendingFriend = true;
-			}
-		}
+    const user = await User.findOne({ profileId: req.user.profileId });
+    if (!user) {
+      return res.json({
+        isSuccessful: false,
+        message: "Something went wrong...",
+      });
+    }
 
-		if(isPendingFriend) {
-			user.pendingFriends = user.pendingFriends.filter(
-				(item) => item.toString() !== userId
-			);
-			await user.save();
-			res.json({
-				isSuccessful: true,
-				message: "Request declined",
-				data: {
-					requestId: `request_${userId}`,
-					requestsCounter: user.pendingFriends.length
-				},
-			});
-		} else {
-			res.json({
-				isSuccessful: false,
-				message: "You do not have any pending request",
-			});
-		}
+    for (item of user.pendingFriends) {
+      if (item.toString() == userId.toString()) {
+        isPendingFriend = true;
+      }
+    }
 
-
+    if (isPendingFriend) {
+      user.pendingFriends = user.pendingFriends.filter(
+        (item) => item.toString() !== userId
+      );
+      await user.save();
+      res.json({
+        isSuccessful: true,
+        message: "Request declined",
+        data: {
+          requestId: `request_${userId}`,
+          requestsCounter: user.pendingFriends.length,
+        },
+      });
+    } else {
+      res.json({
+        isSuccessful: false,
+        message: "You do not have any pending request",
+      });
+    }
   } catch (error) {
     console.log(error);
     res.json({
@@ -210,43 +245,55 @@ exports.postDeclineRequest = async (req, res) => {
 
 // POST => /friends/accept-request
 exports.postAcceptRequest = async (req, res) => {
-	const { userId } = req.body;
-	let isPendingFriend = false;
+  const { userId } = req.body;
+  if (userId.length !== 24) {
+    return;
+  }
+  let isPendingFriend = false;
   try {
     const user = await User.findOne({ profileId: req.user.profileId });
-		const friend = await User.findOne({ _id: userId });
-		
-		for(item of user.pendingFriends) {
-			if(item.toString() == userId.toString()) {
-				isPendingFriend = true;
-			}
-		}
+    const friend = await User.findOne({ _id: userId });
 
-		if(isPendingFriend) {
-			friend.friends.push(req.user._id);
-			user.friends.push(mongoose.Types.ObjectId(userId));
-			user.pendingFriends = user.pendingFriends.filter((item) => item.toString() !== userId);
-			await user.save();
-			await friend.save();
-			res.json({
-				isSuccessful: true,
-				message: "Request accepted",
-				data: {
-					requestId: `request_${userId}`,
-					requestsCounter: user.pendingFriends.length,
-					user: {
-						profileId: req.user.profileId,
-						imageUrl: req.user.imageUrl,
-						givenName: req.user.givenName
-					}
-				},
-			})
-		} else {
-			res.json({
-				isSuccessful: false,
-				message: "You do not have any pending requests"
-			});
-		}
+    if (!user || !friend) {
+      return res.json({
+        isSuccessful: false,
+        message: "Something went wrong...",
+      });
+    }
+
+    for (item of user.pendingFriends) {
+      if (item.toString() == userId.toString()) {
+        isPendingFriend = true;
+      }
+    }
+
+    if (isPendingFriend) {
+      friend.friends.push(req.user._id);
+      user.friends.push(mongoose.Types.ObjectId(userId));
+      user.pendingFriends = user.pendingFriends.filter(
+        (item) => item.toString() !== userId
+      );
+      await user.save();
+      await friend.save();
+      res.json({
+        isSuccessful: true,
+        message: "Request accepted",
+        data: {
+          requestId: `request_${userId}`,
+          requestsCounter: user.pendingFriends.length,
+          user: {
+            profileId: req.user.profileId,
+            imageUrl: req.user.imageUrl,
+            givenName: req.user.givenName,
+          },
+        },
+      });
+    } else {
+      res.json({
+        isSuccessful: false,
+        message: "You do not have any pending requests",
+      });
+    }
   } catch (error) {
     res.json({
       isSuccessful: false,
@@ -259,61 +306,82 @@ exports.postAcceptRequest = async (req, res) => {
 // POST => /friends/remove-friend
 exports.postRemoveFriend = async (req, res) => {
   const { userId } = req.body;
+  if (userId.length !== 24) {
+    return;
+  }
   try {
-		const user = await User.findOne({ profileId: req.user.profileId });
-		const friend = await User.findById(userId);
+    const user = await User.findOne({ profileId: req.user.profileId });
+    const friend = await User.findById(userId);
 
-		user.friends = user.friends.filter(friend => friend.toString() !== userId.toString());
-		friend.friends = friend.friends.filter(friend => friend.toString() !== user._id.toString());
+    if (!user || !friend) {
+      return res.json({
+        isSuccessful: false,
+        message: "Something went wrong...",
+      });
+    }
 
-		await user.save();
-		await friend.save();
+    user.friends = user.friends.filter(
+      (friend) => friend.toString() !== userId.toString()
+    );
+    friend.friends = friend.friends.filter(
+      (friend) => friend.toString() !== user._id.toString()
+    );
 
-		res.json({
-			isSuccessful: true,
-			message: `Friend removed`,
-			data: {
-				cardId: `card_${userId}`
-			}
-		});
+    await user.save();
+    await friend.save();
+
+    res.json({
+      isSuccessful: true,
+      message: `Friend removed`,
+      data: {
+        cardId: `card_${userId}`,
+      },
+    });
   } catch (error) {
-		console.log(error);
-		res.json({
-			isSuccessful: false,
-			message: "Something went wrong..."
-		})
-	}
+    console.log(error);
+    res.json({
+      isSuccessful: false,
+      message: "Something went wrong...",
+    });
+  }
 };
 
 // POST => friends/cancel-request
 exports.postCancelRequest = async (req, res) => {
-	const { userId } = req.body;
-	if (userId.length !== 24) {
-		return;
-	}
-	try {
-		const user = await User.findById(userId);
-		if (user) {
-			user.pendingFriends = user.pendingFriends.filter(pendingFriend => pendingFriend.toString() !== req.user._id.toString());
-			await user.save();
-			res.json({
-				isSuccessful: true,
-				message: "Canceled",
-				data: {
-					requestsCounter: user.pendingFriends.length
-				}
-			})
-		} else {
-			res.json({
-				isSuccessful: false,
-				message: `Something went wrong...`
-			});
-		}
-	} catch (error) {
-		console.log(error);
-	}
-}
+  const { userId } = req.body;
+  if (userId.length !== 24) {
+    return;
+  }
+  try {
+    const user = await User.findById(userId);
+    if (user) {
+      user.pendingFriends = user.pendingFriends.filter(
+        (pendingFriend) => pendingFriend.toString() !== req.user._id.toString()
+      );
+      await user.save();
+      res.json({
+        isSuccessful: true,
+        message: "Canceled",
+        data: {
+          requestsCounter: user.pendingFriends.length,
+        },
+      });
+    } else {
+      res.json({
+        isSuccessful: false,
+        message: `Something went wrong...`,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({
+      isSuccessful: false,
+      message: "Something went wrong...",
+    });
+  }
+};
 
+// New request notification 
 const requestFriendNotification = `
 <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
 	<div class="toast-header">					
@@ -327,4 +395,4 @@ const requestFriendNotification = `
 		</div>
 	</div>
 </div>
-`
+`;

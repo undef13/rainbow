@@ -57,3 +57,18 @@ li.active:hover {
 	background-color: #81C1FD;
 	border-radius: 50%;
 }
+
+.bottom-menu-wrapper {
+	background-color: #ffffff60;
+	padding: 10px 0;
+}
+
+.bottom-menu-wrapper .bottom-menu-item{
+	color: black;
+	text-decoration: none;
+	margin: 0 30px;
+}
+
+.bottom-menu-wrapper .bottom-menu-item.active{
+	color: #0884f8;
+}

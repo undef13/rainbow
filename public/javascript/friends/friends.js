@@ -1,5 +1,5 @@
 // Send friend request
-const addFriend = async (userId, whereRequested = "Cards") => {
+const addFriend = async (userId) => {
   const response = await fetch("/friends/add-friend", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -12,16 +12,7 @@ const addFriend = async (userId, whereRequested = "Cards") => {
       requestsCounter: data.data.requestsCounter,
       notificationHtml: data.data.notificationHtml,
     });
-    switch (whereRequested) {
-      case "Cards":
-        break;
-      case "Profile":
-        const button = document.getElementById("friendActionButton");
-        button.textContent = `Cancel request`;
-        button.setAttribute("onclick", `cancelRequest('${userId}')`);
-        break;
-    }
-    alert(true, data.message);
+		cancelRequestDOMManipulation(userId, data.message);
   } else {
     alert(false, data.message);
   }
@@ -34,37 +25,16 @@ const acceptRequest = async (userId, whereAccepted = "Cards") => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ userId }),
   });
-	const data = await response.json();
-	console.log(data);
+  const data = await response.json();
   if (data.isSuccessful) {
     switch (whereAccepted) {
       case "Cards":
-				removeUserCard(data);
-				updateRequestCounter(data);
+        removeUserCard(data.data.requestId);
+        updateRequestCounter(data.data.requestsCounter);
         break;
       case "Profile":
-				if (document.querySelectorAll(".friend-link").length < 3) {
-					document.getElementById("friendLinksContainer").insertAdjacentHTML("afterbegin", `
-						<div class="col-4 text-center friend-link">
-							<a href="/${data.data.user.profileId}">
-								<img
-									style="width: 35px; border-radius: 50%"
-									src="${data.data.user.imageUrl}"
-									alt=""
-								/>
-								<span>${data.data.user.givenName}</span>
-							</a>
-						</div>
-					`);
-					document.getElementById("noFriendsBlock").hidden = true;
-				}
-
-        document.getElementById("acceptActions").hidden = true;
-        const button = document.getElementById("friendActionButton");
-        button.textContent = "Write a message";
-        button.disabled = true;
-				button.hidden = false;
-				updateRequestCounter(data);
+        acceptRequestDOMManipulation(data.data.user);
+        updateRequestCounter(data.data.requestsCounter);
         break;
     }
     alert(true, data.message);
@@ -74,7 +44,7 @@ const acceptRequest = async (userId, whereAccepted = "Cards") => {
 };
 
 // Cancel request
-const cancelRequest = async (userId, whereCanceled = "Cards") => {
+const cancelRequest = async (userId) => {
   const response = await fetch("/friends/cancel-request", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -85,10 +55,12 @@ const cancelRequest = async (userId, whereCanceled = "Cards") => {
     socket.emit("friend-request-canceled", {
       userId,
       requestsCounter: data.data.requestsCounter,
-    });
-    const button = document.getElementById("friendActionButton");
-    button.textContent = `Send friend request`;
-    button.setAttribute("onclick", `addFriend('${userId}', 'Profile')`);
+		});
+
+		const button = document.getElementById("friendActionButton");
+		button.textContent = `Send friend request`;
+		button.setAttribute("onclick", `addFriend('${userId}')`);
+
     alert(true, data.message);
   } else {
     alert(false, data.message);
@@ -106,14 +78,12 @@ const declineRequest = async (userId, whereDeclined = "Cards") => {
   if (data.isSuccessful) {
     switch (whereDeclined) {
       case "Cards":
-				removeUserCard(data);
-				updateRequestCounter(data);
+        removeUserCard(data.data.requestId);
+        updateRequestCounter(data.data.requestsCounter);
         break;
       case "Profile":
-        document.getElementById("acceptActions").hidden = true;
-        const button = document.getElementById("friendActionButton");
-				button.hidden = false;
-				updateRequestCounter(data);
+				declineRequestDOMManipulation();
+        updateRequestCounter(data.data.requestsCounter);
         break;
     }
     alert(true, data.message);
@@ -131,16 +101,21 @@ const removeFriend = async (userId) => {
   });
   const data = await response.json();
   if (data.isSuccessful) {
-    document.getElementById(data.data.cardId).remove();
-    if (document.querySelectorAll(".card").length <= 0) {
-      document.getElementById("haveNoFriendsBlock").hidden = false;
-    }
+		removeUserCard(data.data.cardId);
     alert(true, data.message);
   } else {
     alert(false, data.message);
   }
 };
 
+// DOM Manipulation => Decline request
+const declineRequestDOMManipulation = () => {
+	document.getElementById("acceptActions").hidden = true;
+	const button = document.getElementById("friendActionButton");
+	button.hidden = false;
+}
+
+// Alert
 const alert = (isSuccessful, message) => {
   let alert = document.createElement("div");
   alert.innerHTML = `<div style="margin:0;" class='alert alert-${
@@ -164,24 +139,61 @@ const alert = (isSuccessful, message) => {
   }, 4000);
 };
 
-const removeUserCard = (data) => {
-  document.getElementById(data.data.requestId).remove();
+// DOM Manipulation => Remove user card
+const removeUserCard = (requestId) => {
+  document.getElementById(requestId).remove();
   if (document.querySelectorAll(".card").length <= 0) {
     document.getElementById("haveNoFriendsBlock").hidden = false;
   }
 };
 
-const updateRequestCounter = (data) => {
-	if (data.data.requestsCounter == 0) {
+// DOM Manipulation => Update requests counter
+const updateRequestCounter = (requestsCounter) => {
+  if (requestsCounter == 0) {
     document
       .querySelectorAll(".counter")
       .forEach((item) => (item.hidden = true));
   } else {
     document
       .querySelectorAll(".counter")
-      .forEach((item) => (item.textContent = data.data.requestsCounter));
+      .forEach((item) => (item.textContent = requestsCounter));
     document
       .querySelectorAll(".counter")
       .forEach((item) => (item.hidden = false));
   }
-}
+};
+
+// DOM Manipulation => Accept request
+const acceptRequestDOMManipulation = (user) => {
+  if (document.querySelectorAll(".friend-link").length < 3) {
+    document.getElementById("friendLinksContainer").insertAdjacentHTML(
+      "afterbegin",
+      `
+			<div class="col-4 text-center friend-link">
+				<a href="/${user.profileId}">
+					<img
+						style="width: 35px; border-radius: 50%"
+						src="${user.imageUrl}"
+						alt=""
+					/>
+					<span>${user.givenName}</span>
+				</a>
+			</div>
+		`
+    );
+    document.getElementById("noFriendsBlock").hidden = true;
+  }
+	document.getElementById("acceptActions").hidden = true;
+  const button = document.getElementById("friendActionButton");
+  button.textContent = "Write a message";
+  button.disabled = true;
+  button.hidden = false;
+};
+
+// DOM Manipulation => Cancel request
+const cancelRequestDOMManipulation = (userId, message) => {
+  const button = document.getElementById("friendActionButton");
+  button.textContent = `Cancel request`;
+  button.setAttribute("onclick", `cancelRequest('${userId}')`);
+  alert(true, message);
+};

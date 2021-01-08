@@ -1,16 +1,22 @@
-div.scrollmenu {
+.scrollmenu {
   overflow: auto;
   white-space: nowrap;
 }
 
-div.scrollmenu a {
+.scrollmenu .scrollmenu-item {
   display: inline-block;
   color: black;
   text-align: center;
-  padding: 14px;
+	margin: 0 15px;
+	padding: 5px 0;
   text-decoration: none;
 }
 
 .scrollmenu-wrapper {
-    padding: 0px 15px 0px 0px !important;
+  padding: 0px 15px 0px 0px !important;
+}
+
+.scrollmenu a.active {
+	border-bottom: 2px solid #399af5;
+	color: #0884f8
 }

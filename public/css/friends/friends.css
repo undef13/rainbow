@@ -32,12 +32,6 @@ input:focus {
 	border-color: rgb(0, 187, 255) !important;
 }
 
-@media only screen and (max-width: 1400px) {
-	.add-friend {
-		margin-top: 10px;
-	}
-}
-
 @media only screen and (max-width: 768px) {
   .display-image {
 		width: 75px;
