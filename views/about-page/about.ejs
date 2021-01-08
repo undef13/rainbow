@@ -5,12 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About | Rainbow</title>
     <link rel="stylesheet" href="/css/common/index.css" />
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="/css/includes-styles/top-nav.css" />
-		<link rel="stylesheet" href="/css/includes-styles/sidebar.css" />
-		<link rel="stylesheet" href="/css/includes-styles/horizontal-scroll-nav.css"/>
-		<link rel="stylesheet" href="/css/about-page/about.css" />
-		<link rel="icon" href="/images/favicon.svg" sizes="any" type="image/svg+xml">
+    <link rel="stylesheet" href="/css/includes-styles/sidebar.css" />
+    <link
+      rel="stylesheet"
+      href="/css/includes-styles/horizontal-scroll-nav.css"
+    />
+    <link rel="stylesheet" href="/css/about-page/about.css" />
+    <link
+      rel="icon"
+      href="/images/favicon.svg"
+      sizes="any"
+      type="image/svg+xml"
+    />
   </head>
   <body>
     <!-- Navigation -->
@@ -22,35 +35,78 @@
         <%- include('../includes/sidebar', {user: user}); %>
         <div class="col-lg-10">
           <h3>Welcome on board!</h3>
+          <span class="time-posted">December 23, 2020</span>
           <hr />
           <p>
             Hello. I am Maksym Babii, the creator of this project. This project
             is being created to help me get a job. This page will be mine and
-            "Rainbow" diary. I will write here about project status, new
-            technologies and difficulties, that i faced. But first, i will
+            "Rainbow"`s diary. I will write here about project status, new
+            technologies and difficulties that I faced. But first, I will
             introduce myself and explain, why "Rainbow".
           </p>
-					<h3>Who am I?</h3>
-					<hr>
+          <h3>Who am I?</h3>
+          <span class="time-posted">December 23, 2020</span>
+          <hr />
           <p>
             As i wrote earlier, my name is Maksym Babii. I am currently 19 years
-            old.
+            old. I am a student of the most useless university of Ukraine. The
+            name of this wonder of the world is “National Aviation University”.
+            It's located in Kyiv. The only one advantage of this university is
+            the biggest disadvantage of million disadvantages. You are not able
+            to learn here something because university does not give you this
+            possibillity. So all students should learn something by themselves.
+            I have decided to become a web developer. “Rainbow” is my personal
+            project and I am trying my best to make it awesome and presentable.
           </p>
+          <h3>So, why "Rainbow"?</h3>
+          <span class="time-posted">December 23, 2020</span>
+          <hr />
+          <p>
+            Every beginner developer has to have a personal project to get a
+            job. I have decided to make a simple social network. It's a
+            combination of Google management page (Settings page), Facebook
+            login page (Login, register, recover password) and VK. Such a
+            project name was picked because of the TV series “Stranger Things”,
+            where one of the main characters had a spaceship called “Rainbow”.
+          </p>
+          <h3>Rainbow 3.0 | Friends update</h3>
+          <span class="time-posted">January 8, 2021</span>
+					<hr />
+					<div>
+						<p>
+							Today, I am glad to present you a new “Friends” update. Now users
+							have an ability to send friend requests, accept/decline/cancel them.
+							If you are online and you get a friend request, you will be able to
+							see and hear a beautiful notification. Hope, there are not so many
+							bugs :)
+						</p>
+						<div class="note">
+							<h5>Important information</h5>
+							<p>All accounts have been deleted because of updating database architecture</p>
+						</div>
+						<p>
+							See you in the next update!
+						</p>
+					</div>
         </div>
       </div>
     </div>
-		
-		<div aria-live="polite" aria-atomic="true" class=" fixed-bottom">
-			<div class="toast-container"></div>
-		</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <div aria-live="polite" aria-atomic="true" class="fixed-bottom">
+      <div class="toast-container"></div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+      crossorigin="anonymous"
+    ></script>
     <script
       src="https://kit.fontawesome.com/e307e9c374.js"
       crossorigin="anonymous"
     ></script>
-		<script src="./javascript/appearance/styles.js"></script>
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="./javascript/common/notification.js"></script>
+    <script src="./javascript/appearance/styles.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./javascript/common/notification.js"></script>
   </body>
 </html>

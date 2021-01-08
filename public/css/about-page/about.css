@@ -12,3 +12,13 @@ h3 {
 hr {
 	border-color:rgb(13, 210, 240)
 }
+
+.time-posted {
+	color: rgb(143, 143, 143);
+	font-style: italic;
+}
+
+.note {
+	padding-left: 20px;
+	border-left: 3px solid red;
+}
